@@ -30,9 +30,10 @@ Assumes Ubuntu 24.04, a domain pointing at the VPS, and the repo at `/opt/kawaka
 ## Updating
 
 ```
-cd /opt/kawakaze && git pull && npm ci && npm run build && sudo systemctl restart kawakaze
+cd /opt/kawakaze && sh deploy/update.sh
 ```
-Migrations run on startup.
+That pulls, rebuilds and restarts the service, which is required: the app reads `index.html` once at startup.
+Migrations run on startup. If `deploy/nginx.conf` changed, copy it over again before the reload.
 
 ## Backups
 

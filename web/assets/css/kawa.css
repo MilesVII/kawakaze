@@ -47,6 +47,9 @@
 .nav-brand, .nav-terms {
 	display: none;
 }
+.nav-brand-highlight {
+	color: var(--color-accent);
+}
 
 body {
 	padding-bottom: var(--nav-h);
