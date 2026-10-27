@@ -23,6 +23,14 @@
 	--color-accent: #DA4000;
 	--color-text: #EDEDED;
 }
+.theme-dark-kawa {
+	--color-base: rgb(13, 15, 17);
+	--color-base-semi: rgb(13 15 17 / 70%);
+	--color-secondary: #777;
+	--color-subtext: #98a7cb;
+	--color-accent: #476eab;
+	--color-text: #EDEDED;
+}
 .theme-dark-candy {
 	--color-base: rgb(17, 13, 14);
 	--color-base-semi: rgb(17 13 14 / 70%);
