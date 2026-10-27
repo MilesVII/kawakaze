@@ -21,6 +21,11 @@ export const LIMITS = {
 	syncBytes: 64 * 1024 * 1024
 } as const;
 export const USERNAME_RE = /^[a-zA-Z0-9_-]{3,24}$/;
+/** tags are stored lowercase, without '#', with single spaces; duplicates dropped */
+export function normalizeTags(tags: string[]) {
+	const clean = tags.map(t => t.replace(/#/g, "").replace(/\s+/g, " ").trim().toLowerCase());
+	return Array.from(new Set(clean.filter(t => t)));
+}
 export const MENTION_RE = /(^|[^a-zA-Z0-9_-])@([a-zA-Z0-9_-]{3,24})/g;
 export const PER_PAGE = 24;
 

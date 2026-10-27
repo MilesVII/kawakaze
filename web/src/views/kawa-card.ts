@@ -14,6 +14,7 @@ const REFS = {
 	icon:           HTMLImageElement,
 	title:          HTMLAnchorElement,
 	score:          HTMLElement,
+	comments:       HTMLElement,
 	authors:        HTMLElement,
 	meta:           HTMLElement,
 	snippet:        HTMLElement,
@@ -33,7 +34,12 @@ export function makeKawaCardView(item: ScenarioListItem, handlers: KawaCardHandl
 	r.title.href = link;
 	r.title.textContent = item.title;
 	r.score.textContent = `▲ ${item.score}`;
-	r.score.title = `score ${item.score}, ${item.commentCount} comments`;
+	r.score.title = `score ${item.score}`;
+	if (item.commentCount > 0) {
+		r.comments.textContent = `💬 ${item.commentCount}`;
+		r.comments.title = `${item.commentCount} comment${item.commentCount === 1 ? "" : "s"}`;
+		r.comments.hidden = false;
+	}
 	r.authors.append(...item.authors.map(a => mudcrack({
 		tagName: "a",
 		attributes: { href: userLink(a.username) },

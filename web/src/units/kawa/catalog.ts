@@ -1,4 +1,4 @@
-import type { KawaScenarioCard, PublishResult, ScenarioLookup, UserRef } from "@shared/api";
+import { normalizeTags, type KawaScenarioCard, type PublishResult, type ScenarioLookup, type UserRef } from "@shared/api";
 import { account, api } from "@root/api";
 import { refToBlob } from "@root/media";
 import { idb, isRemoteRef, listen, local } from "@root/persist";
@@ -125,7 +125,7 @@ export function onHiddenTagsChange(cb: () => void) {
 	});
 }
 export function parseTags(raw: string) {
-	return Array.from(new Set(raw.split(",").map(t => t.trim()).filter(t => t)));
+	return normalizeTags(raw.split(","));
 }
 
 export function authorNames(authors: UserRef[]) {

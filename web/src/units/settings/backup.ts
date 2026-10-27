@@ -1,76 +1,101 @@
 import { RampikeFilePicker } from "@rampike/filepicker";
-import { idb, local, LocalKey } from "@root/persist";
+import { idb, IDBStore, local, LocalKey } from "@root/persist";
+import { MediaEntry } from "@root/types";
 import { b64Encoder, download } from "@root/utils";
 import { isRemoteRef } from "@root/persist";
 import { encodeMedia, storeMedia } from "@root/media";
 import { toast } from "@units/toasts";
+import { mudcrack } from "rampike";
 
 export function initBackup() {
-	const saveButton    = document.querySelector("#settings-backup-save")!;
-	const importPicker  = document.querySelector<RampikeFilePicker>("#settings-backup-import")!;
-	const cleanupButton = document.querySelector("#settings-media-clean")!;
+	const saveButton          = document.querySelector("#settings-backup-save")!;
+	const importPicker        = document.querySelector<RampikeFilePicker>("#settings-backup-import")!;
+	const cleanupButton       = document.querySelector("#settings-media-clean")!;
+	const partialList         = document.querySelector<HTMLElement>("#settings-backup-partial-list")!;
+	const savePartialButton   = document.querySelector("#settings-backup-partial")!;
 
-	saveButton.addEventListener("click", backup);
+	const { backupCall: runPartial } = initPartial(partialList);
+
+	saveButton.addEventListener("click", () => backup());
 	importPicker.addEventListener("input", () => restore(importPicker));
 	cleanupButton.addEventListener("click", mediaCleanup);
+	savePartialButton.addEventListener("click", () => runPartial());
 }
 
-async function backup() {
+const ALL_STORES: IDBStore[] = [
+	"chatContents",
+	"chats",
+	"personas",
+	"scenarios",
+	"media"
+];
+async function backup(
+	backupKeys: IDBStore[] = ALL_STORES,
+	settings = true
+) {
+	if (backupKeys.length === 0 && !settings) {
+		toast("nothing selected");
+		return;
+	}
 	const closeToast = toast("on it, please wait...");
-	const [
-		chatContents,
-		chats,
-		personas,
-		scenarios,
-		media
-	] = (await Promise.all([
-		idb.getAll("chatContents"),
-		idb.getAll("chats"),
-		idb.getAll("personas"),
-		idb.getAll("scenarios"),
-		idb.getAll("media")
-	]));
-	const localData = {
-		providers: local.get("providers"),
-		activeProvider: local.get("activeProvider"),
-		settings: local.get("settings"),
-		theme: local.get("theme"),
-	};
+	const idbBackupEntries = await Promise.all(
+		backupKeys.map(
+			async k => [k, await idb.getAll(k)] as const
+		)
+	);
 
-	const validOnly = (() => {
-		const results = Object.entries({ chatContents, chats, personas, scenarios });
-		return Object.fromEntries(
-			results
-				.filter(([k, v]) => v.success)
-				// @ts-ignore
-				.map(([k, v]) => [k, v.value])
-		);
-	})();
+	// stores are a loose record here: the payload is plain JSON and the media entries get re-encoded below
+	const idbBackup: Partial<Record<IDBStore, any[]>> = Object.fromEntries(
+		idbBackupEntries
+			.filter(([k, v]) => {
+				if (!v.success) {
+					toast(`failed to read ${k}; skipped`);
+				}
+				return v.success;
+			})
+			.map(([k, v]) => [k, v.success ? v.value : []])
+	);
 
-	if (media.success) {
-		validOnly.media = media.value;
-		for (const m of validOnly.media) {
+	if ("media" in idbBackup) {
+		for (const m of idbBackup.media as MediaEntry[]) {
+			// @ts-ignore
 			m.media = await b64Encoder.encode(m.media);
 		}
 	}
 	// server pictures are embedded under their URL, so the backup works offline and in Ägir as is
 	const remoteRefs = [
-		...(scenarios.success ? scenarios.value.flatMap(s => [s.card.picture, s.chat.picture]) : []),
-		...(chats.success ? chats.value.flatMap(c => [c.scenario.picture, c.userPersona.picture]) : []),
-		...(personas.success ? personas.value.map(p => p.picture) : [])
+		...(idbBackup.scenarios ?? []).flatMap(s => [s.card.picture, s.chat.picture]),
+		...(idbBackup.chats ?? []).flatMap(c => [c.scenario.picture, c.userPersona.picture]),
+		...(idbBackup.personas ?? []).map(p => p.picture)
 	].filter(isRemoteRef);
-	validOnly.media = [...(validOnly.media ?? []), ...await encodeMedia(remoteRefs, true)];
+	if (remoteRefs.length > 0)
+		idbBackup.media = [...(idbBackup.media ?? []), ...await encodeMedia(remoteRefs, true)];
 
-	const payload = JSON.stringify({
-		idb: validOnly,
-		local: localData,
-		kawa: {
-			hiddenTags: local.get("hiddenTags")
-		}
-	});
+	const backup: {
+		idb: typeof idbBackup,
+		local: Partial<Record<LocalKey, string | null>>,
+		kawa?: { hiddenTags: string | null }
+	} = {
+		idb: idbBackup,
+		local: {}
+	};
+
+	if (settings) {
+		const localData = {
+			providers: local.get("providers"),
+			activeProvider: local.get("activeProvider"),
+			settings: local.get("settings"),
+			theme: local.get("theme"),
+		};
+		backup.local = localData;
+		backup.kawa = { hiddenTags: local.get("hiddenTags") };
+	}
+
+	const payload = JSON.stringify(backup);
 
 	closeToast();
-	download(payload, `kawakaze ${new Date().toLocaleString()}.aegir.backup.json`);
+	const isFull = ALL_STORES.length === backupKeys.length && settings;
+	download(payload, `kawakaze ${new Date().toLocaleString()}${isFull ? "" : "_PARTIAL"}.aegir.backup.json`);
 }
 
 async function restore(picker: RampikeFilePicker) {
@@ -153,5 +178,55 @@ async function mediaCleanup() {
 		toast(`done; ${mids.size} items deleted`);
 	} else {
 		toast("no unused media found");
+	}
+}
+
+function initPartial(list: HTMLElement) {
+	function checkbox(caption: string) {
+		const cb = mudcrack({
+			tagName: "input",
+			attributes: {
+				type: "checkbox",
+				checked: "true"
+			},
+		});
+		const e = mudcrack({
+			tagName: "label",
+			className: "row-compact align-center",
+			contents: [
+				cb,
+				mudcrack({
+					tagName: "div",
+					contents: caption
+				}),
+			]
+		});
+		return [e, () => cb.checked] as const;
+	}
+	list.innerHTML = "";
+
+	const items = {
+		chats: checkbox("Chats"),
+		media: checkbox("Media"),
+		personas: checkbox("Personas"),
+		scenarios: checkbox("Scenario library"),
+		settings: checkbox("Settings")
+	};
+
+	list.append(...Object.values(items).map(([e]) => e));
+
+	return {
+		backupCall: () => {
+			const stores: IDBStore[] = [];
+			if (items.chats[1]()) {
+				stores.push("chats");
+				stores.push("chatContents");
+			}
+			if (items.media[1]()) stores.push("media");
+			if (items.personas[1]()) stores.push("personas");
+			if (items.scenarios[1]()) stores.push("scenarios");
+
+			return backup(stores, items.settings[1]());
+		}
 	}
 }

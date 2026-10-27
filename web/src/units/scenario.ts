@@ -3,7 +3,7 @@ import { getRoute, makeResizable, renderMD, textareaReconsider } from "@root/uti
 import { navigate, onRoute } from "@root/router";
 import { account } from "@root/api";
 import { LIMITS, KawaScenarioCard, ScenarioLookup } from "@shared/api";
-import { delistScenario, lookupScenarios, publishScenario } from "./kawa/catalog";
+import { delistScenario, lookupScenarios, parseTags, publishScenario } from "./kawa/catalog";
 import { invalidateHome } from "./kawa/home";
 import { Lorebook, ScenarioCard } from "@root/types";
 import { RampikeFilePicker } from "@rampike/filepicker";
@@ -259,10 +259,7 @@ export function scenarioUnit() {
 		const cardPicture = await storePicture(cardIcon);
 		const chatPicture = await storePicture(chatIcon);
 
-		const tags = cardTags.value
-			.split(",")
-			.map(t => t.trim())
-			.filter(t => t);
+		const tags = parseTags(cardTags.value);
 
 		const id = getRoute()[1] ?? crypto.randomUUID();
 		const snippet = cardSnippet.value.trim();

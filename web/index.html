@@ -141,6 +141,12 @@
 								</ram-file-picker>
 								<button id="settings-media-clean" class="lineout fit">Delete unused media</button>
 							</div>
+
+							<fieldset class="fit">
+								<legend>partial backup</legend>
+								<div id="settings-backup-partial-list" class="list"></div>
+								<button id="settings-backup-partial" class="lineout fit">Save a partial backup</button>
+							</fieldset>
 						</div>
 					</details>
 					<details>
@@ -318,7 +324,7 @@
 						<ram-labeled
 							legend="Card description"
 							id="scenario-description"
-							class="strip wide"
+							class="strip wide reduced-font"
 							placeholder=""
 							multiline
 						></ram-labeled>
@@ -391,7 +397,7 @@
 					<ram-labeled
 						legend="Scenario definition"
 						id="scenario-definition"
-						class="strip wide"
+						class="strip wide reduced-font"
 						placeholder=""
 						multiline
 						rows="1"
@@ -405,7 +411,7 @@
 						<ram-labeled
 							legend="First message"
 							id="scenario-messages"
-							class="strip wide"
+							class="strip wide reduced-font"
 							placeholder=""
 							multiline
 							rows="1"
@@ -835,7 +841,7 @@
 			<ram-labeled
 				legend="Character definition"
 				id="play-editor-definition"
-				class="strip wide"
+				class="strip wide reduced-font"
 				placeholder=""
 				multiline
 				rows="1"

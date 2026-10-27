@@ -40,7 +40,8 @@ export function scenarioPageUnit() {
 	play.addEventListener("click", async () => {
 		if (!loaded) return;
 		const card = await ensureLocal(loaded.meta);
-		if (card) openStartModal(card.id, card.card.description);
+		// the page already shows the description
+		if (card) openStartModal(card.id, "");
 	});
 	save.addEventListener("click", async () => {
 		if (!loaded) return;

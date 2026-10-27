@@ -227,6 +227,8 @@ input[type="number"] {
 .kawa-score {
 	color: var(--color-subtext);
 	font: var(--font-smol);
+	display: flex;
+	gap: 8px;
 }
 .kawa-snippet {
 	white-space: pre-wrap;
