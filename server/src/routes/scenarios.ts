@@ -10,6 +10,7 @@ import {
 	homePage,
 	indexScenario,
 	invalidateHome,
+	siteStats,
 	listScenarios,
 	rowAuthors,
 	toCard,
@@ -38,6 +39,8 @@ scenarioRoutes.get("/", async c => {
 	if (sort === "updated" && !query && !tag && page === 0) return c.json(await homePage());
 	return c.json(await listScenarios({ sort, page, query, fields, tag }));
 });
+
+scenarioRoutes.get("/stats", async c => c.json(await siteStats()));
 
 scenarioRoutes.post("/lookup", async c => {
 	const body = await readJSON(c);

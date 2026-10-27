@@ -50,7 +50,15 @@ export type Vote = -1 | 0 | 1;
 export type BootPayload = {
 	config: PublicConfig,
 	/** first page of the default homepage query, only on `/` */
-	home?: Page<ScenarioListItem>
+	home?: Page<ScenarioListItem>,
+	stats?: SiteStats
+};
+/** GET /api/scenarios/stats — public counters shown above the homepage search */
+export type SiteStats = {
+	/** listed scenarios */
+	scenarios: number,
+	creators: number,
+	comments: number
 };
 export type PublicConfig = {
 	publicUrl: string,

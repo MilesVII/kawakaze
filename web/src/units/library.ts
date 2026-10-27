@@ -100,13 +100,16 @@ export function libraryUnit() {
 	update();
 }
 
+let updateSequence = 0;
 async function update() {
 	const list = document.querySelector<HTMLElement>("#library-cards")!;
 	const pager = document.querySelector<RampikePagination>("#library-pager")!;
 
+	// updates overlap (storage events, account changes, pager): only the latest one may touch the list
+	const run = ++updateSequence;
 	list.innerHTML = "";
 	const items = await idb.getAll("scenarios");
-	if (!items.success) return;
+	if (!items.success || run !== updateSequence) return;
 
 	items.value = filterBySearch(items.value);
 
@@ -125,6 +128,7 @@ async function update() {
 		list.append(placeholderView("No scenario cards found"));
 
 	const published = await lookupScenarios(pageItems.map(i => i.id));
+	if (run !== updateSequence) return;
 	pageItems.forEach((item, ix) => {
 		const remote = published.get(item.id);
 		if (remote) showPublishedStatus(contents[ix], item, remote);

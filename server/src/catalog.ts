@@ -6,6 +6,7 @@ import type {
 	ScenarioMeta,
 	ScenarioSort,
 	SearchField,
+	SiteStats,
 	UserRef,
 	Vote
 } from "@shared/api";
@@ -42,12 +43,27 @@ export const SEARCH_FIELDS = Object.keys(FTS_COLUMN) as SearchField[];
 // ---- homepage cache ----
 
 let homeCache: Page<ScenarioListItem> | null = null;
+let statsCache: SiteStats | null = null;
+/** every mutation that can change the listing or the counters goes through here */
 export function invalidateHome() {
 	homeCache = null;
+	statsCache = null;
 }
 export async function homePage() {
 	if (!homeCache) homeCache = await listScenarios({ sort: "updated", page: 0, query: "", fields: SEARCH_FIELDS, tag: null });
 	return homeCache;
+}
+export async function siteStats(): Promise<SiteStats> {
+	if (statsCache) return statsCache;
+	const count = (q: { executeTakeFirstOrThrow: () => Promise<{ n: number }> }) => q.executeTakeFirstOrThrow().then(r => r.n);
+	const n = sql<number>`count(*)`.as("n");
+	const [scenarios, creators, comments] = await Promise.all([
+		count(db.selectFrom("scenarios").select(n).where("delisted_at", "is", null)),
+		count(db.selectFrom("users").select(n).where("is_creator", "=", 1)),
+		count(db.selectFrom("comments").select(n))
+	]);
+	statsCache = { scenarios, creators, comments };
+	return statsCache;
 }
 
 // ---- serialization ----

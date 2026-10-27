@@ -144,6 +144,7 @@ body[data-route="play"] .nav {
 .topbar {
 	align-items: center;
 	z-index: 5;
+	min-height: 66px;
 }
 
 /* ---- common bits ---- */

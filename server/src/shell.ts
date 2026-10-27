@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { BootPayload } from "@shared/api";
-import { homePage } from "./catalog";
+import { homePage, siteStats } from "./catalog";
 import { config, oauthProviders } from "./config";
 import { db } from "./db";
 import { mediaUrl } from "./media";
@@ -76,7 +76,10 @@ export async function renderShell(pathname: string) {
 			oauth: oauthProviders()
 		}
 	};
-	if (pathname === "/") boot.home = await homePage();
+	if (pathname === "/") {
+		boot.home = await homePage();
+		boot.stats = await siteStats();
+	}
 
 	const fullTitle = head.title ? `${head.title} | ${SITE}` : SITE;
 	const tags = [

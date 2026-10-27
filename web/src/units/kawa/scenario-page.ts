@@ -83,6 +83,10 @@ export function scenarioPageUnit() {
 	onRoute(() => {
 		if (getRoute()[0] === "c") load();
 	});
+	// in-page anchor clicks (comment timestamps) bypass the router
+	window.addEventListener("hashchange", () => {
+		if (getRoute()[0] === "c") scrollToHash();
+	});
 	if (getRoute()[0] === "c") load();
 }
 
@@ -321,6 +325,7 @@ async function loadComments() {
 function scrollToHash() {
 	const hash = window.location.hash;
 	if (!hash.startsWith("#comment-")) return;
+	document.querySelectorAll(".kawa-highlight").forEach(e => e.classList.remove("kawa-highlight"));
 	const target = document.querySelector(hash);
 	if (target) {
 		target.scrollIntoView({ behavior: "smooth", block: "center" });

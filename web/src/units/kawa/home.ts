@@ -1,6 +1,7 @@
-import type { Page, ScenarioListItem, ScenarioSort, SearchField } from "@shared/api";
+import type { Page, ScenarioListItem, ScenarioSort, SearchField, SiteStats } from "@shared/api";
 import { RampikePagination } from "@rampike/pagination";
-import { api, takeBootHome } from "@root/api";
+import { api, readBoot, takeBootHome } from "@root/api";
+import { mudcrack } from "rampike";
 import { getQuery, getRoute, navigate, onRoute } from "@root/router";
 import { placeholderView } from "@views/common";
 import { makeKawaCardView } from "@views/kawa-card";
@@ -24,6 +25,7 @@ type HomeQuery = {
 
 let lastKey: string | null = null;
 let lastPage: Page<ScenarioListItem> | null = null;
+let stats: SiteStats | null = null;
 
 export function homeUnit() {
 	const sort         = document.querySelector<HTMLSelectElement>("#home-sort")!;
@@ -40,6 +42,7 @@ export function homeUnit() {
 		lastKey = queryKey(readQuery());
 		lastPage = bootHome;
 	}
+	stats = readBoot().stats ?? null;
 
 	function push(patch: Partial<HomeQuery>) {
 		const next = { ...readQuery(), ...patch };
@@ -79,9 +82,25 @@ export function homeUnit() {
 		document.querySelector<HTMLElement>("#home-tag-name")!.textContent = query.tag;
 	}
 
+	async function updateStats() {
+		const box = document.querySelector<HTMLElement>("#home-stats")!;
+		if (!stats) {
+			const r = await api<SiteStats>("GET", "/api/scenarios/stats");
+			if (!r.success) return;
+			stats = r.value;
+		}
+		const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
+		box.replaceChildren(...[
+			plural(stats.scenarios, "character"),
+			plural(stats.creators, "creator"),
+			plural(stats.comments, "comment")
+		].map(text => mudcrack({ tagName: "span", contents: text })));
+	}
+
 	async function update() {
 		const query = readQuery();
 		syncControls(query);
+		updateStats();
 		const key = queryKey(query);
 		if (key === lastKey && lastPage) {
 			render(lastPage);
@@ -151,4 +170,5 @@ function isDefault(query: HomeQuery) {
 /** forget the cached page, e.g. after publishing, so the next visit refetches */
 export function invalidateHome() {
 	lastKey = null;
+	stats = null;
 }
