@@ -1,0 +1,34 @@
+{
+	"name": "kawakaze",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"engines": { "node": ">=24" },
+	"scripts": {
+		"build:web":    "esbuild web/src/index.ts --bundle --minify --sourcemap --loader:.html=text --outfile=web/assets/index.js",
+		"watch:web":    "esbuild web/src/index.ts --bundle --sourcemap --loader:.html=text --watch --outfile=web/assets/index.js",
+		"build:server": "esbuild server/src/main.ts server/src/cli.ts --bundle --platform=node --format=esm --target=node24 --packages=external --sourcemap --outdir=dist",
+		"watch:server": "esbuild server/src/main.ts server/src/cli.ts --bundle --platform=node --format=esm --target=node24 --packages=external --sourcemap --outdir=dist --watch",
+		"build":        "npm run build:web && npm run build:server",
+		"start":        "node --env-file-if-exists=.env --enable-source-maps dist/main.js",
+		"cli":          "node --env-file-if-exists=.env dist/cli.js",
+		"dev":          "concurrently -k \"npm:watch:web\" \"npm:watch:server\" \"node --env-file-if-exists=.env --enable-source-maps --watch dist/main.js\"",
+		"typecheck":    "tsc -p web && tsc -p server"
+	},
+	"dependencies": {
+		"@hono/node-server": "^2.1.5",
+		"hono": "^4.13.14",
+		"kysely": "^0.29.7",
+		"sharp": "^0.35.5"
+	},
+	"devDependencies": {
+		"@types/node": "^24.0.0",
+		"concurrently": "^9.2.1",
+		"dompurify": "^3.3.1",
+		"esbuild": "^0.25.9",
+		"marked": "^17.0.1",
+		"rampike": "^0.0.14",
+		"tokenx": "^1.3.0",
+		"typescript": "^5.5.2"
+	}
+}

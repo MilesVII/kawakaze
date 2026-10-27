@@ -1,0 +1,148 @@
+import { getBlobLink } from "@root/persist";
+import { placeholder } from "@root/utils";
+import { mudcrack } from "rampike";
+
+// value, placeholder, accept
+class _RampikeImagePicker extends HTMLElement {
+	get value(): File | string {
+		return this.file ?? this.getAttribute("value") ?? "";
+	}
+	set value(v: string) {
+		this.setAttribute("value", v);
+		this.input.value = "";
+		if (v) {
+			getBlobLink(v).then(src => {
+				if (!src) return;
+				this.image = src
+			});
+		}
+	}
+	get input() {
+		return this.querySelector<HTMLInputElement>(`input[type="file"]`)!;
+	}
+	get file() {
+		return this.input.files?.[0];
+	}
+	set image(v: string) {
+		const img = this.querySelector<HTMLImageElement>(`img`)!;
+		this.revokeBlob?.();
+		img.src = v;
+		this.onDirty?.();
+		setTimeout(() => {
+			this.clearButton.hidden = !this.value
+		}, 0)
+	}
+
+	usePlaceholder() {
+		this.image = placeholder(this.getAttribute("placeholder"));
+		this.input.value = "";
+		this.setAttribute("value", "");
+	}
+	paste(file: File) {
+		const container = new DataTransfer();
+		container.items.add(file);
+		this.input.files = container.files;
+		this.setFile(file);
+	}
+	onDirty: (() => void) | null = null;
+
+	private revokeBlob: (() => void) | null = null;
+	private setFile(file: File) {
+		const link = URL.createObjectURL(file);
+		this.image = link;
+		this.revokeBlob = () => {
+			URL.revokeObjectURL(link);
+			this.revokeBlob = null;
+		}
+		this.setAttribute("value", "");
+	}
+	private clearButton: HTMLButtonElement;
+
+	constructor() {
+		super();
+
+		const image = mudcrack({
+			tagName: "img",
+			attributes: {
+				src: placeholder(this.getAttribute("placeholder"))
+			}
+		});
+		const preview = this.getAttribute("value");
+		if (preview) getBlobLink(preview).then(src => {
+			if (!src) return;
+			image.src = src;
+		})
+		const input = mudcrack({
+			tagName: "input",
+			attributes: {
+				type: "file",
+				accept: this.getAttribute("accept") ?? "",
+			},
+			style: {
+				display: "none"
+			},
+			events: {
+				input: (_ev, el) => {
+					const file = el.files?.[0];
+					if (!file) return;
+					// some pickers hand over files without a type; let those through
+					if (file.type && !file.type.startsWith("image/")) {
+						el.value = "";
+						return;
+					}
+
+					this.setFile(file);
+				}
+			}
+		});
+
+		this.clearButton = mudcrack({
+			tagName: "button",
+			className: "lineout image-picker-clear pointer",
+			contents: "clear",
+			attributes: {
+				hidden: "true"
+			},
+			events: {
+				click: () => this.usePlaceholder()
+			}
+		});
+		const pasteButton = mudcrack({
+			tagName: "button",
+			className: "lineout image-picker-paste pointer",
+			contents: "⎘",
+			events: {
+				click: async () => {
+					const contents = await navigator.clipboard.read();
+					for (const item of contents) {
+						const type = item.types.find(t => t.startsWith("image/"));
+						if (!type) continue;
+
+						const file = await item.getType(type);
+						this.paste(new File([file], "pasted"));
+						return;
+					}
+				}
+			}
+		});
+		const contents = [
+			mudcrack({
+				tagName: "label",
+				style: {
+					display: "contents"
+				},
+				contents: [ input, image ]
+			}),
+			this.clearButton,
+			pasteButton
+		];
+		this.style.position = "relative";
+		this.append(...contents);
+	}
+};
+
+export function define(tagName: string) {
+	window.customElements.define(tagName, _RampikeImagePicker);
+}
+
+export type RampikeImagePicker = _RampikeImagePicker;

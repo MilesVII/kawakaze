@@ -1,0 +1,196 @@
+import { toast } from "@units/toasts";
+import { Chat, ChatContents, MediaEntry, Persona, Result, ScenarioCard } from "./types";
+import { nothrowAsync, revolvers } from "./utils";
+
+type IDBStorageSchema = {
+	media: MediaEntry,
+	personas: Persona,
+	chats: Chat,
+	chatContents: ChatContents,
+	scenarios: ScenarioCard
+};
+const IDB_INDESEX = {
+	personas:  "lastUpdate",
+	chats:     "lastUpdate",
+	scenarios: "lastUpdate"
+} satisfies {
+	[T in keyof IDBStorageSchema]?: keyof IDBStorageSchema[T]
+};
+const INDEX_SORTED = "sorted";
+export type IDBStore = keyof IDBStorageSchema;
+export type LocalKey = "theme" | "providers" | "settings" | "activeProvider" | "armories" | "firstLaunch" | "cheats" | "hiddenTags";
+
+type StorageUpdate = ({
+	storage: "idb",
+	store: IDBStore;
+} | {
+	storage: "local",
+	key: LocalKey
+}) & {
+	remote?: boolean
+};
+type StorageListener = (event: StorageUpdate) => void;
+
+const storageListeners: StorageListener[] = [];
+const bc = new BroadcastChannel("storage-updates");
+bc.onmessage = ({ data }) => {
+	const update: StorageUpdate = { ...data, remote: true };
+	storageListeners.forEach(l => l(update));
+};
+const { promise: dbInitPromise, resolve: dbInitComplete } = revolvers<IDBDatabase>();
+
+export function listen(listener: StorageListener) {
+	storageListeners.push(listener);
+}
+
+export async function init() {
+	const result = await open();
+	if (result.success) dbInitComplete(result.value);
+	else toast(result.error);
+	return result.success;
+}
+
+export const idb = { get, set, getAll, del };
+export const local = { get: localGet, set: localSet };
+
+async function get<T extends IDBStore>(store: T, key: IDBStorageSchema[T]["id"]): Promise<Result<IDBStorageSchema[T], any>> {
+	const db = await dbInitPromise;
+
+	const r = db
+		.transaction(store, "readonly")
+		.objectStore(store)
+		.get(key);
+
+	return await new Promise(resolve => {
+		r.onsuccess = () => resolve({ success: true, value: r.result });
+		r.onerror = () => resolve({ success: false, error: "read error" });
+	});
+}
+
+async function getAll<T extends IDBStore>(store: T): Promise<Result<IDBStorageSchema[T][], any>> {
+	const db = await dbInitPromise;
+
+	const r = (store in IDB_INDESEX)
+		? db
+			.transaction(store, "readonly")
+			.objectStore(store)
+			.index("sorted")
+			.getAll()
+		: db
+			.transaction(store, "readonly")
+			.objectStore(store)
+			.getAll();
+
+	return await new Promise(resolve => {
+		r.onsuccess = () => resolve({ success: true, value: r.result });
+		r.onerror = () => resolve({ success: false, error: "read error" });
+	});
+}
+
+async function set<T extends IDBStore>(store: T, value: IDBStorageSchema[T]): Promise<Result<IDBValidKey, string>> {
+	const db = await dbInitPromise;
+
+	const r = db
+		.transaction(store, "readwrite")
+		.objectStore(store)
+		.put(value);
+
+	return await new Promise(resolve => {
+		r.onsuccess = () => {
+			resolve({ success: true, value: r.result });
+			const update: StorageUpdate = { storage: "idb", store: store };
+			bc.postMessage(update);
+			storageListeners.forEach(l => l(update));
+		};
+		r.onerror = () => resolve({ success: false, error: "write error" });
+	});
+}
+
+async function del<T extends IDBStore>(store: T, id: string) {
+	const db = await dbInitPromise;
+
+	const r = db
+		.transaction(store, "readwrite")
+		.objectStore(store)
+		.delete(id);
+
+	return await new Promise(resolve => {
+		r.onsuccess = () => {
+			resolve({ success: true, value: r.result });
+			const update: StorageUpdate = { storage: "idb", store: store };
+			bc.postMessage(update);
+			storageListeners.forEach(l => l(update));
+		};
+		r.onerror = () => resolve({ success: false, error: "write error" });
+	});
+}
+
+function open() {
+	return new Promise<Result<IDBDatabase, any>>(resolve => {
+		const r = window.indexedDB.open("ehh", 1);
+		r.onsuccess = () => resolve({ success: true,  value: r.result });
+		r.onerror =   () => resolve({ success: false, error: r.error });
+		r.onupgradeneeded = () => {
+			const db = r.result;
+
+			                  db.createObjectStore("media",        { keyPath: "id" });
+			const personas =  db.createObjectStore("personas",     { keyPath: "id" });
+			const chats =     db.createObjectStore("chats",        { keyPath: "id" });
+			                  db.createObjectStore("chatContents", { keyPath: "id" });
+			const scenarios = db.createObjectStore("scenarios",    { keyPath: "id" });
+
+			 personas.createIndex(INDEX_SORTED, IDB_INDESEX.personas);
+			    chats.createIndex(INDEX_SORTED, IDB_INDESEX.chats);
+			scenarios.createIndex(INDEX_SORTED, IDB_INDESEX.scenarios);
+		}
+	});
+}
+
+function localGet(key: LocalKey) {
+	return window.localStorage.getItem(key)
+}
+function localSet(key: LocalKey, value: string) {
+	window.localStorage.setItem(key, value);
+	const update: StorageUpdate = { storage: "local", key };
+	bc.postMessage(update);
+	storageListeners.forEach(l => l(update));
+}
+
+export async function upload(blob: Blob): Promise<string | null> {
+	const bytes = await nothrowAsync(blob.arrayBuffer());
+	if (!bytes.success) {
+		toast("can't read the picture, it was not saved");
+		return null;
+	}
+	const id = crypto.randomUUID();
+	const media = new Blob([bytes.value], { type: blob.type });
+	const stored = await set("media", { id, media, mime: media.type });
+	if (!stored.success) {
+		toast("can't save the picture");
+		return null;
+	}
+	return id;
+}
+/** server media is referenced by URL instead of a local media id */
+export function isRemoteRef(ref: string | null | undefined): ref is string {
+	return !!ref && /^(https?:\/\/|\/media\/)/.test(ref);
+}
+
+const map = new Map<string, string>();
+export async function getBlobLink(imageRef: string) {
+	if (isRemoteRef(imageRef)) return imageRef;
+	if (map.has(imageRef)) {
+		return map.get(imageRef)!;
+	}
+	const blob = await get("media", imageRef);
+	if (!blob.success || !blob.value) return null;
+
+	const link = URL.createObjectURL(blob.value.media);
+	map.set(imageRef, link);
+	return link;
+}
+export function revokeBlobLink(imageRef: string) {
+	const link = map.get(imageRef);
+	map.delete(imageRef);
+	if (link) URL.revokeObjectURL(link);
+}

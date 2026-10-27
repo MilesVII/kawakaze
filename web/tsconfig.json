@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"allowUnreachableCode": true,
+		"noFallthroughCasesInSwitch": true,
+		"skipLibCheck": true,
+		"noEmit": true,
+		"baseUrl": ".",
+		"paths": {
+			"@rampike/*": ["src/components/*"],
+			"@views/*": ["src/views/*"],
+			"@units/*": ["src/units/*"],
+			"@shared/*": ["../shared/*"],
+			"@root/*": ["src/*"]
+		}
+	},
+	"include": ["src", "../shared"]
+}

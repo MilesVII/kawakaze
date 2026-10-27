@@ -1,0 +1,246 @@
+import { RampikeModal } from "@rampike/modal";
+import { listen, local } from "@root/persist";
+import { ActiveProviders, Provider, ProviderMap, ProviderMapWithActive } from "@root/types";
+import { makeResizable, nothrow, nothrowAsync, textareaReconsider } from "@root/utils";
+import { toast } from "@units/toasts";
+import { mudcrack } from "rampike";
+import { placeholderView } from "@views/common";
+import { makeProviderItemView } from "@views/provider-item";
+
+export function providersUnit() {
+	const inputs = {
+		name:  document.querySelector<HTMLInputElement>("#settings-providers-name")!,
+		url:   document.querySelector<HTMLInputElement>("#settings-providers-url")!,
+		key:   document.querySelector<HTMLInputElement>("#settings-providers-key")!,
+		model: document.querySelector<HTMLInputElement>("#settings-providers-model")!,
+		reason: document.querySelector<HTMLSelectElement>("#settings-providers-reasoning")!,
+		temp:   document.querySelector<HTMLInputElement>("#settings-providers-temp")!,
+		max:    document.querySelector<HTMLInputElement>("#settings-providers-max")!,
+		params: document.querySelector<HTMLTextAreaElement>("#settings-providers-additional")!,
+		suffix: document.querySelector<HTMLTextAreaElement>("#settings-providers-suffix")!
+	};
+	const defaults = {
+		temp:    .9,
+		max:     720
+	};
+
+	const modelsDatalist    = document.querySelector("#settings-providers-models-datalist")!;
+	const submitButton      = document.querySelector<HTMLButtonElement>("#settings-providers-submit")!;
+	const fetchModelsButton = document.querySelector<HTMLButtonElement>("#settings-providers-fetch-models")!;
+	const list              = document.querySelector<HTMLElement>("#settings-providers-list")!;
+	// const divider           = document.querySelector("#settings-providers-divider")!;
+	const editingIndicator  = document.querySelector<HTMLElement>("#settings-providers-editing-indicator")!;
+	let editing: string | null = null;
+
+	const addNew = document.querySelector<HTMLButtonElement>("#settings-providers-add")!;
+	const form = {
+		modal: document.querySelector<RampikeModal>("#settings-providers-modal")!,
+		close: document.querySelector<HTMLButtonElement>("#settings-providers-modal-close")!
+	};
+
+	submitButton.addEventListener("click", submit);
+	fetchModelsButton.addEventListener("click", fetchModels);
+	form.close.addEventListener("click", () => form.modal.close());
+	addNew.addEventListener("click", () => {
+		clearInputs();
+		form.modal.open();
+	});
+	makeResizable(inputs.params);
+	makeResizable(inputs.suffix);
+
+	listen(update => {
+		if (update.storage !== "local") return;
+		if (update.key !== "providers") return;
+
+		updateList();
+	});
+	updateList();
+
+	function submit() {
+		const id = editing ?? crypto.randomUUID();
+		function parseNumber(key: keyof typeof defaults) {
+			const f = parseFloat(inputs[key].value);
+			if (isNaN(f) || f < 0) return defaults[key];
+			return f;
+		}
+		function parseParams(raw: string) {
+			if (!raw.trim()) return {};
+			
+			const result = nothrow(() => JSON.parse(raw));
+			const value = result.success ? result.value : {};
+			if (!result.success || typeof value !== "object") {
+				toast("the additional parameters value must be a valid JSON object, provider is not updated", { parent: getToastParent() })
+				return null;
+			}
+			return value;
+		}
+		const e: Provider = {
+			name:  inputs.name.value.trim(),
+			url:   inputs.url.value.trim(),
+			key:   inputs.key.value.trim(),
+			model: inputs.model.value.trim(),
+			temp:    parseNumber("temp"),
+			max:     parseNumber("max"),
+			params:  parseParams(inputs.params.value.trim()),
+			suffix: inputs.suffix.value.trim(),
+			reasoning: inputs.reason.value
+		};
+		const missing = (["name", "url", "model"] as const).some(k => !e[k]);
+		if (e.params === null) return;
+		if (missing) {
+			toast("some of required inputs are missing", { parent: getToastParent() });
+			return;
+		}
+
+		const eMap = readProviders();
+		// @ts-expect-error isActive missing
+		eMap[id] = e;
+		saveProviders(eMap);
+		clearInputs();
+		form.modal.close();
+	}
+	async function fetchModels() {
+		const url = inputs.url.value.trim().replace("/v1/chat/completions", "/v1/models");
+		if (!url) return;
+		const key = inputs.key.value;
+		const closeToast = toast("calling...", { parent: getToastParent() });
+		const response = await nothrowAsync(fetch(url, {
+			headers: {
+				Authorization: `Bearer ${key}`,
+			}
+		}));
+		closeToast();
+		if (!response.success) {
+			toast(`can't reach "${url}"\n${response.error}`, { parent: getToastParent() });
+			return;
+		}
+		if (!response.value.ok) {
+			const text = await response.value.text();
+			toast(`"${url}" returned error\nstatus ${response.value.status}\n${text.slice(0, 64)}`, { parent: getToastParent() });
+			return;
+		}
+		const payload = await response.value.json();
+		if (!payload.data) return;
+		console.log(payload.data);
+		modelsDatalist.innerHTML = "";
+		modelsDatalist.append(
+			...payload.data.map(
+				(m: any) =>
+					mudcrack({
+						tagName: "option",
+						attributes: { value: m.id }
+					})
+			)
+		);
+		toast(`success; ${payload.data.length} models are available`), { parent: getToastParent() };
+	}
+	function edit(id: string, e: Provider) {
+		function stringifyParams() {
+			if (!e.params) return "";
+			if (Object.keys(e.params).length === 0) return "";
+
+			return JSON.stringify(e.params);
+		}
+		editing = id;
+		inputs.name.value =  e.name;
+		inputs.url.value =   e.url;
+		inputs.key.value =   e.key;
+		inputs.model.value = e.model;
+		inputs.temp.value =   String(e.temp);
+		inputs.max.value =    String(e.max);
+		inputs.params.value = stringifyParams();
+		inputs.suffix.value = e.suffix ?? "";
+		inputs.reason.value = e.reasoning ?? "unset";
+		textareaReconsider(inputs.params);
+		textareaReconsider(inputs.suffix);
+
+		editingIndicator.textContent = `editing provider: ${e.name}`;
+		editingIndicator.hidden = false;
+
+		form.modal.open();
+	}
+
+	function updateList() {
+		modelsDatalist.innerHTML = "";
+		list.innerHTML = "";
+		const providersMap = readProviders();
+		const providers = Object.entries(providersMap);
+		const items = providers.map(([id, e]) => makeProviderItemView(e.name, {
+			edit:   () => edit(id, e),
+			copy:   () => copyProvider(id),
+			delete: () => deleteProvider(id)
+		}));
+		if (items.length > 0)
+			list.append(...items);
+		else
+			list.append(placeholderView("No providers found"));
+	}
+
+	function clearInputs() {
+		editing = null;
+		inputs.name.value   = "";
+		inputs.url.value    = "";
+		inputs.key.value    = "";
+		inputs.model.value  = "";
+		inputs.temp.value   = String(defaults.temp);
+		inputs.max.value    = String(defaults.max);
+		inputs.params.value = "";
+		inputs.suffix.value = "";
+		inputs.reason.value = "unset";
+		textareaReconsider(inputs.params);
+		textareaReconsider(inputs.suffix);
+		editingIndicator.hidden = true;
+	}
+}
+
+export function readProviders(): ProviderMapWithActive {
+	const providersRaw = local.get("providers");
+	if (!providersRaw) return {};
+	const providers = nothrow<ProviderMapWithActive>(() => JSON.parse(providersRaw));
+	if (!providers.success) return {};
+
+	const ActiveProviders = readActiveProviders();
+	for (const e in providers.value) {
+		providers.value[e].isActive     = e === ActiveProviders.main;
+		providers.value[e].remberActive = e === ActiveProviders.rember;
+	}
+
+	return providers.value;
+}
+function saveProviders(eMap: ProviderMap) {
+	local.set("providers", JSON.stringify(eMap));
+	toast("providers updated", { timeoutMS: 5000 });
+}
+function deleteProvider(id: string) {
+	if (!confirm("confirm deletion")) return;
+	const e = readProviders();
+	delete e[id];
+	saveProviders(e);
+}
+function copyProvider(id: string) {
+	const e = readProviders();
+	if (!e[id]) return;
+	const nid = crypto.randomUUID();
+	e[nid] = {
+		...e[id],
+		name: e[id].name + " (copy)"
+	};
+	saveProviders(e);
+}
+
+export function readActiveProviders(): ActiveProviders {
+	const defaultProviders = {
+		main: null,
+		rember: null
+	}
+	const activeRaw = local.get("activeProvider");
+	if (!activeRaw) return defaultProviders;
+	const parsed = nothrow<ActiveProviders>(() => JSON.parse(activeRaw));
+	if (!parsed.success) return defaultProviders;
+
+	return parsed.value;
+}
+
+function getToastParent() {
+	return document.querySelector<HTMLElement>("#settings-providers-toasts") ?? undefined;
+}

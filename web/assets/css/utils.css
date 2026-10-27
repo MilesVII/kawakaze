@@ -1,0 +1,109 @@
+
+.lineout, .strip {
+	appearance: none;
+	color: inherit;
+	background: none;
+	font: inherit;
+	outline: inherit;
+	border: none;
+}
+
+.pad {
+	padding: var(--dims-huge);
+}
+.low-pad {
+	padding-bottom: 10vh;
+}
+.col, .row, .col-wrap, .row-wrap {
+	display: flex;
+	gap: var(--dims-huge);
+}
+.col {
+	flex-flow: column nowrap;
+}
+.col-wrap {
+	flex-flow: column wrap;
+}
+.row {
+	flex-flow: row nowrap;
+}
+.row-wrap {
+	flex-flow: row wrap;
+	gap: var(--dims-smol);
+}
+.list {
+	display: flex;
+	flex-flow: column nowrap;
+	gap: var(--dims-smol);
+}
+.row-compact {
+	display: flex;
+	flex-flow: row nowrap;
+	gap: var(--dims-smol);
+}
+.split-col {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--dims-smol);
+}
+
+.jc-end {
+	justify-content: end;
+}
+.baseline {
+	align-items: baseline;
+}
+.align-center {
+	align-items: center;
+}
+.grow {
+	flex-grow: 1;
+}
+
+.float-center {
+	margin-inline: auto;
+}
+.float-end {
+	margin-inline-start: auto;
+}
+.float-bottom {
+	margin-block-start: auto;
+}
+
+.shadow {
+	box-shadow: 0 0 8px black;
+}
+
+.virtual {
+	display: contents;
+}
+
+.wide {
+	width: 100%;
+}
+.fit {
+	width: fit-content;
+}
+.content-wide {
+	width: var(--content-width);
+}
+
+.center-text {
+	text-align: center;
+}
+.reset-text {
+	text-align: start;
+}
+
+.no-shrink {
+	flex-shrink: 0;
+}
+
+.no-select {
+	user-select: none;
+}
+
+.hor-autoflow {
+	max-width: 100%;
+	overflow-x: auto;
+}

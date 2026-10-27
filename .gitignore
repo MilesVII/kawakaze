@@ -1,0 +1,7 @@
+node_modules
+dist
+data
+.env
+web/assets/index.js
+web/assets/index.js.map
+references

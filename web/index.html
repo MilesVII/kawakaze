@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=1, interactive-widget=resizes-content"/>
+		<title>Kawakaze</title>
+		<!--kawa-head-->
+		<link rel="icon" href="/favicon.png" />
+
+		<link rel="stylesheet" href="/assets/css/main.css"/>
+		<link rel="stylesheet" href="/assets/css/theme.css"/>
+		<link rel="stylesheet" href="/assets/css/utils.css"/>
+		<link rel="stylesheet" href="/assets/css/components.css"/>
+		<link rel="stylesheet" href="/assets/css/md.css"/>
+		<link rel="stylesheet" href="/assets/css/badger.css"/>
+		<link rel="stylesheet" href="/assets/css/kawa.css"/>
+		<script type="module" src="/assets/index.js"></script>
+
+		<link rel="prefetch" href="/assets/gfx/send.svg" />
+		<link rel="prefetch" href="/assets/gfx/placeholder.png" />
+	</head>
+
+	<body>
+		<nav id="nav" class="nav shadow no-select">
+			<a href="/" class="nav-brand">Kawakaze</a>
+			<a href="/" data-nav="home"><span class="nav-icon">⌂&#xFE0E;</span><span>home</span></a>
+			<a href="/library" data-nav="library"><span class="nav-icon">▤&#xFE0E;</span><span>library</span></a>
+			<a href="/chats" data-nav="chats"><span class="nav-icon">☰&#xFE0E;</span><span>chats</span></a>
+			<a href="/settings" data-nav="settings"><span class="nav-icon">⚙&#xFE0E;</span><span>settings</span></a>
+			<a href="/profile" data-nav="profile">
+				<span class="nav-icon">☺&#xFE0E;</span><span>profile</span>
+				<span id="nav-unread" class="nav-badge" hidden></span>
+			</a>
+			<a href="/admin" data-nav="admin" id="nav-admin" hidden><span class="nav-icon">⚑&#xFE0E;</span><span>admin</span></a>
+			<a href="/terms" class="nav-terms hint">terms of use</a>
+		</nav>
+
+		<ram-tabs id="tabs-main" tab="home">
+			<ram-tab key="home">
+				<div class="topbar row shadow">
+					<a href="/" class="topbar-brand">Kawakaze</a>
+					<div class="row-compact align-center float-end">
+						<div class="hint">sort by</div>
+						<select id="home-sort" class="lineout">
+							<option value="updated" selected>last edit</option>
+							<option value="published">publish date</option>
+							<option value="score">score</option>
+						</select>
+					</div>
+				</div>
+				<div class="col pad">
+					<div class="list">
+						<div class="row-compact">
+							<input type="search" id="home-search-input" class="lineout wide" placeholder="search characters" enterkeyhint="search" />
+							<button id="home-search-button" class="lineout">search</button>
+							<button id="home-search-options" class="lineout" title="search options">⋯</button>
+						</div>
+						<div id="home-search-fields" class="lineout list" hidden>
+							<div>search in</div>
+							<label class="row-compact"><input type="checkbox" value="title" checked/><div>card title</div></label>
+							<label class="row-compact"><input type="checkbox" value="description" checked/><div>card description</div></label>
+							<label class="row-compact"><input type="checkbox" value="tags" checked/><div>card tags</div></label>
+							<label class="row-compact"><input type="checkbox" value="character" checked/><div>character name</div></label>
+							<label class="row-compact"><input type="checkbox" value="authors" checked/><div>authors</div></label>
+							<label class="row-compact"><input type="checkbox" value="definition"/><div>character prompt</div></label>
+							<label class="row-compact"><input type="checkbox" value="openings"/><div>character openings</div></label>
+						</div>
+						<div id="home-tag" class="row-compact align-center" hidden>
+							<div>tagged</div>
+							<div id="home-tag-name" class="kawa-chip"></div>
+							<button id="home-tag-clear" class="strip ghost pointer" title="clear tag filter">✖</button>
+						</div>
+					</div>
+					<div id="home-cards" class="grid-list"></div>
+					<ram-page id="home-pager" class="row-compact baseline float-center" class-buttons="lineout"></ram-page>
+				</div>
+			</ram-tab>
+			<ram-tab key="chats">
+				<div class="topbar row shadow">
+					<div class="row-compact align-center">
+						<div id="main-counter" class="no-shrink"></div>
+					</div>
+					<ram-file-picker id="main-import" accept=".aegir.chat.json">
+						<div class="lineout pointer fit">import chat</div>
+					</ram-file-picker>
+				</div>
+				<div class="main col pad float-center">
+					<div class="row baseline no-select">
+						<div id="main-folders" class="row-compact"></div>
+					</div>
+					<div id="main-sync-status" class="hint" hidden></div>
+					<div id="main-chats" class="list"></div>
+				</div>
+			</ram-tab>
+			<ram-tab key="settings">
+				<div class="topbar row shadow">
+					<div>Settings</div>
+					<div id="settings-badge" class="fit badge" hidden>badge</div>
+				</div>
+				<div class="main col pad float-center">
+					<details>
+						<summary class="settings-label">
+							Personas
+						</summary>
+						<div id="settings-persona-form" class="list">
+							<div id="settings-persona-list" class="virtual"></div>
+							<hr id="settings-persona-divider" class="topbar-scroll-offset"/>
+							<div id="settings-persona-editing-indicator" class="placeholder" hidden></div>
+							<div class="row">
+								<ram-image-picker id="settings-persona-picture" class="lineout pointer"></ram-image-picker>
+								<div class="list wide">
+									<input type="text" id="settings-persona-name" class="lineout wide" placeholder="Persona name" />
+									<select id="settings-persona-pronouns" class="lineout">
+										<option value="he">he/him</option>
+										<option value="she">she/her</option>
+										<option value="they" selected>they/them</option>
+									</select>
+								</div>
+							</div>
+							<textarea id="settings-persona-desc" class="lineout" placeholder="Persona description"></textarea>
+							<button id="settings-add-persona" class="lineout">Save persona</button>
+						</div>
+					</details>
+					<details>
+						<summary class="settings-label">
+							LLM Providers
+						</summary>
+						<div class="list">
+							<button id="settings-providers-add" class="lineout">Add provider</button>
+							<div id="settings-providers-list" class="virtual"></div>
+						</div>
+					</details>
+					<details>
+						<summary class="settings-label">
+							Backup
+						</summary>
+						<div class="list">
+							<div class="hint">Backups are compatible with Ägir. Pictures of published characters are embedded, so the file works offline and in Ägir too.</div>
+							<div class="row-wrap">
+								<button id="settings-backup-save" class="lineout fit">Save all</button>
+								<ram-file-picker id="settings-backup-import" accept=".aegir.backup.json,.json">
+									<div class="lineout pointer fit">Restore</div>
+								</ram-file-picker>
+								<button id="settings-media-clean" class="lineout fit">Delete unused media</button>
+							</div>
+						</div>
+					</details>
+					<details>
+						<summary class="settings-label">
+							Hidden content
+						</summary>
+						<div class="list">
+							<div class="hint">Characters with these tags are shown under a cover until you reveal them. Comma separated.</div>
+							<div id="settings-hidden-signed" class="hint" hidden>You are signed in: these tags are taken from your profile.</div>
+							<textarea id="settings-hidden-tags" class="lineout" placeholder="gore, horror"></textarea>
+							<button id="settings-hidden-save" class="lineout">Save</button>
+						</div>
+					</details>
+					<details>
+						<summary class="settings-label">
+							Color scheme
+						</summary>
+						<div id="settings-themes" class="row-wrap"></div>
+
+						<div class="settings-theme-section-space">Preview:</div>
+						<div class="message">
+							<img src="/assets/gfx/placeholder.png">
+							<div>
+								<div class="row">
+									<div class="message-name">Themis</div>
+									<button class="strip ghost pointer message-control" title="show reasoning">R</button>
+									<div class="row-compact no-shrink">
+										<button class="strip ghost pointer message-control" title="prev swipe">&lt;</button>
+										<span>6 / 9</span>
+										<button class="strip ghost pointer message-control" title="next swipe">&gt;</button>
+									</div>
+									<button class="strip ghost pointer message-control">✎</button>
+									<button class="strip ghost pointer message-control">⧉</button>
+									<button class="strip ghost pointer message-control">✖</button>
+								</div>
+								<div class="lineout message-reasoning-preview">okay, user wants an example message to check the colors, i'll just compose one right away</div>
+								<div class="message-text edible md"><p><em>The air is cool and crisp, the park quiet in the late Sunday afternoon. Themis sits stiffly on a wooden bench beside Zenith, her hands folded neatly in her lap, the white blindfold covering her pale face.</em></p>
+									<p>Excuse me for a moment.</p>
+									<p><em>She walks toward a crying girl, her steps measured but a little too quick, and crouches down.</em></p>
+									<p>Greetings. Are you lost? Do you require assistance?</p>
+								</div>
+							</div>
+						</div>
+					</details>
+					<details>
+						<summary class="settings-label">
+							Other options
+						</summary>
+						<div class="list">
+							<div class="hint">Max count of messages to send to API. 0 to send all (not recommended due to potential context overflow)</div>
+							<ram-labeled
+								legend="Chat tail cutoff length"
+								id="settings-options-tail"
+								class="strip wide"
+								placeholder="70"
+							></ram-labeled>
+							<div class="hint">The tail is a cost-saving measure, but most providers (including everything on OpenRouter) cache repeated prompt prefixes, so a short tail rarely saves much. Its main purpose is to keep small-context models from overflowing.</div>
+							<label class="row-compact align-center">
+								<input type="checkbox" id="settings-options-rember-stretch" checked/>
+								<div>Let ⧖ rEmber summary extend the tail</div>
+							</label>
+							<div class="hint">When enabled, the tail is stretched back to the message the latest summary is attached to. When disabled, the summary is only sent while that message is still inside the tail, possibly losing it.</div>
+							<label class="row-compact align-center">
+								<input type="checkbox" id="settings-options-ooc-user"/>
+								<div>Send OOC notes as user turns</div>
+							</label>
+							<div class="hint">OOC notes (hold the send button to append one) are sent as system messages by default. Some local chat templates only accept a system message at the very start; enable this to send notes as user turns prefixed with "OOC:" instead.</div>
+							<ram-labeled
+								legend="Content width override"
+								id="settings-options-cwo"
+								class="strip wide"
+								placeholder="0"
+							></ram-labeled>
+							<button id="settings-misc-save" class="lineout">Save</button>
+						</div>
+					</details>
+					<div class="lineout fit float-end">
+						Kawakaze is a hosted edition of <a href="https://github.com/MilesVII/agir" target="_blank">Ägir</a>. Chats, personas and provider keys stay on this device.
+						<ul>
+							<li><a href="/terms">Terms of use</a></li>
+							<li>Questions and suggestions: <code>milesseventh</code> on Discord, Twitter or Telegram</li>
+						</ul>
+					</div>
+				</div>
+			</ram-tab>
+			<ram-tab key="library">
+				<div class="topbar shadow">
+					<div>Library</div>
+					<div class="topbar-actions">
+						<button class="lineout fit" data-to="/editor">new scenario</button>
+						<ram-file-picker id="library-import" accept=".aegir.scenario.json,.json" multiple>
+							<div class="lineout fit pointer">import</div>
+						</ram-file-picker>
+						<button id="library-armory-button" class="lineout fit">armory</button>
+					</div>
+				</div>
+				<div class="col pad">
+					<div class="row float-center fit hor-autoflow">
+						<button id="library-search" class="lineout fit">search</button>
+						<ram-page
+							id="library-pager"
+							class="row-compact baseline"
+							class-buttons="lineout"
+						></ram-page>
+					</div>
+					<div id="library-search-dialog" class="lineout col" hidden>
+						<div class="row-compact">
+							<input type="text" id="library-search-input" class="lineout wide" placeholder="search query" />
+							<button class="lineout" id="library-search-button">search</button>
+							<button class="lineout" id="library-search-cancel">cancel</button>
+						</div>
+
+						<div class="list">
+							<div>search in</div>
+							<label class="row-compact"><input type="checkbox" id="library-search-f-ct" checked/><div>card title</div></label>
+							<label class="row-compact"><input type="checkbox" id="library-search-f-cd" checked/><div>card description</div></label>
+							<label class="row-compact"><input type="checkbox" id="library-search-f-tg" checked/><div>card tags</div></label>
+							<label class="row-compact"><input type="checkbox" id="library-search-f-cn" checked/><div>character name</div></label>
+							<label class="row-compact"><input type="checkbox" id="library-search-f-an" checked/><div>author's name and url</div></label>
+							<label class="row-compact"><input type="checkbox" id="library-search-f-cp" checked/><div>character prompt</div></label>
+							<label class="row-compact"><input type="checkbox" id="library-search-f-co" checked/><div>character openings</div></label>
+						</div>
+					</div>
+					<div id="library-cards" class="grid-list"></div>
+				</div>
+			</ram-tab>
+			<ram-tab key="scenario-editor">
+				<div class="topbar shadow">
+					<div class="topbar-actions">
+						<button id="scenario-submit-button" class="lineout">save scenario</button>
+						<button id="scenario-publish-button" class="lineout" hidden>publish</button>
+						<button id="scenario-delist-button" class="lineout" hidden>delist</button>
+						<button class="lineout fit" data-to="/library">back</button>
+					</div>
+				</div>
+				<div class="main col pad float-center low-pad">
+					<div id="scenario-publish-status" class="hint" hidden></div>
+					<div class="list">
+						<div class="scenario-pictures">
+							<div class="list">
+								<div>Card icon</div>
+								<ram-image-picker id="scenario-card-picture" class="lineout pointer"></ram-image-picker>
+							</div>
+							<div class="list">
+								<div>Chat icon</div>
+								<ram-image-picker id="scenario-chat-picture" class="lineout pointer"></ram-image-picker>
+							</div>
+						</div>
+						<div class="hint">Card icon is used in chat when no chat icon is provided</div>
+					</div>
+
+					<ram-labeled
+						legend="Card title"
+						id="scenario-card-title"
+						class="strip wide"
+						placeholder=""
+					></ram-labeled>
+
+					<div class="list">
+						<ram-labeled
+							legend="Snippet (shown on the homepage, plain text)"
+							id="scenario-snippet"
+							class="strip wide"
+							placeholder="A short summary, only needed for publishing"
+							multiline
+							rows="2"
+						></ram-labeled>
+						<div id="scenario-snippet-counter" class="hint float-end"></div>
+					</div>
+
+					<div id="scenario-author" class="hint" hidden></div>
+
+					<div class="list">
+						<a href="https://www.markdownguide.org/cheat-sheet/" class="hint float-end" target="_blank">Markdown cheatsheet</a>
+						<ram-labeled
+							legend="Card description"
+							id="scenario-description"
+							class="strip wide"
+							placeholder=""
+							multiline
+						></ram-labeled>
+					</div>
+					<button id="scenario-preview-button" class="lineout">Card description preview</button>
+					<ram-labeled
+						legend="Tags (comma separated)"
+						id="scenario-tags"
+						class="strip wide"
+						placeholder=""
+						multiline
+						rows="1"
+					></ram-labeled>
+					<div class="list">
+						<div class="row baseline">
+							<div>Lorebooks</div>
+							<ram-file-picker id="scenario-lorebook-import" accept=".json" class="float-end">
+								<div class="lineout fit pointer">import</div>
+							</ram-file-picker>
+						</div>
+						<div class="hint">SillyTavern world info exports and Character Card V2 lorebooks. Attached books are copied into every new chat started from this card.</div>
+						<div id="scenario-lorebooks" class="list"></div>
+					</div>
+					<div class="list">
+						<hr/>
+						<div class="hint">Character definiton below</div>
+					</div>
+					<details>
+						<summary>
+							Macros
+						</summary>
+						<div class="lineout">
+							Important!
+							<div class="hint">
+								<dl>
+									<dt>{{persona}}</dt> <dd>User's persona description</dd>
+								</dl>
+							</div>
+							Names:
+							<div class="hint">
+								<dl>
+									<dt>{{char}}</dt> <dd>Character name</dd>
+									<dt>{{user}}</dt> <dd>User's persona name</dd>
+								</dl>
+							</div>
+							User's persona pronouns:
+							<div class="hint">
+								<dl>
+									<dt>{{sub}} or {{they}}</dt>          <dd>subjective (he/she/they)</dd>
+									<dt>{{obj}} or {{them}}</dt>          <dd>objective (him/her/them)</dd>
+									<dt>{{poss}} or {{their}}</dt>        <dd>possessive (his/her/their)</dd>
+									<dt>{{poss_p}} or {{theirs}}</dt>     <dd>possessive pronoun (his/hers/theirs)</dd>
+									<dt>{{ref}} or {{themselves}}</dt>    <dd>reflexive (himself/herself/themselves)</dd>
+								</dl>
+							</div>
+							Macros info (for writing assistants):
+							<div class="hint">
+								<dl>
+									<dt>{{macros}}</dt> <dd>list of supported macros</dd>
+								</dl>
+							</div>
+						</div>
+					</details>
+					<ram-labeled
+						legend="Character name (shown in chat)"
+						id="scenario-character-name"
+						class="strip wide"
+						placeholder="Ägir"
+					></ram-labeled>
+					<ram-labeled
+						legend="Scenario definition"
+						id="scenario-definition"
+						class="strip wide"
+						placeholder=""
+						multiline
+						rows="1"
+					></ram-labeled>
+					<div class="list">
+						<div id="scenario-messages-clicker" class="row">
+							<button class="lineout">&lt;</button>
+							<div>1/1</div>
+							<button class="lineout">&gt;</button>
+						</div>
+						<ram-labeled
+							legend="First message"
+							id="scenario-messages"
+							class="strip wide"
+							placeholder=""
+							multiline
+							rows="1"
+						></ram-labeled>
+						<button class="lineout fit float-end" id="scenario-messages-asterize">*asterize*</button>
+					</div>
+				</div>
+			</ram-tab>
+			<ram-tab key="play">
+				<div class="chat-layout">
+					<div class="chat-top shadow">
+						<div class="row content-wide float-center">
+							<button class="lineout fit" data-to="/chats">back</button>
+							<div class="chat-provider-control row-compact">
+								<button id="chat-rember-counter" class="lineout rember-counter" hidden>⧖</button>
+								<button id="chat-lore-counter" class="lineout rember-counter" title="lorebook entries sent with the last prompt" hidden>🕮</button>
+								<div>Provider:</div>
+								<select id="chat-provider-picker" class="lineout"></select>
+								<select id="chat-menu-select" class="lineout"></select>
+							</div>
+						</div>
+					</div>
+					<div id="play-messages" class="chat-scroll-container content-wide float-center"></div>
+					<div class="shadow">
+						<div class="chat-low content-wide float-center">
+							<ram-tabs id="chat-controls" tab="main">
+								<ram-tab key="main">
+									<textarea id="chat-textarea" class="lineout" autocomplete="off"></textarea>
+									<div id="chat-send-button">
+										<ram-import path="/assets/gfx/send.svg" class="chat-send"></ram-import>
+									</div>
+								</ram-tab>
+								<ram-tab key="pending">
+									<button id="chat-stop-button" class="lineout float-center">abort</button>
+								</ram-tab>
+								<ram-tab key="disabled">
+									<div class="placeholder">Add an LLM provider in settings to start chatting</div>
+								</ram-tab>
+							</ram-tabs>
+						</div>
+					</div>
+				</div>
+			</ram-tab>
+			<ram-tab key="scenario-page">
+				<div class="topbar row shadow">
+					<button class="lineout fit" id="sp-back">back</button>
+					<div class="topbar-actions">
+						<button id="sp-play" class="lineout fit">play</button>
+						<button id="sp-save" class="lineout fit">to library</button>
+						<button id="sp-export" class="lineout fit">export</button>
+						<button id="sp-edit" class="lineout fit" hidden>edit</button>
+					</div>
+				</div>
+				<div class="main col pad float-center low-pad">
+					<div id="sp-status" class="placeholder" hidden></div>
+					<div id="sp-content" class="col" hidden>
+						<div class="sp-header">
+							<img id="sp-picture" class="sp-picture" src="/assets/gfx/placeholder.png">
+							<div class="list grow">
+								<h1 id="sp-title"></h1>
+								<div id="sp-authors" class="row-wrap align-center"></div>
+								<div id="sp-meta" class="hint"></div>
+								<div id="sp-votes" class="virtual"></div>
+								<div id="sp-tags" class="scenario-card-tags kawa-tags-start"></div>
+								<div id="sp-delisted" class="placeholder" hidden>This character is delisted and only visible to its owner</div>
+							</div>
+						</div>
+						<div id="sp-description" class="md lineout"></div>
+						<details class="lineout sp-spoiler">
+							<summary>Character definition</summary>
+							<div class="list">
+								<div id="sp-character-name" class="hint"></div>
+								<div id="sp-definition" class="sp-plain"></div>
+								<div id="sp-openings" class="list"></div>
+								<div id="sp-lorebooks" class="hint"></div>
+							</div>
+						</details>
+						<div id="sp-fork" class="hint" hidden></div>
+						<hr/>
+						<div class="row baseline">
+							<h3>Comments</h3>
+							<div id="sp-comment-total" class="hint"></div>
+						</div>
+						<div id="sp-comment-form" class="list lineout">
+							<div class="row-compact align-center">
+								<img id="sp-comment-avatar" class="avatar" src="/assets/gfx/placeholder.png">
+								<div id="sp-comment-name"></div>
+							</div>
+							<textarea id="sp-comment-body" class="lineout" placeholder="Leave a comment. Mention someone with @username to reply"></textarea>
+							<div id="sp-turnstile"></div>
+							<div class="row align-center">
+								<div id="sp-comment-counter" class="hint"></div>
+								<button id="sp-comment-submit" class="lineout fit float-end">post</button>
+							</div>
+						</div>
+						<div id="sp-comments" class="list"></div>
+						<ram-page id="sp-comments-pager" class="row-compact baseline float-center" class-buttons="lineout"></ram-page>
+					</div>
+				</div>
+			</ram-tab>
+			<ram-tab key="user-page">
+				<div class="topbar row shadow">
+					<button class="lineout fit" id="up-back">back</button>
+				</div>
+				<div class="col pad">
+					<div id="up-status" class="placeholder main float-center" hidden></div>
+					<div id="up-content" class="col" hidden>
+						<div class="sp-header main float-center">
+							<img id="up-icon" class="up-icon" src="/assets/gfx/placeholder.png">
+							<div class="list grow">
+								<h1 id="up-name"></h1>
+								<div id="up-meta" class="hint"></div>
+								<div id="up-bio" class="md"></div>
+							</div>
+						</div>
+						<div id="up-cards-label" class="main float-center" hidden>Published characters</div>
+						<div id="up-cards" class="grid-list"></div>
+					</div>
+				</div>
+			</ram-tab>
+			<ram-tab key="profile">
+				<div class="topbar row shadow">
+					<div>Profile</div>
+					<div class="topbar-actions">
+						<button id="profile-signout" class="lineout fit" hidden>sign out</button>
+						<a id="profile-public-link" class="lineout fit" hidden>public page</a>
+					</div>
+				</div>
+				<div class="main col pad float-center low-pad">
+					<div id="profile-signed-out" class="list" hidden>
+						<div>Sign in to publish characters, vote, comment under your name and move chats between devices.</div>
+						<div class="hint">Everything else works without an account: characters and chats are stored on this device.</div>
+						<div id="profile-error" class="placeholder" hidden></div>
+						<div id="profile-providers" class="list"></div>
+					</div>
+					<div id="profile-signed-in" class="col" hidden>
+						<div class="row-wrap kawa-tab-buttons">
+							<ram-tab-button for="profile-tabs" tab="edit" class="lineout pointer">profile</ram-tab-button>
+							<ram-tab-button for="profile-tabs" tab="comments" class="lineout pointer">comments</ram-tab-button>
+							<ram-tab-button for="profile-tabs" tab="characters" class="lineout pointer">characters</ram-tab-button>
+							<ram-tab-button for="profile-tabs" tab="notifications" class="lineout pointer">notifications <span id="profile-unread"></span></ram-tab-button>
+							<ram-tab-button for="profile-tabs" tab="sessions" class="lineout pointer">sessions</ram-tab-button>
+						</div>
+						<ram-tabs id="profile-tabs" tab="edit">
+							<ram-tab key="edit">
+								<div class="list">
+									<div class="row">
+										<div class="list">
+											<ram-image-picker id="profile-icon" class="lineout pointer profile-icon-picker"></ram-image-picker>
+											<button id="profile-icon-remove" class="lineout">remove</button>
+										</div>
+										<div class="list wide">
+											<ram-labeled legend="Username" id="profile-username" class="strip wide" placeholder="username"></ram-labeled>
+											<div class="hint">3 to 24 latin letters, digits, _ or -. Others mention you as @username.</div>
+										</div>
+									</div>
+									<ram-labeled legend="Bio (markdown)" id="profile-bio" class="strip wide" placeholder="" multiline rows="4"></ram-labeled>
+									<button id="profile-bio-preview" class="lineout">Bio preview</button>
+									<div id="profile-bio-preview-container" class="md lineout" hidden></div>
+									<ram-labeled legend="Hidden content tags (comma separated)" id="profile-hidden-tags" class="strip wide" placeholder="gore, horror" multiline rows="1"></ram-labeled>
+									<div class="hint">Characters with these tags are shown under a cover until you reveal them</div>
+									<button id="profile-save" class="lineout">Save profile</button>
+								</div>
+							</ram-tab>
+							<ram-tab key="comments">
+								<div id="profile-comments" class="list"></div>
+								<ram-page id="profile-comments-pager" class="row-compact baseline float-center" class-buttons="lineout"></ram-page>
+							</ram-tab>
+							<ram-tab key="characters">
+								<div id="profile-creator" class="list" hidden>
+									<div class="hint">Characters you published. Opening one in the editor copies it into your local library if it isn't there.</div>
+									<div id="profile-characters" class="list"></div>
+								</div>
+								<div id="profile-invite" class="list" hidden>
+									<div>Publishing is invite-only. If you've got an invite token, redeem it to become a creator.</div>
+									<div class="lineout list">
+										<div>By becoming a creator you agree that:</div>
+										<ul>
+											<li>everything you publish on Kawakaze is shared under the <a href="http://www.wtfpl.net/about/" target="_blank">WTFPL</a> license: anyone can copy, change, fork and redistribute it;</li>
+											<li>you only publish content you have the rights to;</li>
+											<li>you follow the <a href="/terms">terms of use</a>.</li>
+										</ul>
+									</div>
+									<label class="row-compact align-center">
+										<input type="checkbox" id="profile-invite-terms"/>
+										<div>I accept the terms of use and the WTFPL license for my published content</div>
+									</label>
+									<div class="row-compact">
+										<input type="text" id="profile-invite-token" class="lineout wide" placeholder="invite token" autocomplete="off"/>
+										<button id="profile-invite-submit" class="lineout">redeem</button>
+									</div>
+								</div>
+							</ram-tab>
+							<ram-tab key="notifications">
+								<div class="row">
+									<button id="profile-notifications-read" class="lineout fit float-end">mark all as read</button>
+								</div>
+								<div id="profile-notifications" class="list"></div>
+								<ram-page id="profile-notifications-pager" class="row-compact baseline float-center" class-buttons="lineout"></ram-page>
+							</ram-tab>
+							<ram-tab key="sessions">
+								<div id="profile-sessions" class="list"></div>
+								<hr/>
+								<details>
+									<summary class="hint">Delete account</summary>
+									<div class="list">
+										<div class="hint">Deletes your account, published characters, comments and synced chats. Local data on your devices stays.</div>
+										<button id="profile-delete-account" class="lineout fit">delete my account</button>
+									</div>
+								</details>
+							</ram-tab>
+						</ram-tabs>
+					</div>
+				</div>
+			</ram-tab>
+			<ram-tab key="admin">
+				<div class="topbar row shadow">
+					<div>Admin</div>
+					<button id="admin-refresh" class="lineout fit">refresh</button>
+				</div>
+				<div class="main col pad float-center low-pad">
+					<div id="admin-denied" class="placeholder" hidden>Admins only</div>
+					<div id="admin-content" class="col" hidden>
+						<details open>
+							<summary class="settings-label">Disk & stats</summary>
+							<div id="admin-disk" class="admin-grid"></div>
+						</details>
+						<details>
+							<summary class="settings-label">Invites</summary>
+							<div class="list">
+								<div class="row-compact">
+									<input type="number" id="admin-invite-count" class="lineout" value="1" min="1" max="50"/>
+									<input type="text" id="admin-invite-note" class="lineout wide" placeholder="note (who it's for)"/>
+									<button id="admin-invite-create" class="lineout">issue</button>
+								</div>
+								<div id="admin-invites" class="list"></div>
+							</div>
+						</details>
+						<details open>
+							<summary class="settings-label">Users</summary>
+							<div class="list">
+								<div class="row-compact">
+									<input type="search" id="admin-users-q" class="lineout wide" placeholder="username"/>
+									<button id="admin-users-search" class="lineout">search</button>
+								</div>
+								<div id="admin-users" class="list"></div>
+								<ram-page id="admin-users-pager" class="row-compact baseline float-center" class-buttons="lineout"></ram-page>
+							</div>
+						</details>
+						<details>
+							<summary class="settings-label">Recent comments</summary>
+							<div class="list">
+								<div id="admin-comments" class="list"></div>
+								<ram-page id="admin-comments-pager" class="row-compact baseline float-center" class-buttons="lineout"></ram-page>
+							</div>
+						</details>
+					</div>
+				</div>
+			</ram-tab>
+			<ram-tab key="terms">
+				<div class="topbar row shadow">
+					<div>Terms of use</div>
+				</div>
+				<div class="main col pad float-center low-pad">
+					<div id="terms-content" class="md md-intro"></div>
+				</div>
+			</ram-tab>
+			<ram-tab key="notfound">
+				<div class="main col pad float-center">
+					<div class="placeholder">Nothing here. <a href="/">Go home</a></div>
+				</div>
+			</ram-tab>
+		</ram-tabs>
+		<ram-modal id="library-start">
+			<div id="library-start-placeholder" class="placeholder">You need a persona to start a roleplay session. Make one in <a href="/settings">settings</a>.</div>
+			<div id="library-start-no-placeholder" class="virtual">
+				<div class="list">
+					<div>Pick a persona to start the chat</div>
+					<select id="library-start-persona" class="lineout"></select>
+				</div>
+				<div class="list">
+					<button id="library-start-button" class="lineout">Start</button>
+					<ram-file-picker id="library-start-import" accept=".jsonl">
+						<div class="lineout pointer center-text">Import a chat in SillyTavern format and use selected persona</div>
+					</ram-file-picker>
+				</div>
+			</div>
+			<div id="library-start-description" class="lineout md"></div>
+		</ram-modal>
+		<ram-modal id="settings-providers-modal" strong>
+			<div class="row-compact">
+				<div id="settings-providers-editing-indicator" class="placeholder" hidden></div>
+				<button id="settings-providers-modal-close" class="lineout fit float-end">close</button>
+				<button id="settings-providers-submit" class="lineout fit">save</button>
+			</div>
+			<div id="settings-providers-toasts" class="virtual"></div>
+			<div class="hint">
+				Any OpenAI-compatible LLM provider is supported, including OpenRouter and AI Horde
+			</div>
+			<ram-labeled
+				legend="Display name *"
+				id="settings-providers-name"
+				class="strip wide"
+				placeholder="Goober"
+			></ram-labeled>
+			<ram-labeled
+				legend="API URL *"
+				id="settings-providers-url"
+				class="strip wide"
+				placeholder="https://openrouter.ai/api/v1/chat/completions"
+			></ram-labeled>
+			<ram-labeled
+				legend="API key"
+				id="settings-providers-key"
+				class="strip wide"
+				placeholder="sk-or-v1-haha-nope"
+			></ram-labeled>
+			<ram-labeled
+				legend="Model *"
+				id="settings-providers-model"
+				class="strip wide"
+				placeholder="xiaomi/mimo-v2-flash:free"
+				list="settings-providers-models-datalist"
+			></ram-labeled>
+			<datalist id="settings-providers-models-datalist"></datalist>
+			<div class="baseline row-compact">
+				<div>Reasoning effort (if available): </div>
+				<select id="settings-providers-reasoning" class="lineout">
+					<option value="unset" selected>unset</option>
+					<option value="max">max</option>
+					<option value="xhigh">xhigh</option>
+					<option value="high">high</option>
+					<option value="medium">medium</option>
+					<option value="low">low</option>
+					<option value="minimal">minimal</option>
+					<option value="none">none</option>
+				</select>
+			</div>
+			<button id="settings-providers-fetch-models" class="lineout">fetch available models</button>
+			<hr/>
+			<div class="hint">
+				Temperature controls randomness. Lower = focused, higher = creative
+			</div>
+			<ram-labeled
+				legend="Temperature (0.0-2.0)"
+				id="settings-providers-temp"
+				class="strip wide"
+				placeholder="0.9"
+				value="0.9"
+			></ram-labeled>
+			<ram-labeled
+				legend="Response length limit (in tokens, 0 = unlimited)"
+				id="settings-providers-max"
+				class="strip wide"
+				placeholder="720"
+				value="720"
+			></ram-labeled>
+			<div class="hint">
+				A JSON object containing additional API request parameters. Refer to docs: <a href="https://platform.openai.com/docs/api-reference/chat/create" target="_blank">[OpenAI]</a>, <a href="https://openrouter.ai/docs/api/api-reference/chat/create-a-chat-completion" target="_blank">[OpenRouter]</a>
+			</div>
+			<div class="hint">
+				Note: streaming is enabled and required
+			</div>
+			<ram-labeled
+				legend="Additional parameters"
+				id="settings-providers-additional"
+				class="strip wide"
+				placeholder='{&#10;&#x09;"top_p": 0.7,&#10;&#x09;"top_k": 40,&#10;&#x09;"repetition_penalty": 1&#10;}'
+				value=""
+				multiline
+			></ram-labeled>
+			<ram-labeled
+				legend="System prompt addendum"
+				id="settings-providers-suffix"
+				class="strip wide"
+				placeholder="# Style and formatting instructions&#10;Please keep the roleplay as realistic as possible and avoid stilted and pretentious language. Don't make mistakes."
+				value=""
+				multiline
+			></ram-labeled>
+		</ram-modal>
+		<ram-modal id="library-armory">
+			<ram-tabs id="library-armory-tabs" tab="list">
+				<ram-tab key="list">
+					<div class="row-compact">
+						<div class="wide">
+							<ram-labeled
+								legend="Armory URL"
+								id="library-armory-add-input"
+								class="strip wide"
+								placeholder="https://fenrir.milesseventh.workers.dev/armory-meta"
+							></ram-labeled>
+						</div>
+						<button id="library-armory-add-button" class="lineout">+</button>
+					</div>
+					<hr/>
+					<div id="library-armory-list" class="list">
+
+					</div>
+				</ram-tab>
+				<ram-tab key="view">
+					<div class="row baseline">
+						<button id="library-armory-view-back" class="lineout">back</button>
+						<div id="library-armory-view-title"></div>
+					</div>
+					<div class="placeholder" id="library-armory-view-status">Loading...</div>
+					<div id="library-armory-view-items" class="list"></div>
+				</ram-tab>
+			</ram-tabs>
+		</ram-modal>
+		<ram-modal id="scenario-preview">
+			<button id="scenario-preview-close" class="lineout float-end">close</button>
+			<div id="scenario-preview-container" class="lineout md"></div>
+		</ram-modal>
+		<ram-modal id="play-card">
+			<div class="split-col">
+				<button id="play-card-edit" class="lineout">edit</button>
+				<button id="play-card-close" class="lineout">close</button>
+			</div>
+			<div id="play-card-preview" class="lineout md"></div>
+		</ram-modal>
+		<ram-modal id="play-editor" strong>
+			<div class="row-compact">
+				<button id="play-editor-reset" class="lineout fit">reset</button>
+				<button id="play-editor-close" class="lineout fit">close</button>
+				<button id="play-editor-save"  class="lineout fit float-end">save</button>
+			</div>
+			<ram-labeled
+				legend="Character definition"
+				id="play-editor-definition"
+				class="strip wide"
+				placeholder=""
+				multiline
+				rows="1"
+			></ram-labeled>
+		</ram-modal>
+		<ram-modal id="play-lore">
+			<div class="chat-provider-control row-compact">
+				<div>🕮 Lorebooks</div>
+				<button id="play-lore-close" class="lineout">close</button>
+			</div>
+			<details>
+				<summary class="settings-label">
+					Settings
+				</summary>
+				<div class="list">
+					<div class="hint">Keys are looked for in the last N story messages and the latest ⧖ rEmber summary. OOC notes are not scanned.</div>
+					<ram-labeled
+						legend="Scan depth (messages)"
+						id="play-lore-scan-depth"
+						class="strip wide"
+						placeholder="2"
+					></ram-labeled>
+					<div class="hint">Fired entries are added to the prompt until this many tokens are used; entries with a higher order go first.</div>
+					<ram-labeled
+						legend="Token budget"
+						id="play-lore-budget"
+						class="strip wide"
+						placeholder="2048"
+					></ram-labeled>
+					<div class="row">
+						<button id="play-lore-save" class="lineout fit float-end">save settings</button>
+					</div>
+				</div>
+			</details>
+			<div class="row">
+				<ram-file-picker id="play-lore-import" accept=".json">
+					<div class="lineout fit pointer">import</div>
+				</ram-file-picker>
+				<button id="play-lore-copy" class="lineout fit">copy from card</button>
+			</div>
+			<div id="play-lore-list" class="list"></div>
+			<div id="play-lore-status" class="hint"></div>
+		</ram-modal>
+		<ram-modal id="play-rember" strong>
+			<div class="chat-provider-control row-compact">
+				<div>Provider:</div>
+				<select id="play-rember-provider-picker" class="lineout"></select>
+				<button id="play-rember-modal-close" class="lineout">close</button>
+			</div>
+
+			<details>
+				<summary class="settings-label">
+					Prompts & Settings
+				</summary>
+				<div class="list">
+					<div class="list">
+						<div class="hint">Stride is a number of message pairs (model + user) that will be summarized for each step</div>
+						<ram-labeled
+							legend="Stride"
+							id="play-rember-stride"
+							class="strip wide"
+							placeholder="10"
+						></ram-labeled>
+					</div>
+					<ram-labeled
+						legend="Prompt"
+						id="play-rember-prompt"
+						class="strip wide"
+						rows="7"
+						multiline
+					></ram-labeled>
+					<div class="hint">use {{system}} macro to include character's definition into the prompt (good luck escaping the instructions)</div>
+
+					<div class="row">
+						<button id="play-rember-reset" class="lineout fit float-end">reset prompt</button>
+						<button id="play-rember-save"  class="lineout fit">save settings</button>
+					</div>
+				</div>
+			</details>
+			<div class="row">
+				<button id="play-rember-add-one" class="lineout fit">add one</button>
+			</div>
+			<div class="hint">Summaries live in the chat, right above the message they are attached to. Use the ⧖ button on that message to show or hide one, edit it in place, or remove it.</div>
+			<div id="play-rember-latest" class="lineout list pointer" hidden>
+				<span id="play-rember-latest-caption" class="hint"></span>
+				<div id="play-rember-latest-text" class="chat-rember-view"></div>
+			</div>
+		</ram-modal>
+		<ram-modal id="help-modal">
+			<div id="help-message" class="md md-intro"></div>
+			<button id="help-close" class="lineout">👍 got it</button>
+		</ram-modal>
+
+		<div id="toast-container" class="virtual"></div>
+	</body>
+
+	<template id="template-theme-selector">
+		<svg class="settings-theme-selector-button" viewBox="0 0 6 1" xmlns="http://www.w3.org/2000/svg">
+			<path
+				d="M0,0 l100,0 l0,1 l-100,0 Z"
+				fill="var(--color-base)"
+			/>
+			<path
+				d="M1,1 l1,-1 L100,0 L100,1 Z"
+				fill="var(--color-secondary)"
+			/>
+			<path
+				d="M2,1 l1,-1 L100,0 L100,1 Z"
+				fill="var(--color-accent)"
+			/>
+			<path
+				d="M3,1 l1,-1 L100,0 L100,1 Z"
+				fill="var(--color-text)"
+			/>
+			<path
+				d="M4,1 l1,-1 L100,0 L100,1 Z"
+				fill="var(--color-subtext)"
+			/>
+		</svg>
+	</template>
+</html>
