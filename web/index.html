@@ -23,15 +23,12 @@
 	<body>
 		<nav id="nav" class="nav shadow no-select">
 			<a href="/" class="nav-brand">Kawakaze</a>
-			<a href="/" data-nav="home"><span class="nav-icon">⌂&#xFE0E;</span><span>home</span></a>
-			<a href="/library" data-nav="library"><span class="nav-icon">▤&#xFE0E;</span><span>library</span></a>
-			<a href="/chats" data-nav="chats"><span class="nav-icon">☰&#xFE0E;</span><span>chats</span></a>
-			<a href="/settings" data-nav="settings"><span class="nav-icon">⚙&#xFE0E;</span><span>settings</span></a>
-			<a href="/profile" data-nav="profile">
-				<span class="nav-icon">☺&#xFE0E;</span><span>profile</span>
-				<span id="nav-unread" class="nav-badge" hidden></span>
-			</a>
-			<a href="/admin" data-nav="admin" id="nav-admin" hidden><span class="nav-icon">⚑&#xFE0E;</span><span>admin</span></a>
+			<a href="/" data-nav="home"><span>home</span></a>
+			<a href="/library" data-nav="library"><span>library</span></a>
+			<a href="/chats" data-nav="chats"><span>chats</span></a>
+			<a href="/settings" data-nav="settings"><span>settings</span></a>
+			<a href="/profile" data-nav="profile"><span>profile</span><span id="nav-unread" class="nav-badge" hidden></span></a>
+			<a href="/admin" data-nav="admin" id="nav-admin" hidden><span>admin</span></a>
 			<a href="/terms" class="nav-terms hint">terms of use</a>
 		</nav>
 
@@ -491,16 +488,16 @@
 							<h3>Comments</h3>
 							<div id="sp-comment-total" class="hint"></div>
 						</div>
-						<div id="sp-comment-form" class="list lineout">
-							<div class="row-compact align-center">
-								<img id="sp-comment-avatar" class="avatar" src="/assets/gfx/placeholder.png">
-								<div id="sp-comment-name"></div>
-							</div>
+						<div id="sp-comment-form" class="list">
 							<textarea id="sp-comment-body" class="lineout" placeholder="Leave a comment. Mention someone with @username to reply"></textarea>
 							<div id="sp-turnstile"></div>
 							<div class="row align-center">
+								<div class="row-compact align-center float-end">
+									<img id="sp-comment-avatar" class="avatar" src="/assets/gfx/placeholder.png">
+									<div id="sp-comment-name"></div>
+								</div>
 								<div id="sp-comment-counter" class="hint"></div>
-								<button id="sp-comment-submit" class="lineout fit float-end">post</button>
+								<button id="sp-comment-submit" class="lineout fit">post</button>
 							</div>
 						</div>
 						<div id="sp-comments" class="list"></div>
