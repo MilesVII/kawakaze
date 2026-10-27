@@ -240,6 +240,7 @@ input[type="number"] {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	object-position: top;
 }
 .kawa-covered > :not(.kawa-cover) {
 	filter: blur(24px);

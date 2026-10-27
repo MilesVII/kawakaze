@@ -97,7 +97,7 @@ export function scenarioUnit() {
 	}
 
 	onRoute(load);
-	account.listen(() => {
+	account.listenIdentity(() => {
 		if (getRoute()[0] === "editor") updatePublishControls();
 	});
 	load();

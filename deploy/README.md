@@ -20,8 +20,10 @@ Assumes Ubuntu 24.04, a domain pointing at the VPS, and the repo at `/opt/kawaka
 4. Service: `sudo cp deploy/kawakaze.service /etc/systemd/system/ && sudo systemctl enable --now kawakaze`.
    Logs: `journalctl -u kawakaze -f`.
 5. nginx: copy `deploy/nginx.conf` to `/etc/nginx/sites-available/kawakaze`, replace the domain, link it into
-   `sites-enabled`, run `sudo certbot --nginx -d your.domain`, then `sudo nginx -t && sudo systemctl reload nginx`.
-   nginx needs read access to `/opt/kawakaze/web` and `/opt/kawakaze/data/media`.
+   `sites-enabled`, check with `sudo nginx -t && sudo systemctl reload nginx`, then run
+   `sudo certbot --nginx -d your.domain`: it adds the HTTPS block, the certificate and the redirect to the config
+   on its own. The sample is plain HTTP on purpose, since nginx refuses to start with certificate paths that
+   don't exist yet. nginx needs read access to `/opt/kawakaze/web` and `/opt/kawakaze/data/media`.
 6. Admin: sign in once on the site, then
    `sudo -u kawakaze npm run cli -- admin <username>`. Invites: `npm run cli -- invite 5 friends` or the admin page.
 

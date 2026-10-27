@@ -20,15 +20,47 @@ export function scenarioLink(id: string) {
 export async function saveToLibrary(id: string): Promise<Result<KawaScenarioCard, string>> {
 	const r = await api<KawaScenarioCard>("GET", `/api/scenarios/${encodeURIComponent(id)}`);
 	if (!r.success) return r;
+	forgetLookup(id);
 	await idb.set("scenarios", r.value);
 	return r;
 }
 
+/*
+Published state of local cards is cached, so re-renders of the library and editor don't ask the server again
+and don't shift the layout once a card's status is known. `null` = not published.
+*/
+const LOOKUP_TTL = 5 * 60_000;
+const lookupCache = new Map<string, { value: ScenarioLookup | null, at: number }>();
+
+export function peekLookup(id: string): ScenarioLookup | null | undefined {
+	const entry = lookupCache.get(id);
+	if (!entry || Date.now() - entry.at > LOOKUP_TTL) return undefined;
+	return entry.value;
+}
+export function forgetLookup(id: string) {
+	lookupCache.delete(id);
+}
+
 export async function lookupScenarios(ids: string[]): Promise<Map<string, ScenarioLookup>> {
-	if (ids.length === 0) return new Map();
-	const r = await api<{ items: ScenarioLookup[] }>("POST", "/api/scenarios/lookup", { ids });
-	if (!r.success) return new Map();
-	return new Map(r.value.items.map(i => [i.id, i]));
+	const result = new Map<string, ScenarioLookup>();
+	const missing: string[] = [];
+	for (const id of ids) {
+		const known = peekLookup(id);
+		if (known === undefined) missing.push(id);
+		else if (known) result.set(id, known);
+	}
+	if (missing.length === 0) return result;
+
+	const r = await api<{ items: ScenarioLookup[] }>("POST", "/api/scenarios/lookup", { ids: missing });
+	if (!r.success) return result;
+	const at = Date.now();
+	const found = new Map(r.value.items.map(i => [i.id, i]));
+	for (const id of missing) {
+		const value = found.get(id) ?? null;
+		lookupCache.set(id, { value, at });
+		if (value) result.set(id, value);
+	}
+	return result;
 }
 
 /**
@@ -54,12 +86,15 @@ export async function publishScenario(card: ScenarioCard): Promise<Result<Publis
 	const r = await api<PublishResult>("POST", "/api/scenarios", form);
 	if (!r.success) return r;
 
+	forgetLookup(card.id);
+	forgetLookup(r.value.id);
 	if (r.value.id !== card.id) await idb.del("scenarios", card.id);
 	await idb.set("scenarios", r.value.card);
 	return r;
 }
 
 export async function delistScenario(id: string) {
+	forgetLookup(id);
 	return await api<{ ok: true }>("POST", `/api/scenarios/${encodeURIComponent(id)}/delist`);
 }
 

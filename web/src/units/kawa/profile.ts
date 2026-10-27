@@ -74,11 +74,12 @@ export function profileUnit() {
 		if (getRoute()[0] === "profile") loadTab(tabs.tab);
 	}).observe(tabs, { attributes: true, attributeFilter: ["tab"] });
 
-	let shownFor: string | null = null;
-	account.listen(me => {
-		render(me);
-		if (me && shownFor !== me.id && getRoute()[0] === "profile") loadTab(tabs.tab);
-		shownFor = me?.id ?? null;
+	account.listen(render);
+	// the form is only (re)filled when someone else signs in; refreshes and icon uploads keep what's typed
+	account.listenIdentity(me => {
+		if (!me) return;
+		fillForm(me);
+		if (getRoute()[0] === "profile") loadTab(tabs.tab);
 	});
 	onRoute(() => {
 		if (getRoute()[0] !== "profile") return;
@@ -129,12 +130,15 @@ function render(me: Me | null) {
 	if (me.icon) icon.value = me.icon;
 	else icon.usePlaceholder();
 	document.querySelector<HTMLButtonElement>("#profile-icon-remove")!.hidden = !me.icon;
-	document.querySelector<HTMLInputElement>("#profile-username")!.value = me.username;
-	document.querySelector<HTMLTextAreaElement>("#profile-bio")!.value = me.bio;
-	document.querySelector<HTMLTextAreaElement>("#profile-hidden-tags")!.value = me.hiddenTags.join(", ");
 	document.querySelector<HTMLElement>("#profile-unread")!.textContent = me.unread ? `(${me.unread})` : "";
 	document.querySelector<HTMLElement>("#profile-creator")!.hidden = !me.isCreator;
 	document.querySelector<HTMLElement>("#profile-invite")!.hidden = me.isCreator;
+}
+
+function fillForm(me: Me) {
+	document.querySelector<HTMLInputElement>("#profile-username")!.value = me.username;
+	document.querySelector<HTMLTextAreaElement>("#profile-bio")!.value = me.bio;
+	document.querySelector<HTMLTextAreaElement>("#profile-hidden-tags")!.value = me.hiddenTags.join(", ");
 }
 
 function loadTab(tab: string) {
@@ -156,6 +160,7 @@ async function saveProfile() {
 	if (!r.success) return toast(r.error);
 	forgetUserPage();
 	account.set(r.value);
+	fillForm(r.value);
 	toast("profile saved");
 }
 

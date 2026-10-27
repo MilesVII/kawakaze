@@ -5,7 +5,7 @@ import { account } from "@root/api";
 import { encodeRef } from "@root/media";
 import { mudcrack } from "rampike";
 import type { ScenarioLookup } from "@shared/api";
-import { lookupScenarios, saveToLibrary, scenarioLink } from "./kawa/catalog";
+import { lookupScenarios, peekLookup, saveToLibrary, scenarioLink } from "./kawa/catalog";
 import { placeholderView } from "@views/common";
 import { makeScenarioCardView } from "@views/scenario-card";
 import { RampikeModal } from "@rampike/modal";
@@ -90,7 +90,7 @@ export function libraryUnit() {
 	});
 
 	pager.addEventListener("pick", update);
-	account.listen(() => update());
+	account.listenIdentity(() => update());
 	listen(async u => {
 		if (u.storage !== "idb") return;
 		if (u.store !== "scenarios") return;
@@ -127,7 +127,16 @@ async function update() {
 	if (contents.length === 0)
 		list.append(placeholderView("No scenario cards found"));
 
-	const published = await lookupScenarios(pageItems.map(i => i.id));
+	// known statuses render right away; only cards the cache hasn't seen are looked up
+	const unknown: string[] = [];
+	pageItems.forEach((item, ix) => {
+		const known = peekLookup(item.id);
+		if (known === undefined) unknown.push(item.id);
+		else if (known) showPublishedStatus(contents[ix], item, known);
+	});
+	if (unknown.length === 0) return;
+
+	const published = await lookupScenarios(unknown);
 	if (run !== updateSequence) return;
 	pageItems.forEach((item, ix) => {
 		const remote = published.get(item.id);

@@ -74,6 +74,16 @@ export const account = {
 	listen(cb: MeListener) {
 		meListeners.push(cb);
 	},
+	/** like listen(), but skips refreshes where who the user is (and what they may do) stayed the same */
+	listenIdentity(cb: MeListener) {
+		let last: string | null = null;
+		meListeners.push(value => {
+			const key = value ? `${value.id}:${value.isCreator}:${value.isAdmin}` : "";
+			if (key === last) return;
+			last = key;
+			cb(value);
+		});
+	},
 	/** resolves once the first /api/me answered */
 	ready(): Promise<Me | null> {
 		if (meLoaded) return Promise.resolve(me);
