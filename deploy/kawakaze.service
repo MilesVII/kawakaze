@@ -7,8 +7,8 @@ After=network.target
 Type=simple
 User=kawakaze
 Group=kawakaze
-WorkingDirectory=/srv/kawakaze
-ExecStart=/usr/bin/node --env-file=/srv/kawakaze/.env --enable-source-maps dist/main.js
+WorkingDirectory=/opt/kawakaze
+ExecStart=/usr/bin/node --env-file=/opt/kawakaze/.env --enable-source-maps dist/main.js
 Restart=on-failure
 RestartSec=3
 Environment=NODE_ENV=production
@@ -18,7 +18,7 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths=/srv/kawakaze/data
+ReadWritePaths=/opt/kawakaze/data
 
 [Install]
 WantedBy=multi-user.target

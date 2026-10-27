@@ -1,6 +1,6 @@
 # Deploying Kawakaze on Ubuntu
 
-Assumes Ubuntu 24.04, a domain pointing at the VPS, and the repo at `/srv/kawakaze`.
+Assumes Ubuntu 24.04, a domain pointing at the VPS, and the repo at `/opt/kawakaze`.
 
 1. Node 24 and nginx:
    ```
@@ -9,8 +9,8 @@ Assumes Ubuntu 24.04, a domain pointing at the VPS, and the repo at `/srv/kawaka
    ```
 2. User and code:
    ```
-   sudo useradd --system --home /srv/kawakaze --shell /usr/sbin/nologin kawakaze
-   sudo git clone <repo> /srv/kawakaze && cd /srv/kawakaze
+   sudo useradd --system --home /opt/kawakaze --shell /usr/sbin/nologin kawakaze
+   sudo git clone <repo> /opt/kawakaze && cd /opt/kawakaze
    npm ci && npm run build
    sudo mkdir -p data && sudo chown -R kawakaze:kawakaze data
    ```
@@ -21,14 +21,14 @@ Assumes Ubuntu 24.04, a domain pointing at the VPS, and the repo at `/srv/kawaka
    Logs: `journalctl -u kawakaze -f`.
 5. nginx: copy `deploy/nginx.conf` to `/etc/nginx/sites-available/kawakaze`, replace the domain, link it into
    `sites-enabled`, run `sudo certbot --nginx -d your.domain`, then `sudo nginx -t && sudo systemctl reload nginx`.
-   nginx needs read access to `/srv/kawakaze/web` and `/srv/kawakaze/data/media`.
+   nginx needs read access to `/opt/kawakaze/web` and `/opt/kawakaze/data/media`.
 6. Admin: sign in once on the site, then
    `sudo -u kawakaze npm run cli -- admin <username>`. Invites: `npm run cli -- invite 5 friends` or the admin page.
 
 ## Updating
 
 ```
-cd /srv/kawakaze && git pull && npm ci && npm run build && sudo systemctl restart kawakaze
+cd /opt/kawakaze && git pull && npm ci && npm run build && sudo systemctl restart kawakaze
 ```
 Migrations run on startup.
 
@@ -36,6 +36,6 @@ Migrations run on startup.
 
 The database is in WAL mode; copy it with sqlite's online backup rather than `cp`:
 ```
-sqlite3 /srv/kawakaze/data/kawakaze.db ".backup '/var/backups/kawakaze/kawakaze-$(date +%F).db'"
+sqlite3 /opt/kawakaze/data/kawakaze.db ".backup '/var/backups/kawakaze/kawakaze-$(date +%F).db'"
 ```
 plus `data/media/` (content-addressed, safe to rsync incrementally). A nightly cron entry running both is enough.
