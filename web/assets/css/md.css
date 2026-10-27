@@ -21,6 +21,7 @@
 	max-height: 120vh;
 	border-radius: var(--dims-reg);
 	margin-block: 1em;
+	margin-inline: auto;
 }
 .md img:hover {
 	box-shadow: 0 0 var(--dims-reg) var(--color-accent);
