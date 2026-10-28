@@ -1,4 +1,5 @@
 import { idb, upload } from "@root/persist";
+import { initProofread } from "./scenario/proofread";
 import { getRoute, makeResizable, renderMD, textareaReconsider } from "@root/utils";
 import { navigate, onRoute } from "@root/router";
 import { account } from "@root/api";
@@ -55,6 +56,11 @@ export function scenarioUnit() {
 	makeResizable(cardSnippet);
 	makeResizable(definition);
 	const messagesControl = initFirstMessages();
+	initProofread(() => ({
+		name: characterName.value,
+		definition: definition.value,
+		openings: messagesControl.get()
+	}));
 	/** books attached to the card being edited */
 	let lorebooks: Lorebook[] = [];
 	/** the card as loaded, so fields this editor doesn't know about survive a save */
