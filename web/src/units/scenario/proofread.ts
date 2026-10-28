@@ -1,6 +1,6 @@
 import { listen, local } from "@root/persist";
 import { PromptMessage } from "@root/types";
-import { makeResizable, renderMD, setSelectOptions } from "@root/utils";
+import { makeResizable, renderMD, setSelectOptions, textareaReconsider } from "@root/utils";
 import { runJob } from "@units/chat/generation";
 import { loadMiscSettings, PROOFREAD_DEFAULT_PROMPT } from "@units/settings/misc";
 import { readActiveProviders, readProviders } from "@units/settings/providers";
@@ -29,12 +29,7 @@ export function initProofread(draft: () => ProofreadDraft) {
 
 	makeResizable(promptInput);
 	promptInput.addEventListener("input", () => promptEdited = true);
-	resetButton.addEventListener("click", () => {
-		promptInput.value = loadMiscSettings().proofreadPrompt;
-		promptEdited = false;
-		promptInput.dispatchEvent(new Event("input"));
-		promptEdited = false;
-	});
+	resetButton.addEventListener("click", fillPrompt);
 	runButton.addEventListener("click", run);
 	providerPicker.addEventListener("input", () => {
 		const actives = readActiveProviders();
@@ -52,7 +47,7 @@ export function initProofread(draft: () => ProofreadDraft) {
 
 	function fillPrompt() {
 		promptInput.value = loadMiscSettings().proofreadPrompt;
-		promptInput.dispatchEvent(new Event("input"));
+		textareaReconsider(promptInput);
 		promptEdited = false;
 	}
 	function updateProviderPicker() {

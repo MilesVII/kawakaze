@@ -28,7 +28,7 @@ const USER_NAME_MACRO = "{{user}}";
 const PERSONA_MACRO = "{{persona}}";
 const MACROS_MACRO = "{{macros}}";
 
-const MACROS =
+export const MACROS =
 `# Macros
 ## Names
 {{char}}

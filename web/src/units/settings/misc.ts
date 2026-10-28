@@ -1,5 +1,6 @@
 import { listen, local } from "@root/persist";
 import { makeResizable, nothrow } from "@root/utils";
+import { MACROS } from "@units/chat/macros";
 import { toast } from "@units/toasts";
 
 export function initMisc() {
@@ -62,7 +63,8 @@ export const PROOFREAD_DEFAULT_PROMPT = [
 	"you are a proofreader for roleplay scenario cards. the user sends a character definition and one or more opening messages.",
 	"list typos, grammar mistakes, awkward or repetitive phrasing, inconsistencies (names, tense, point of view) and other style problems.",
 	"for each one quote the fragment, say what is wrong and suggest a fix. group the findings by section, as a markdown list.",
-	"do not rewrite the text as a whole, do not comment on the content, setting or themes, and do not praise. if a section is fine, say so in one line."
+	"do not rewrite the text as a whole, do not comment on the content, setting or themes, and do not praise. if a section is fine, say so in one line.",
+	`\n\n${MACROS}`
 ].join(" ");
 const DEFAULT_SETTINGS: MiscSettings = {
 	tail: 100,
