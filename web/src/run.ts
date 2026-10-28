@@ -2,8 +2,8 @@ import { PromptMessage, Provider, Result } from "./types";
 import { nothrow, nothrowAsync } from "./utils";
 
 const OR_ATTRIBUTION_HEADERS = {
-	"HTTP-Referer": "https://aegir", // retarded OR attribution expects me to own the whole domain for some reason
-	"X-OpenRouter-Title": "Aegir (https://milesvii.github.io/agir/)", // unicode? never heard of her
+	"HTTP-Referer": "https://kawakaze.fokses.website/",
+	"X-OpenRouter-Title": "Kawakaze",
 	"X-OpenRouter-Categories": "roleplay"
 }
 
