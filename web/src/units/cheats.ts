@@ -3,7 +3,7 @@ import { toast } from "./toasts";
 
 let cheatLockCounter = 7;
 const cheatCodes: Record<string, any> = {
-	"ee7668710593603e1bf765b32d532ac6b3c5b6f9": gibbadge
+	"9fa83390e7d5a6816955114f6960f12a97965c23": gibbadge
 };
 
 export function cheatsUnit() {
