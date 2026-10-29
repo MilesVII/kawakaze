@@ -1,5 +1,6 @@
 import { idb, isRemoteRef } from "./persist";
 import { b64Encoder, nothrowAsync } from "./utils";
+import type { MediaEntry } from "./types";
 
 /*
 Turning picture refs into portable media entries for exports, backups and sync.
@@ -48,8 +49,10 @@ async function fetchBlob(url: string) {
 
 /** stores decoded entries locally; entries keyed by server URLs are skipped since those resolve remotely */
 export async function storeMedia(entries: EncodedMedia[]) {
+	const decoded: MediaEntry[] = [];
 	for (const m of entries) {
 		if (isRemoteRef(m.id)) continue;
-		await idb.set("media", { id: m.id, mime: m.mime, media: await b64Encoder.decode(m.media) });
+		decoded.push({ id: m.id, mime: m.mime, media: await b64Encoder.decode(m.media) });
 	}
+	return await idb.setMany("media", decoded);
 }
