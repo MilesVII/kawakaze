@@ -250,7 +250,6 @@
 						<ram-file-picker id="library-import" accept=".aegir.scenario.json,.json" multiple>
 							<div class="lineout fit pointer">import</div>
 						</ram-file-picker>
-						<button id="library-armory-button" class="lineout fit">armory</button>
 					</div>
 				</div>
 				<div class="col pad">
@@ -824,35 +823,6 @@
 				value=""
 				multiline
 			></ram-labeled>
-		</ram-modal>
-		<ram-modal id="library-armory">
-			<ram-tabs id="library-armory-tabs" tab="list">
-				<ram-tab key="list">
-					<div class="row-compact">
-						<div class="wide">
-							<ram-labeled
-								legend="Armory URL"
-								id="library-armory-add-input"
-								class="strip wide"
-								placeholder="https://fenrir.milesseventh.workers.dev/armory-meta"
-							></ram-labeled>
-						</div>
-						<button id="library-armory-add-button" class="lineout">+</button>
-					</div>
-					<hr/>
-					<div id="library-armory-list" class="list">
-
-					</div>
-				</ram-tab>
-				<ram-tab key="view">
-					<div class="row baseline">
-						<button id="library-armory-view-back" class="lineout">back</button>
-						<div id="library-armory-view-title"></div>
-					</div>
-					<div class="placeholder" id="library-armory-view-status">Loading...</div>
-					<div id="library-armory-view-items" class="list"></div>
-				</ram-tab>
-			</ram-tabs>
 		</ram-modal>
 		<ram-modal id="scenario-preview">
 			<button id="scenario-preview-close" class="lineout float-end">close</button>

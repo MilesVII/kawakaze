@@ -409,26 +409,6 @@ summary.settings-label {
 	scrollbar-width: thin;
 }
 
-#library-armory-add-button {
-	width: 56px;
-}
-.armory-item > img {
-	border-radius: var(--dims-smol);
-	object-fit: cover;
-	width: 40%;
-	aspect-ratio: 1/1;
-}
-.armory-item-summary {
-	white-space: pre-wrap;
-}
-/* .armory-item {
-	align-items: center;
-}
-.armory-item > img {
-	width: 2em;
-	border-radius: var(--dims-smol);
-} */
-
 .toast {
 	--gap: var(--dims-huge);
 	position: absolute;

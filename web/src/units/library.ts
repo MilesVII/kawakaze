@@ -13,9 +13,7 @@ import { start } from "./chat/start";
 import { ScenarioCard } from "@root/types";
 import { RampikeFilePicker } from "@rampike/filepicker";
 import { importSTMessages } from "./library/st";
-import { downloadScenarioCard } from "./library/dl";
 import { toast } from "./toasts";
-import { startArmory } from "./library/armory";
 import { DatacatCard, importDatacatJSON } from "./library/datacat";
 import { RampikePagination } from "@rampike/pagination";
 import { filterBySearch } from "./library/search";
@@ -33,7 +31,6 @@ export function libraryUnit() {
 	const startPersonaPicker = document.querySelector<HTMLSelectElement>("#library-start-persona")!;
 	const startImportButton  = document.querySelector<RampikeFilePicker>("#library-start-import")!;
 	const importButton       = document.querySelector<RampikeFilePicker>("#library-import")!;
-	const armoryButton       = document.querySelector<HTMLButtonElement>("#library-armory-button")!;
 	const pager              = document.querySelector<RampikePagination>("#library-pager")!;
 	const modal              = document.querySelector<RampikeModal>("#library-start")!;
 	const search = {
@@ -72,8 +69,6 @@ export function libraryUnit() {
 			importScenario(files.item(i)!);
 		}
 	});
-
-	armoryButton.addEventListener("click", startArmory);
 
 	search.open.addEventListener("click", () => {
 		search.dialog.hidden = false;
