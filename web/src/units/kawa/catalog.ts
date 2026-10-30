@@ -63,11 +63,14 @@ export async function lookupScenarios(ids: string[]): Promise<Map<string, Scenar
 	return result;
 }
 
+/** `saved`: the returned card is in the library; on failure the local copy stays as it was */
+export type PublishOutcome = PublishResult & { saved: Result<true, string> };
+
 /**
  * Uploads a local card. Local pictures go as files, server ones stay as refs.
  * On success the returned card replaces the local one (under a new id if it was a fork).
  */
-export async function publishScenario(card: ScenarioCard): Promise<Result<PublishResult, string>> {
+export async function publishScenario(card: ScenarioCard): Promise<Result<PublishOutcome, string>> {
 	const payload = structuredClone(card) as KawaScenarioCard;
 	const form = new FormData();
 	const slots = [
@@ -88,9 +91,12 @@ export async function publishScenario(card: ScenarioCard): Promise<Result<Publis
 
 	forgetLookup(card.id);
 	forgetLookup(r.value.id);
+	const stored = await idb.set("scenarios", r.value.card);
+	if (!stored.success)
+		return { success: true, value: { ...r.value, saved: { success: false, error: stored.error } } };
+	// a fork lives under its own id now; the edited copy of the original would be a stale duplicate
 	if (r.value.id !== card.id) await idb.del("scenarios", card.id);
-	await idb.set("scenarios", r.value.card);
-	return r;
+	return { success: true, value: { ...r.value, saved: { success: true, value: true } } };
 }
 
 export async function delistScenario(id: string) {

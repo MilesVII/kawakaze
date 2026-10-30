@@ -94,7 +94,8 @@ export function initProofread(draft: () => ProofreadDraft) {
 			output.innerHTML = renderMD(text || "*no answer*");
 			return;
 		}
-		text = result.value.trim() || "*the model returned nothing*";
+		const final = (result.value.trim()) || text;
+		text = final.replaceAll("$\\rightarrow$", " → ") || "*the model returned nothing*";
 		show();
 	}
 }

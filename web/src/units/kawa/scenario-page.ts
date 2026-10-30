@@ -97,7 +97,7 @@ async function load() {
 	const content = document.querySelector<HTMLElement>("#sp-content")!;
 	if (!id) return;
 	if (loaded?.meta.id === id) {
-		scrollToHash();
+		await refresh(loaded);
 		return;
 	}
 
@@ -131,6 +131,25 @@ async function load() {
 	renderCard(loaded.card);
 	renderCommentForm();
 	await loadComments();
+	scrollToHash();
+}
+
+/**
+ * Coming back to the page that is still rendered: votes and comments may have changed since,
+ * and a notification link may point at a comment that wasn't there yet. The card itself is kept.
+ */
+async function refresh(current: Loaded) {
+	const id = current.meta.id;
+	if (window.location.hash.startsWith("#comment-")) commentsPage = 0;
+	const [meta] = await Promise.all([
+		api<ScenarioMeta>("GET", `/api/scenarios/${encodeURIComponent(id)}/meta`),
+		loadComments()
+	]);
+	if (loaded !== current) return;
+	if (meta.success) {
+		current.meta = meta.value;
+		renderHeader(current);
+	}
 	scrollToHash();
 }
 

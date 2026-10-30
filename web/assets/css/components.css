@@ -109,7 +109,7 @@ fieldset:has(*:focus) > legend, fieldset:hover > legend {
 .topbar-actions {
 	display: flex;
 	flex-flow: row-reverse wrap;
-	align-items: start;
+	align-items: center;
 	gap: var(--dims-smol);
 }
 

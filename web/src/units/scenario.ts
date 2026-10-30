@@ -188,7 +188,7 @@ export function scenarioUnit() {
 		const payload = await collect();
 		if (!payload) return;
 		await idb.set("scenarios", payload);
-		navigate("/library");
+		toast("saved", { timeoutMS: 3200 })
 	});
 
 	publishButton.addEventListener("click", async () => {
@@ -207,7 +207,7 @@ export function scenarioUnit() {
 
 		const payload = await collect();
 		if (!payload) return;
-		await idb.set("scenarios", payload);
+		const savedDraft = await idb.set("scenarios", payload);
 
 		publishButton.disabled = true;
 		const close = toast("publishing...");
@@ -215,11 +215,19 @@ export function scenarioUnit() {
 		close();
 		publishButton.disabled = false;
 		if (!r.success) {
-			toast(`can't publish: ${r.error}`);
+			toast(savedDraft.success
+				? `saved locally, but can't publish: ${r.error}`
+				: `can't publish: ${r.error}; saving locally failed too: ${savedDraft.error}`);
 			return;
 		}
 		invalidateHome();
-		toast(r.value.forked ? "fork published!" : "published!", {
+		const headline = r.value.forked ? "fork published" : "published";
+		const library = !r.value.saved.success
+			? `, but saving it to your library failed: ${r.value.saved.error}`
+			: r.value.forked
+				? ", saved to your library under its new id"
+				: " and saved to your library";
+		toast(headline + library, {
 			actions: [
 				["ok", close => close()],
 				["open page", close => {
