@@ -36,7 +36,9 @@ export type KawaAuthor = { name: string, url: string };
 export type KawaScenarioCard = ScenarioCard & {
 	"kawa-snippet"?: KawaSnippet,
 	/** server-managed, original author first */
-	"kawa-authors"?: KawaAuthor[]
+	"kawa-authors"?: KawaAuthor[],
+	/** id of the card a local clone was made from; its first publish inherits that card's credit, then it's dropped */
+	"kawa-source"?: string
 };
 
 // ---- common ----

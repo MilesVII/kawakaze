@@ -49,6 +49,7 @@ export function scenarioUnit() {
 	const definition       = document.querySelector<HTMLTextAreaElement>("#scenario-definition")!;
 	const previewButton    = document.querySelector<HTMLButtonElement>  ("#scenario-preview-button")!;
 	const submitButton     = document.querySelector<HTMLButtonElement>  ("#scenario-submit-button")!;
+	const cloneButton      = document.querySelector<HTMLButtonElement>  ("#scenario-clone-button")!;
 	const firstMessage     = document.querySelector<HTMLTextAreaElement>("#scenario-messages")!;
 	const lorebookList     = document.querySelector<HTMLElement>        ("#scenario-lorebooks")!;
 	const lorebookImport   = document.querySelector<RampikeFilePicker>  ("#scenario-lorebook-import")!;
@@ -122,6 +123,7 @@ export function scenarioUnit() {
 			? "Published, but delisted. Updating it lists it again."
 			: `Published, last update ${new Date(remote.updatedAt).toLocaleString()}`);
 		if (remote && !mine) lines.push("This card is someone else's. Publishing it creates your fork, crediting the original authors.");
+		if (!remote && original?.["kawa-source"]) lines.push("This is a copy of another card. Publishing it credits that card's authors.");
 		if (!me) lines.push("Sign in and become a creator to publish characters.");
 		else if (!me.isCreator) lines.push("Redeem an invite on your profile to publish characters.");
 		publishStatus.textContent = lines.join(" ");
@@ -135,6 +137,7 @@ export function scenarioUnit() {
 		cardIcon.usePlaceholder();
 		chatIcon.usePlaceholder();
 		document.body.scrollTo({ behavior: "instant", top: 0 });
+		cloneButton.hidden = !path[1]; // a card that was never saved has nothing to clone
 
 		if (path[1]) {
 			const scenario = await idb.get("scenarios", path[1]);
@@ -170,6 +173,7 @@ export function scenarioUnit() {
 			lorebooks = [];
 		}
 		renderLorebooks();
+		updatePublishControls(); // again, now that the copy hint can see the loaded card
 		updateSnippetCounter();
 		textareaReconsider(cardSnippet);
 		textareaReconsider(cardDescription);
@@ -185,10 +189,25 @@ export function scenarioUnit() {
 	}
 
 	submitButton.addEventListener("click", async () => {
-		const payload = await collect();
+		const payload = await collect(getRoute()[1] ?? crypto.randomUUID());
 		if (!payload) return;
 		await idb.set("scenarios", payload);
 		toast("saved", { timeoutMS: 3200 })
+	});
+	/** saves what the form holds as a new card and switches the editor to it */
+	cloneButton.addEventListener("click", async () => {
+		const sourceId = getRoute()[1];
+		if (!sourceId) return;
+		const payload = await collect(crypto.randomUUID());
+		if (!payload) return;
+		payload.card.title += " (copy)";
+		// a published card is its own source; an unpublished clone passes its source along
+		payload["kawa-source"] = original?.["kawa-source"] ?? sourceId;
+
+		const stored = await idb.set("scenarios", payload);
+		if (!stored.success) return toast(`can't clone: ${stored.error}`);
+		toast("scenario cloned, you are now editing the copy");
+		navigate(`/editor/${encodeURIComponent(payload.id)}`);
 	});
 
 	publishButton.addEventListener("click", async () => {
@@ -205,7 +224,7 @@ export function scenarioUnit() {
 		}
 		if (remote && remote.ownerId !== account.get()?.id && !confirm("Publish your own fork of this card?")) return;
 
-		const payload = await collect();
+		const payload = await collect(getRoute()[1] ?? crypto.randomUUID());
 		if (!payload) return;
 		const savedDraft = await idb.set("scenarios", payload);
 
@@ -251,8 +270,8 @@ export function scenarioUnit() {
 		updatePublishControls();
 	});
 
-	/** validates the form, stores new pictures locally and builds the card */
-	async function collect(): Promise<KawaScenarioCard | null> {
+	/** validates the form, stores new pictures locally and builds the card with the given id */
+	async function collect(id: string): Promise<KawaScenarioCard | null> {
 		const firstMessages = messagesControl.get();
 
 		type Check = [cb: () => any, msg: string, target?: HTMLElement];
@@ -275,7 +294,6 @@ export function scenarioUnit() {
 
 		const tags = parseTags(cardTags.value);
 
-		const id = getRoute()[1] ?? crypto.randomUUID();
 		const snippet = cardSnippet.value.trim();
 		const payload: KawaScenarioCard = {
 			...(original ?? {}),

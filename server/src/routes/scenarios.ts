@@ -129,6 +129,7 @@ function validateCard(raw: unknown): KawaScenarioCard {
 		"kawa-snippet": { summary }
 	};
 	delete copy["kawa-authors"];
+	if (!isString(copy["kawa-source"])) delete copy["kawa-source"];
 	return copy;
 }
 
@@ -159,12 +160,17 @@ scenarioRoutes.post("/", async c => {
 
 	const existing = await getRow(card.id);
 	const forked = Boolean(existing && existing.owner_id !== user.id);
+	// a clone made in the editor is new here but names its source: credit follows it as if it was forked or updated
+	const source = !existing && card["kawa-source"] ? await getRow(card["kawa-source"]) : undefined;
+	delete card["kawa-source"];
+	const lineage = existing ?? source;
+	const foreign = Boolean(lineage && lineage.owner_id !== user.id);
 	const now = Date.now();
 	const id = forked ? crypto.randomUUID() : card.id;
-	const authors = existing
-		? forked
-			? Array.from(new Set([...rowAuthors(existing), user.id]))
-			: rowAuthors(existing)
+	const authors = lineage
+		? foreign
+			? Array.from(new Set([...rowAuthors(lineage), user.id]))
+			: rowAuthors(lineage)
 		: [user.id];
 
 	card.id = id;
@@ -176,7 +182,7 @@ scenarioRoutes.post("/", async c => {
 	const row: ScenarioRow = {
 		id,
 		owner_id: user.id,
-		parent_id: forked ? existing!.id : (existing?.parent_id ?? null),
+		parent_id: foreign ? lineage!.id : (lineage?.parent_id ?? null),
 		authors: JSON.stringify(authors),
 		title: card.card.title,
 		snippet: card["kawa-snippet"]!.summary,
