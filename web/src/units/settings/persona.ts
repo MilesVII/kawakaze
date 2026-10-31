@@ -18,7 +18,7 @@ const PRONOUNS_SHE: Pronouns = {
 	possessivePro: "hers",
 	reflexive: "herself"
 };
-const PRONOUNS_THEY: Pronouns = {
+export const PRONOUNS_THEY: Pronouns = {
 	subjective: "they",
 	objective: "them",
 	possessiveAdj: "their",
