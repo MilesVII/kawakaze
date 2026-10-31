@@ -1,6 +1,6 @@
 import { idb, upload } from "@root/persist";
 import { initProofread } from "./scenario/proofread";
-import { getRoute, makeResizable, renderMD, textareaReconsider } from "@root/utils";
+import { getRoute, makeResizable, nothrowAsync, renderMD, textareaReconsider } from "@root/utils";
 import { navigate, onRoute } from "@root/router";
 import { account } from "@root/api";
 import { LIMITS, KawaScenarioCard, ScenarioLookup } from "@shared/api";
@@ -388,7 +388,12 @@ async function storePicture(picker: RampikeImagePicker): Promise<string | null> 
 	const value = picker.value;
 	if (typeof value === "string") return value || null;
 
-	const [optimized, changed] = await optimizeToWEBP(value);
-	if (changed) console.log(`optimized delta: ${optimized.size - value.size} (negative means win)`);
-	return await upload(optimized);
+	const optimized = await nothrowAsync(optimizeToWEBP(value));
+	if (!optimized.success) {
+		toast("can't process the picture, the card is saved without it");
+		return null;
+	}
+	const [picture, changed] = optimized.value;
+	if (changed) console.log(`optimized delta: ${picture.size - value.size} (negative means win)`);
+	return await upload(picture);
 }

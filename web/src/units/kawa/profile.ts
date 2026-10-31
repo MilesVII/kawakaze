@@ -7,7 +7,8 @@ import { account, api, config } from "@root/api";
 import { optimizeToWEBP } from "@root/optimizer";
 import { idb } from "@root/persist";
 import { getQuery, getRoute, navigate, onRoute } from "@root/router";
-import { placeholder, renderMD } from "@root/utils";
+import type { Result } from "@root/types";
+import { nothrowAsync, placeholder, renderMD } from "@root/utils";
 import { mudcrack } from "rampike";
 import { placeholderView } from "@views/common";
 import { makeCommentView } from "@views/comment";
@@ -24,8 +25,6 @@ export function profileUnit() {
 	const tabs        = document.querySelector<RampikeTabs>("#profile-tabs")!;
 	const signout     = document.querySelector<HTMLButtonElement>("#profile-signout")!;
 	const save        = document.querySelector<HTMLButtonElement>("#profile-save")!;
-	const iconPicker  = document.querySelector<RampikeImagePicker>("#profile-icon")!;
-	const iconRemove  = document.querySelector<HTMLButtonElement>("#profile-icon-remove")!;
 	const bioPreview  = document.querySelector<HTMLButtonElement>("#profile-bio-preview")!;
 	const redeem      = document.querySelector<HTMLButtonElement>("#profile-invite-submit")!;
 	const readAll     = document.querySelector<HTMLButtonElement>("#profile-notifications-read")!;
@@ -41,12 +40,6 @@ export function profileUnit() {
 		toast("signed out");
 	});
 	save.addEventListener("click", saveProfile);
-	iconPicker.input.addEventListener("input", uploadIcon);
-	iconRemove.addEventListener("click", async () => {
-		const r = await api<Me>("DELETE", "/api/me/icon");
-		if (!r.success) return toast(r.error);
-		account.set(r.value);
-	});
 	bioPreview.addEventListener("click", () => {
 		const container = document.querySelector<HTMLElement>("#profile-bio-preview-container")!;
 		const bio = document.querySelector<HTMLTextAreaElement>("#profile-bio")!;
@@ -75,10 +68,11 @@ export function profileUnit() {
 	}).observe(tabs, { attributes: true, attributeFilter: ["tab"] });
 
 	account.listen(render);
-	// the form is only (re)filled when someone else signs in; refreshes and icon uploads keep what's typed
+	// the form is only (re)filled when someone else signs in or on save; refreshes keep what's typed and picked
 	account.listenIdentity(me => {
 		if (!me) return;
 		fillForm(me);
+		fillIcon(me);
 		if (getRoute()[0] === "profile") loadTab(tabs.tab);
 	});
 	onRoute(() => {
@@ -126,10 +120,6 @@ function render(me: Me | null) {
 	if (!me) return;
 
 	publicLink.href = userLink(me.username);
-	const icon = document.querySelector<RampikeImagePicker>("#profile-icon")!;
-	if (me.icon) icon.value = me.icon;
-	else icon.usePlaceholder();
-	document.querySelector<HTMLButtonElement>("#profile-icon-remove")!.hidden = !me.icon;
 	document.querySelector<HTMLElement>("#profile-unread")!.textContent = me.unread ? `(${me.unread})` : "";
 	document.querySelector<HTMLElement>("#profile-creator")!.hidden = !me.isCreator;
 	document.querySelector<HTMLElement>("#profile-invite")!.hidden = me.isCreator;
@@ -139,6 +129,11 @@ function fillForm(me: Me) {
 	document.querySelector<HTMLInputElement>("#profile-username")!.value = me.username;
 	document.querySelector<HTMLTextAreaElement>("#profile-bio")!.value = me.bio;
 	document.querySelector<HTMLTextAreaElement>("#profile-hidden-tags")!.value = me.hiddenTags.join(", ");
+}
+function fillIcon(me: Me) {
+	const icon = document.querySelector<RampikeImagePicker>("#profile-icon")!;
+	if (me.icon) icon.value = me.icon;
+	else icon.usePlaceholder();
 }
 
 function loadTab(tab: string) {
@@ -159,27 +154,28 @@ async function saveProfile() {
 	const r = await api<Me>("PATCH", "/api/me", { username, bio, hiddenTags });
 	if (!r.success) return toast(r.error);
 	forgetUserPage();
-	account.set(r.value);
-	fillForm(r.value);
+	const icon = await saveIcon(r.value);
+	const me = icon.success ? icon.value : r.value;
+	account.set(me);
+	fillForm(me);
+	if (!icon.success) return toast(`profile saved, but the icon wasn't: ${icon.error}`);
+	// a failed upload keeps the picked picture in the picker for another try
+	fillIcon(me);
 	toast("profile saved");
 }
 
-async function uploadIcon() {
-	const picker = document.querySelector<RampikeImagePicker>("#profile-icon")!;
-	const file = picker.file;
-	if (!file) return;
-	const [optimized] = await optimizeToWEBP(file);
-	const form = new FormData();
-	form.append("icon", optimized, "icon.webp");
-	const r = await api<Me>("PUT", "/api/me/icon", form);
-	if (!r.success) {
-		toast(r.error);
-		render(account.get());
-		return;
+/** the picker holds a fresh blob to upload, the stored icon as is, or nothing when cleared */
+async function saveIcon(me: Me): Promise<Result<Me, string>> {
+	const picked = document.querySelector<RampikeImagePicker>("#profile-icon")!.value;
+	if (typeof picked === "string") {
+		if (picked || !me.icon) return { success: true, value: me };
+		return await api<Me>("DELETE", "/api/me/icon");
 	}
-	forgetUserPage();
-	account.set(r.value);
-	toast("icon updated");
+	const optimized = await nothrowAsync(optimizeToWEBP(picked));
+	if (!optimized.success) return { success: false, error: "can't process the picture" };
+	const form = new FormData();
+	form.append("icon", optimized.value[0], "icon.webp");
+	return await api<Me>("PUT", "/api/me/icon", form);
 }
 
 async function redeemInvite() {
