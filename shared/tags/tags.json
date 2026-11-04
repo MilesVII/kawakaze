@@ -115,14 +115,14 @@
 			"terms": "genderless neutrois nongendered null gender void no gender ungendered",
 			"common": false
 		},
-		"mlm": {
+		"yaoi": {
 			"label": "👨‍❤️‍👨 Gay (M4M)",
 			"category": "Sexual & Romantic Orientation",
 			"description": "Men attracted to men",
 			"terms": "homosexual queer achillean masculine boyfriend husband same-gender",
 			"common": true
 		},
-		"wlw": {
+		"yuri": {
 			"label": "👩‍❤️‍👩 Lesbian (W4W)",
 			"category": "Sexual & Romantic Orientation",
 			"description": "Women attracted to women",
@@ -1660,7 +1660,7 @@
 			"category": "World-Building Concepts",
 			"description": "World setting with alpha/beta/omega dynamics",
 			"terms": "abo dynamics pack hierarchy supernatural biology mating bonding werewolf",
-			"common": true
+			"common": false
 		},
 		"alpha": {
 			"label": "🅰️ Alpha",
@@ -1725,21 +1725,21 @@
 			"terms": "realistic everyday normal contemporary no powers no magic ordinary life grounded slice of life",
 			"common": false
 		},
-		"any pov": {
+		"anypov": {
 			"label": "👤 AnyPOV",
 			"category": "Point of View",
 			"description": "Content inclusive and accessible to all readers",
 			"terms": "universal neutral general diverse multiple viewpoint perspective",
 			"common": true
 		},
-		"male pov": {
+		"malepov": {
 			"label": "👨 MalePOV",
 			"category": "Point of View",
 			"description": "Content from masculine perspectives",
 			"terms": "man guy masculine boy gentleman male-centered his perspective",
 			"common": true
 		},
-		"fem pov": {
+		"fempov": {
 			"label": "👩 FemPOV",
 			"category": "Point of View",
 			"description": "Content from feminine perspectives",
@@ -1774,46 +1774,39 @@
 			"terms": "accessibility disability wheelchair mobility chronic illness mental health neurodivergent autism adhd blind deaf inclusive representation",
 			"common": false
 		},
-		"trans pov": {
+		"transpov": {
 			"label": "🏳️‍⚧️ TransPOV",
 			"category": "Point of View",
 			"description": "Content for trans perspectives and experiences",
 			"terms": "transgender trans ftm mtf transition dysphoria euphoria transmasc transfem nonbinary enby",
 			"common": false
 		},
-		"intersex pov": {
+		"intersexpov": {
 			"label": "⚧️ IntersexPOV",
 			"category": "Point of View",
 			"description": "Content for intersex perspectives and experiences",
 			"terms": "dsd differences sex development variations characteristics perspective experience",
 			"common": false
 		},
-		"demi pov": {
+		"demipov": {
 			"label": "🧬 DemiPOV",
 			"category": "Point of View",
 			"description": "Content for demi-human perspectives and experiences",
 			"terms": "hybrid kemonomimi beastkin therianthrope shapeshifter halfbreed mixed perspective experience",
 			"common": false
 		},
-		"monster pov": {
+		"monsterpov": {
 			"label": "👹 MonsterPOV",
 			"category": "Point of View",
 			"description": "Content from a monster's perspective",
 			"terms": "monster perspective creature viewpoint beast demon dragon vampire werewolf alien supernatural pov",
 			"common": false
 		},
-		"villain pov": {
+		"villainpov": {
 			"label": "🦹 VillainPOV",
 			"category": "Point of View",
 			"description": "Content from a villain's perspective",
 			"terms": "villain perspective antagonist viewpoint evil bad guy villainess pov",
-			"common": false
-		},
-		"good person pov": {
-			"label": "🦸‍♂️ GoodPersonPOV",
-			"category": "Point of View",
-			"description": "Content from a hero or good person perspective",
-			"terms": "hero protagonist righteous noble virtuous heroic savior champion perspective",
 			"common": false
 		},
 		"non human pov": {
@@ -2635,7 +2628,7 @@
 			"terms": "entrepreneur ceo founder owner proprietor company business enterprise startup boss",
 			"common": false
 		},
-		"ol": {
+		"office lady": {
 			"label": "👩‍💼 OL",
 			"category": "Professions",
 			"description": "Female white-collar office worker; common Japanese media archetype",
@@ -3451,14 +3444,14 @@
 			"label": "🧬 Demi-human",
 			"category": "Species/Being Types",
 			"description": "Characters blending human and animal traits",
-			"terms": "hybrid kemonomimi beastkin therianthrope shapeshifter halfbreed mixed",
+			"terms": "hybrid kemonomimi okamimimi beastkin therianthrope shapeshifter halfbreed mixed",
 			"common": true
 		},
 		"beastkin": {
 			"label": "🐾 Beastkin",
 			"category": "Species/Being Types",
 			"description": "Humanoids with animal features like ears, tails, or fur",
-			"terms": "kemonomimi animal hybrid demi-human therianthrope beast ears tail fur claws paws anthropomorphic catgirl dogboy foxgirl wolfboy neko inumimi usagimimi",
+			"terms": "kemonomimi okamimimi animal hybrid demi-human therianthrope beast ears tail fur claws paws anthropomorphic catgirl dogboy foxgirl wolfboy neko inumimi usagimimi",
 			"common": false
 		},
 		"furry": {
