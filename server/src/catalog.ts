@@ -12,7 +12,7 @@ import type {
 } from "@shared/api";
 import { PER_PAGE } from "@shared/api";
 import { config } from "./config";
-import { db } from "./db";
+import { db, foreignDataVersion } from "./db";
 import type { Database, ScenarioRow } from "./db/schema";
 import { mediaUrl, readPictureBase64 } from "./media";
 import { tagIndex } from "./tags";
@@ -50,11 +50,21 @@ export function invalidateHome() {
 	homeCache = null;
 	statsCache = null;
 }
+// writes from other processes (cli retag) skip invalidateHome; sqlite's data version tells about them
+let cachedVersion = foreignDataVersion();
+function dropIfChangedElsewhere() {
+	const version = foreignDataVersion();
+	if (version === cachedVersion) return;
+	cachedVersion = version;
+	invalidateHome();
+}
 export async function homePage() {
+	dropIfChangedElsewhere();
 	if (!homeCache) homeCache = await listScenarios({ sort: "updated", page: 0, query: "", fields: SEARCH_FIELDS, tag: null });
 	return homeCache;
 }
 export async function siteStats(): Promise<SiteStats> {
+	dropIfChangedElsewhere();
 	if (statsCache) return statsCache;
 	const count = (q: { executeTakeFirstOrThrow: () => Promise<{ n: number }> }) => q.executeTakeFirstOrThrow().then(r => r.n);
 	const n = sql<number>`count(*)`.as("n");
