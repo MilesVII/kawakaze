@@ -116,14 +116,14 @@
 			"common": false
 		},
 		"yaoi": {
-			"label": "👨‍❤️‍👨 Gay (M4M)",
+			"label": "👨‍❤️‍👨 Yaoi",
 			"category": "Sexual & Romantic Orientation",
 			"description": "Men attracted to men",
 			"terms": "homosexual queer achillean masculine boyfriend husband same-gender",
 			"common": true
 		},
 		"yuri": {
-			"label": "👩‍❤️‍👩 Lesbian (W4W)",
+			"label": "👩‍❤️‍👩 Yuri",
 			"category": "Sexual & Romantic Orientation",
 			"description": "Women attracted to women",
 			"terms": "sapphic queer feminine girlfriend wife same-gender",
@@ -4819,10 +4819,17 @@
 			"terms": "substance abuse dependency chemical intoxication withdrawal",
 			"common": true
 		},
+		"incest": {
+			"label": "⚠️ Incest",
+			"category": "Content Warnings",
+			"description": "Content warning: Incestuous relationships. Blood incest is not allowed on Saucepan. But we are not on Saucepan. wink wink.",
+			"terms": "family taboo forbidden relative relation",
+			"common": false
+		},
 		"stepcest": {
 			"label": "⚠️ Stepcest",
 			"category": "Content Warnings",
-			"description": "Content warning: Incestuous relationships. Blood incest is not allowed on Saucepan.",
+			"description": "Content warning: Incestuous relationships.",
 			"terms": "family taboo forbidden relative stepfamily relation",
 			"common": false
 		},
