@@ -15,6 +15,7 @@ import { config } from "./config";
 import { db } from "./db";
 import type { Database, ScenarioRow } from "./db/schema";
 import { mediaUrl, readPictureBase64 } from "./media";
+import { tagIndex } from "./tags";
 import { profileUrl, usersById } from "./users";
 import { makePage, parseJSON } from "./util";
 
@@ -149,8 +150,12 @@ export async function listScenarios(o: ListOptions): Promise<Page<ScenarioListIt
 	let base = db.selectFrom("scenarios").where("delisted_at", "is", null);
 	if (match)
 		base = base.where(sql<boolean>`scenarios.id in (select id from scenarios_fts where scenarios_fts match ${match})`);
-	if (o.tag)
-		base = base.where(sql<boolean>`exists (select 1 from json_each(scenarios.tags) where lower(json_each.value) = lower(${o.tag}))`);
+	if (o.tag) {
+		// the tag, its aliases and everything under it: filtering by "violence" finds cards tagged "gore"
+		const names = [...tagIndex.spellings(o.tag)];
+		if (names.length)
+			base = base.where(sql<boolean>`exists (select 1 from json_each(scenarios.tags) where lower(json_each.value) in (${sql.join(names)}))`);
+	}
 
 	const [{ total }, rows] = await Promise.all([
 		base.select(sql<number>`count(*)`.as("total")).executeTakeFirstOrThrow(),

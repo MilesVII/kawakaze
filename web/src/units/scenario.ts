@@ -17,6 +17,7 @@ import { estimateTokenCount } from "tokenx";
 import { RampikeModal } from "@rampike/modal";
 import { optimizeToWEBP } from "@root/optimizer";
 import { KNOWN_MACROS, MACRO_RE, PERSONA_MACRO } from "./chat/macros";
+import { attachTagSuggestions } from "./kawa/tag-suggestions";
 
 const definitionTemplate = [
 	"# Characters",
@@ -75,6 +76,7 @@ export function scenarioUnit() {
 		snippetCounter.classList.toggle("kawa-accent", n > LIMITS.snippet);
 	};
 	cardSnippet.addEventListener("input", updateSnippetCounter);
+	attachTagSuggestions(cardTags, "card");
 
 	lorebookImport.addEventListener("input", async () => {
 		const file = lorebookImport.input.files?.[0];

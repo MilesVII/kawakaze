@@ -3,10 +3,11 @@ import { account, api } from "@root/api";
 import { refToBlob } from "@root/media";
 import { idb, isRemoteRef, listen, local } from "@root/persist";
 import type { Result, ScenarioCard } from "@root/types";
+import { makeTagIndex, type TagIndex, type TagSources } from "@shared/tags";
 
 /*
 Glue between the local library and the server catalog:
-downloading cards, publishing and delisting them, and the hidden-content tag list.
+downloading cards, publishing and delisting them, the tag vocabulary and the hidden-content tag list.
 */
 
 export function userLink(username: string) {
@@ -104,6 +105,28 @@ export async function delistScenario(id: string) {
 	return await api<{ ok: true }>("POST", `/api/scenarios/${encodeURIComponent(id)}/delist`);
 }
 
+// ---- tag vocabulary ----
+
+let loading: Promise<TagIndex | null> | null = null;
+let loadedIndex: TagIndex | null = null;
+const indexListeners: (() => void)[] = [];
+/** the vocabulary (web/assets/tags.json, see shared/tags.ts), fetched once; null while it can't be loaded */
+export function loadTagIndex() {
+	loading ??= fetch("/assets/tags.json")
+		.then(r => r.ok ? r.json() as Promise<TagSources> : Promise.reject(new Error(`status ${r.status}`)))
+		.then(sources => {
+			loadedIndex = makeTagIndex(sources);
+			indexListeners.forEach(cb => cb());
+			return loadedIndex;
+		})
+		.catch(e => {
+			console.warn("tags: can't load the vocabulary", e);
+			loading = null; // the next caller tries again
+			return null;
+		});
+	return loading;
+}
+
 // ---- hidden content ----
 
 export function localHiddenTags(): string[] {
@@ -120,11 +143,30 @@ export function setLocalHiddenTags(tags: string[]) {
 export function hiddenTags(): string[] {
 	return account.get()?.hiddenTags ?? localHiddenTags();
 }
+let hiddenSpellings: { key: string, expanded: boolean, names: Set<string> } | null = null;
+/**
+ * The card tags a hidden tag covers: its own spellings and those of every tag under it, so hiding "violence" covers "gore".
+ * Until the vocabulary loads, tags match as typed; onHiddenTagsChange listeners hear when it arrives.
+ */
 export function hiddenMatches(tags: string[]) {
-	const hidden = new Set(hiddenTags().map(t => t.toLowerCase()));
-	return tags.filter(t => hidden.has(t.toLowerCase()));
+	const hidden = hiddenTags();
+	if (hidden.length === 0) return [];
+	if (!loadedIndex) loadTagIndex();
+	const key = hidden.join(",");
+	if (hiddenSpellings?.key !== key || hiddenSpellings.expanded !== Boolean(loadedIndex)) {
+		const ix = loadedIndex;
+		hiddenSpellings = {
+			key,
+			expanded: Boolean(ix),
+			names: new Set(hidden.flatMap(t => ix ? [...ix.spellings(t)] : normalizeTags([t])))
+		};
+	}
+	const names = hiddenSpellings.names;
+	return tags.filter(t => names.has(normalizeTags([t])[0] ?? ""));
 }
+/** fires when the hidden tags change, and once the vocabulary loads (hidden tags then cover more) */
 export function onHiddenTagsChange(cb: () => void) {
+	indexListeners.push(cb);
 	account.listen(cb);
 	listen(u => {
 		if (u.storage === "local" && u.key === "hiddenTags") cb();

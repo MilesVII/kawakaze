@@ -15,6 +15,7 @@ import { makeCommentView } from "@views/comment";
 import { toast } from "@units/toasts";
 import { parseTags, relativeTime, saveToLibrary, scenarioLink, userLink } from "./catalog";
 import { forgetUserPage } from "./user-page";
+import { attachTagSuggestions } from "./tag-suggestions";
 
 /* /profile: sign-in for guests, five tabs for signed-in users */
 
@@ -33,6 +34,7 @@ export function profileUnit() {
 	const notificationsPager = document.querySelector<RampikePagination>("#profile-notifications-pager")!;
 
 	renderProviders();
+	attachTagSuggestions(document.querySelector<HTMLTextAreaElement>("#profile-hidden-tags")!, "hidden");
 
 	signout.addEventListener("click", async () => {
 		await api("POST", "/api/auth/signout");

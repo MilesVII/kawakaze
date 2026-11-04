@@ -28,6 +28,7 @@
 	flex-flow: row nowrap;
 }
 .row-wrap {
+	display: flex;
 	flex-flow: row wrap;
 	gap: var(--dims-smol);
 }

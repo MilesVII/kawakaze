@@ -3,6 +3,7 @@ import { getRoute, onRoute } from "@root/router";
 import { renderMD } from "@root/utils";
 import { toast } from "@units/toasts";
 import { localHiddenTags, parseTags, setLocalHiddenTags } from "./catalog";
+import { attachTagSuggestions } from "./tag-suggestions";
 
 /* Small Kawakaze pages and settings: terms of use, hidden tags for guests */
 
@@ -23,6 +24,7 @@ export function hiddenTagsSettingUnit() {
 	const input = document.querySelector<HTMLTextAreaElement>("#settings-hidden-tags")!;
 	const save  = document.querySelector<HTMLButtonElement>("#settings-hidden-save")!;
 	const note  = document.querySelector<HTMLElement>("#settings-hidden-signed")!;
+	attachTagSuggestions(input, "hidden");
 
 	const render = () => {
 		const me = account.get();

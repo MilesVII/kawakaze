@@ -1,0 +1,4942 @@
+{
+	"categories": [
+		"Character Identity",
+		"Sexual & Romantic Orientation",
+		"Relationship Structure & Dynamics",
+		"Story Genres & Styles",
+		"Locations and Eras",
+		"World-Building Concepts",
+		"Point of View",
+		"Character Archetypes & Personalities",
+		"Professions",
+		"Species/Being Types",
+		"Media Sources",
+		"Plot Devices & Structure",
+		"Kinks & Intimate Content",
+		"Content Warnings",
+		"Other"
+	],
+	"tags": {
+		"male": {
+			"label": "♂ Male",
+			"category": "Character Identity",
+			"description": "Characters with a focus on a male identity and experience.",
+			"terms": "guy dude gentleman father son brother husband masc",
+			"common": true
+		},
+		"female": {
+			"label": "♀ Female",
+			"category": "Character Identity",
+			"description": "Characters with a focus on a female identity and experience.",
+			"terms": "woman girl lady mother daughter sister wife fem",
+			"common": true
+		},
+		"non-binary": {
+			"label": "🌈 Non-binary",
+			"category": "Character Identity",
+			"description": "Companions who identify outside the traditional binary",
+			"terms": "enby genderqueer genderfluid agender androgynous neutral queer nb",
+			"common": false
+		},
+		"trans": {
+			"label": "🏳️‍⚧️ Trans",
+			"category": "Character Identity",
+			"description": "Companions whose identity differs from their assigned gender",
+			"terms": "transgender transsexual transitioning ftm mtf nonconforming",
+			"common": false
+		},
+		"intersex": {
+			"label": "⚧️ Intersex",
+			"category": "Character Identity",
+			"description": "Companions with variations in sex characteristics",
+			"terms": "hermaphrodite dsd differences sex development variations characteristics",
+			"common": false
+		},
+		"masc": {
+			"label": "💪 Masc",
+			"category": "Character Identity",
+			"description": "Masculine presenting person, regardless of gender identity",
+			"terms": "masculine manly butch masculine-presenting",
+			"common": false
+		},
+		"fem": {
+			"label": "💄 Fem/Femme",
+			"category": "Character Identity",
+			"description": "Feminine presenting person, regardless of gender identity",
+			"terms": "feminine femme feminine-presenting",
+			"common": false
+		},
+		"andro": {
+			"label": "⚖️ Andro",
+			"category": "Character Identity",
+			"description": "Androgynous presenting person, regardless of gender identity",
+			"terms": "androgynous androgyny gender-neutral neutral-presenting",
+			"common": false
+		},
+		"genderfluid": {
+			"label": "🧬 Genderfluid",
+			"category": "Character Identity",
+			"description": "Characters whose gender identity changes",
+			"terms": "fluid shifting changing nonbinary genderqueer identity",
+			"common": false
+		},
+		"gender norms": {
+			"label": "👗 Gender Norms",
+			"category": "Character Identity",
+			"description": "Characters who explore, challenge, or engage with gender as a social construct",
+			"terms": "gender roles social construct expectations nonconforming subversion performance expression deconstruct",
+			"common": false
+		},
+		"multiple genders": {
+			"label": "🧑‍🤝‍🧑 Multiple Genders",
+			"category": "Character Identity",
+			"description": "Cast contains more than one gender, great for ensemble bots",
+			"terms": "mixed gender diverse cast ensemble varied representation inclusive multi-gender",
+			"common": false
+		},
+		"ftm": {
+			"label": "⚧️ FtM",
+			"category": "Character Identity",
+			"description": "Transmasculine characters who transitioned female to male",
+			"terms": "transmasc transman transmasculine afab testosterone top surgery binder he him",
+			"common": false
+		},
+		"mtf": {
+			"label": "⚧️ MtF",
+			"category": "Character Identity",
+			"description": "Transfeminine characters who transitioned male to female",
+			"terms": "transfem transwoman transfeminine amab estrogen hrt she her",
+			"common": false
+		},
+		"agender": {
+			"label": "🚫 Agender",
+			"category": "Character Identity",
+			"description": "Characters with no gender identity at all",
+			"terms": "genderless neutrois nongendered null gender void no gender ungendered",
+			"common": false
+		},
+		"mlm": {
+			"label": "👨‍❤️‍👨 Gay (M4M)",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Men attracted to men",
+			"terms": "homosexual queer achillean masculine boyfriend husband same-gender",
+			"common": true
+		},
+		"wlw": {
+			"label": "👩‍❤️‍👩 Lesbian (W4W)",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Women attracted to women",
+			"terms": "sapphic queer feminine girlfriend wife same-gender",
+			"common": true
+		},
+		"m4a": {
+			"label": "💑 M4A",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Men attracted to any gender",
+			"terms": "pansexual bisexual omnisexual queer masculine all-genders any-gender fluid open",
+			"common": true
+		},
+		"w4a": {
+			"label": "💑 W4A",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Women attracted to any gender",
+			"terms": "pansexual bisexual omnisexual queer feminine all-genders any-gender fluid open",
+			"common": true
+		},
+		"m4nb": {
+			"label": "💑 M4NB",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Men attracted to non-binary",
+			"terms": "nonbinary enby genderqueer agender masculine queer",
+			"common": false
+		},
+		"w4nb": {
+			"label": "💑 W4NB",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Women attracted to non-binary",
+			"terms": "nonbinary enby genderqueer agender feminine queer",
+			"common": false
+		},
+		"m4w": {
+			"label": "👨‍❤️‍👩 M4W",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Men attracted to women",
+			"terms": "straight heterosexual masculine feminine boyfriend girlfriend husband wife",
+			"common": true
+		},
+		"w4m": {
+			"label": "👩‍❤️‍👨 W4M",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Women attracted to men",
+			"terms": "straight heterosexual feminine masculine girlfriend boyfriend wife husband",
+			"common": true
+		},
+		"m4t": {
+			"label": "🏳️‍⚧️ M4T",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Men attracted to trans",
+			"terms": "transgender transmasc transfem ftm mtf queer masculine",
+			"common": false
+		},
+		"w4t": {
+			"label": "🏳️‍⚧️ W4T",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Women attracted to trans",
+			"terms": "transgender transmasc transfem ftm mtf queer feminine",
+			"common": false
+		},
+		"nb4m": {
+			"label": "🌈 NB4M",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Non-binary attracted to men",
+			"terms": "nonbinary enby queer masculine achillean",
+			"common": false
+		},
+		"nb4w": {
+			"label": "🌈 NB4W",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Non-binary attracted to women",
+			"terms": "nonbinary enby queer feminine sapphic",
+			"common": false
+		},
+		"nb4a": {
+			"label": "🌈 NB4A",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Non-binary attracted to any gender",
+			"terms": "enby genderqueer agender pansexual bisexual omnisexual all-genders any-gender fluid open",
+			"common": false
+		},
+		"nb4nb": {
+			"label": "🌈 NB4NB",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Non-binary attracted to non-binary",
+			"terms": "nonbinary enby genderqueer agender queer same gender identity",
+			"common": false
+		},
+		"t4m": {
+			"label": "🏳️‍⚧️ T4M",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Trans attracted to men",
+			"terms": "transgender transmasc transfem ftm mtf queer masculine",
+			"common": false
+		},
+		"t4w": {
+			"label": "🏳️‍⚧️ T4W",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Trans attracted to women",
+			"terms": "transgender transmasc transfem ftm mtf queer feminine",
+			"common": false
+		},
+		"t4t": {
+			"label": "🏳️‍⚧️ T4T",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Trans attracted to trans",
+			"terms": "transgender transmasc transfem ftm mtf queer nonbinary enby",
+			"common": false
+		},
+		"t4a": {
+			"label": "🏳️‍⚧️ T4A",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Trans attracted to any gender",
+			"terms": "transgender transmasc transfem ftm mtf queer all-genders any-gender fluid open",
+			"common": false
+		},
+		"t4nb": {
+			"label": "🏳️‍⚧️ T4NB",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Trans attracted to non-binary",
+			"terms": "transgender transmasc transfem ftm mtf queer nonbinary enby",
+			"common": false
+		},
+		"bi": {
+			"label": "💞⚤ Bi",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Characters attracted to more than one gender",
+			"terms": "pansexual omnisexual multisexual fluid queer both",
+			"common": true
+		},
+		"pansexual": {
+			"label": "💛 Pansexual",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Characters attracted to people regardless of gender",
+			"terms": "omnisexual multisexual fluid queer both",
+			"common": true
+		},
+		"asexual": {
+			"label": "🩶 Asexual",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Characters who experience little to no sexual attraction",
+			"terms": "nonsexual no sex physical contact romantic feelings ace",
+			"common": false
+		},
+		"demisexual": {
+			"label": "💜 Demisexual",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Characters who only experience sexual attraction after forming an emotional bond",
+			"terms": "demi no sex physical contact romantic feelings",
+			"common": false
+		},
+		"aromantic": {
+			"label": "💚 Aromantic",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Characters who experience little to no romantic attraction",
+			"terms": "nonromantic no romantic feelings attraction",
+			"common": false
+		},
+		"queer": {
+			"label": "🏳️‍🌈 Queer",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Sexuality or identity that is harder to label; umbrella term for diverse orientations",
+			"terms": "lgbtq umbrella diverse identity spectrum nonconforming nonbinary",
+			"common": false
+		},
+		"closeted": {
+			"label": "🚪 Closeted",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Characters secretly hiding their true sexuality or gender identity from those around them",
+			"terms": "hiding secret identity denial suppressed shame coming out",
+			"common": false
+		},
+		"usersexual": {
+			"label": "💗 Mono/Usersexual",
+			"category": "Sexual & Romantic Orientation",
+			"description": "Develops exclusive, hyper-focused attraction solely to {{user}}",
+			"terms": "exclusive hyperfocused user-only devoted one-person obsessed monogamous",
+			"common": false
+		},
+		"dominant": {
+			"label": "⛓️ Dominant",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Dominant companions in power dynamics",
+			"terms": "domme master top control authority leader strict commanding",
+			"common": true
+		},
+		"submissive": {
+			"label": "🙇 Submissive",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Submissive companions in power dynamics",
+			"terms": "bottom slave pet obedient follower servant yielding",
+			"common": true
+		},
+		"switch": {
+			"label": "🌗 Switch",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Companions that can swap between dominant and submissive roles",
+			"terms": "versatile flexible fluid reversible adaptable vers",
+			"common": true
+		},
+		"polyamory": {
+			"label": "👭 Polyamory",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Stories with polyamorous or multiple-companion dynamics",
+			"terms": "poly throuple triad group harem open nonmonogamous",
+			"common": true
+		},
+		"vanilla": {
+			"label": "🍦 Vanilla",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Stories with traditional romantic dynamics",
+			"terms": "gentle sweet wholesome standard basic conventional normal",
+			"common": true
+		},
+		"bdsm": {
+			"label": "🕯️ BDSM",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Bondage, discipline, and sadomasochism; physical acts of consensual kink",
+			"terms": "kinky fetish restraints punishment spanking roleplay toys",
+			"common": false
+		},
+		"ntr": {
+			"label": "💔 NTR",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Umbrella for partner-theft dynamics: your partner taken, taking someone else's partner, or consensual sharing",
+			"terms": "cuckolding jealousy watching stolen humiliation sharing",
+			"common": false
+		},
+		"infidelity": {
+			"label": "💔 Infidelity",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Content involving unfaithfulness within a committed relationship",
+			"terms": "unfaithful betrayal cheating affair two-timing side piece",
+			"common": false
+		},
+		"unestablished relationship": {
+			"label": "❓❤️ Unestablished Relationship",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Stories where relationships are developing or undefined",
+			"terms": "uncertain casual dating flirting beginning unofficial unsure",
+			"common": true
+		},
+		"contractual relationship": {
+			"label": "💼 Contractual Relationship",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Relationships bound by formal agreement, contracts, or arranged terms",
+			"terms": "agreement contract arranged forced marriage arrangement deal terms legal binding partnership",
+			"common": false
+		},
+		"qpr": {
+			"label": "💜 QPR",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Queer Platonic Relationship; intimate and committed but not romantic",
+			"terms": "queerplatonic aromantic asexual committed intimate partnership life partner zucchini",
+			"common": false
+		},
+		"sugar parent": {
+			"label": "💰💋 Sugar Parent",
+			"category": "Relationship Structure & Dynamics",
+			"description": "One partner provides financial support in exchange for companionship",
+			"terms": "daddy mommy baby benefactor wealthy patron sponsor financial arrangement",
+			"common": false
+		},
+		"platonic": {
+			"label": "🤲 Platonic",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Non-romantic relationships focused on friendship",
+			"terms": "friends buddies pals companions mates nonsexual pure",
+			"common": false
+		},
+		"step-family": {
+			"label": "👨‍👩‍👧‍👦 Step-family",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Relationships within blended or step-families",
+			"terms": "blended family stepfamily step relatives remarriage",
+			"common": false
+		},
+		"step-sibling": {
+			"label": "👨‍👩‍👧‍👦 Step-sibling",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Relationships involving step-siblings",
+			"terms": "stepbrother stepsister stepfamily blended unrelated taboo",
+			"common": false
+		},
+		"step-child": {
+			"label": "🧒 Step-child",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Relationships involving a step-child",
+			"terms": "stepson stepdaughter stepkid blended remarriage guardian taboo",
+			"common": false
+		},
+		"neighbor": {
+			"label": "🏠 Neighbor",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Relationships between people living next to each other",
+			"terms": "nextdoor proximity close nearby adjacent local community",
+			"common": false
+		},
+		"roommate": {
+			"label": "🏡 Roommate",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Relationships between people sharing living quarters",
+			"terms": "housemate flatmate shared housing shared living space apartment",
+			"common": false
+		},
+		"spouse": {
+			"label": "💍 Spouse",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Relationships between married partners",
+			"terms": "husband wife wedded matrimony marriage partnership couple",
+			"common": true
+		},
+		"step-parent": {
+			"label": "👨‍👩‍👧 Step-parent",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Relationships involving step-parents",
+			"terms": "stepmother stepfather stepfamily blended unrelated guardian",
+			"common": false
+		},
+		"lover": {
+			"label": "💖 Lover",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Romantic partners in established relationships",
+			"terms": "boyfriend girlfriend partner significant-other dating couple so",
+			"common": true
+		},
+		"childhood friend": {
+			"label": "🧸 Childhood Friend",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Relationships with friends from childhood",
+			"terms": "osananajimi longtime lifelong growing-up youth nostalgic",
+			"common": false
+		},
+		"butler": {
+			"label": "🧑‍🍳 Butler",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Relationships involving a servant or household staff member",
+			"terms": "servant maid staff domestic worker caretaker employee",
+			"common": false
+		},
+		"senpai": {
+			"label": "👨‍🎓 Senpai",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Relationships involving a senior or older companion",
+			"terms": "upperclassman mentor superior elder experienced senior",
+			"common": false
+		},
+		"kouhai": {
+			"label": "👨‍🎓 Kouhai",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Relationships involving a junior or younger companion",
+			"terms": "underclassman junior apprentice novice younger inexperienced",
+			"common": false
+		},
+		"power dynamics": {
+			"label": "💪 Power Dynamics",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Intentional, consensual exchange of control and authority between partners",
+			"terms": "dominance submission authority",
+			"common": true
+		},
+		"age gap": {
+			"label": "👴 Age Gap",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Content involving a significant age difference between companions",
+			"terms": "age difference older younger maturity senpai kouhai",
+			"common": true
+		},
+		"ex": {
+			"label": "💔 Ex",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Content involving former romantic partners",
+			"terms": "ex-girlfriend ex-boyfriend ex-husband ex-wife former partner breakup past relationship",
+			"common": false
+		},
+		"cheating": {
+			"label": "💔 Cheating",
+			"category": "Relationship Structure & Dynamics",
+			"description": "A partner is unfaithful, without a cuckoldry element",
+			"terms": "two-timing unfaithful secret lover side piece betrayal",
+			"common": false
+		},
+		"affair": {
+			"label": "🫣 Affair",
+			"category": "Relationship Structure & Dynamics",
+			"description": "An ongoing secret relationship outside a partnership",
+			"terms": "secret lover illicit hidden tryst clandestine rendezvous",
+			"common": false
+		},
+		"unrequited love": {
+			"label": "💔 Unrequited Love",
+			"category": "Relationship Structure & Dynamics",
+			"description": "One-sided romantic feelings that aren't reciprocated",
+			"terms": "one-sided love unreciprocated rejection pining longing heartbreak yearning admiration secret infatuation",
+			"common": false
+		},
+		"mutual pining": {
+			"label": "💕 Mutual Pining",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Both want each other, neither acts on it",
+			"terms": "mutual crush longing yearning both like each other slow burn tension",
+			"common": false
+		},
+		"forbidden love": {
+			"label": "🚫❤️ Forbidden Love",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Content involving love that is prohibited or taboo",
+			"terms": "taboo prohibited illicit relationship disapproved banned illegal dangerous hidden socially unacceptable frowned upon",
+			"common": true
+		},
+		"soulmate": {
+			"label": "💖 Soulmate",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Characters bound by fate, destiny, or a supernatural bond",
+			"terms": "fated destined twin flames bond predestined match true cosmic spiritual red string of fate star-crossed divine kindred spirits forever linked inseparable",
+			"common": false
+		},
+		"boss": {
+			"label": "👔 Boss",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Content involving a boss-employee relationship dynamic",
+			"terms": "employer supervisor manager workplace power dynamic authority superior subordinate office professional hierarchy executive employee",
+			"common": false
+		},
+		"harem": {
+			"label": "👑 Harem",
+			"category": "Relationship Structure & Dynamics",
+			"description": "One focal partner with multiple romantic interests",
+			"terms": "polygyny multi-partner entourage reverse arrangement shared partner",
+			"common": false
+		},
+		"concubine": {
+			"label": "👸 Concubine",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Historical or hierarchical companion in a secondary spouse or consort role",
+			"terms": "royal consort kept woman secondary spouse imperial household",
+			"common": false
+		},
+		"captive": {
+			"label": "⛓️ Captive",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Scenarios where someone is held against their will",
+			"terms": "prisoner held hostage trapped confined locked abducted",
+			"common": false
+		},
+		"duress bond": {
+			"label": "🧩 Duress Bond",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Characters develop loyalty or affection toward the source of their duress",
+			"terms": "coerced forced captivity Stockholm survival bond obligation trapped",
+			"common": false
+		},
+		"trauma-bonded": {
+			"label": "👤 Trauma-Bonded",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Unwavering loyalty or protectiveness toward the source of their harm",
+			"terms": "abusive attachment cycle trauma bond Stockholm syndrome toxic bond",
+			"common": false
+		},
+		"dark romance": {
+			"label": "🌑 Dark Romance",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Toxic, intense, or abusive love scenarios",
+			"terms": "toxic obsessive controlling abusive intense unhealthy possessive",
+			"common": false
+		},
+		"best friend": {
+			"label": "👫 Best Friend",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Close friend, long-time companion, or confidant",
+			"terms": "bff bestie close companion confidant ride-or-die longtime",
+			"common": false
+		},
+		"taken": {
+			"label": "💔 Taken",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Characters already in a committed relationship with someone else",
+			"terms": "unavailable committed off the market in a relationship partnered",
+			"common": false
+		},
+		"colleague": {
+			"label": "🧑‍💼 Colleague",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Person with mostly professional relationship",
+			"terms": "coworker workmate office fellow employee professional acquaintance",
+			"common": false
+		},
+		"crush": {
+			"label": "😍 Crush",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Passionate, romantic attraction to someone",
+			"terms": "infatuation admiration pining longing one-sided attraction secret feelings",
+			"common": false
+		},
+		"fwb": {
+			"label": "💋 FWB",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Friends with benefits; casual sexual relationships without romance",
+			"terms": "friends with benefits casual sex no strings attached no commitment",
+			"common": false
+		},
+		"hookup": {
+			"label": "💋 Hookup",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Intimacy without romance, one-time encounter",
+			"terms": "one night stand casual encounter no strings quick fling stranger",
+			"common": false
+		},
+		"rejection": {
+			"label": "❌ Rejection",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Refusal or dismissal of someone's feelings or proposals",
+			"terms": "refused turned down dismissed denied rebuffed heartbreak",
+			"common": false
+		},
+		"lovers to enemies": {
+			"label": "🪓 Lovers to Enemies",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Relationships shift from romance to hostility",
+			"terms": "betrayal breakup turned hostile former lover antagonism falling out",
+			"common": false
+		},
+		"savior": {
+			"label": "🦸‍♂️ Savior",
+			"category": "Relationship Structure & Dynamics",
+			"description": "One character rescues another from bullies, jail, or bad situations",
+			"terms": "rescue save protector guardian white knight hero rescue complex",
+			"common": false
+		},
+		"partner": {
+			"label": "🤝 Partner",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Fellow cop, firefighter, soldier; someone you trust to watch your back",
+			"terms": "partner in crime ally backup fellow comrade trusted sidekick",
+			"common": false
+		},
+		"teammate": {
+			"label": "🏅 Teammate",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Someone on the same team, whether sports, military, or any shared-goal group",
+			"terms": "squad member crew team sports esports military colleague ally",
+			"common": false
+		},
+		"party member": {
+			"label": "🎲 Party Member",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Fellow adventurers bonded through quests and shared danger",
+			"terms": "adventurer dungeon quest rpg fellowship companion ally dnd",
+			"common": false
+		},
+		"objectification": {
+			"label": "🛍️ Objectification",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Treated as less than human, something to be owned",
+			"terms": "dehumanized owned trophy property used treated as object possession",
+			"common": false
+		},
+		"stranger": {
+			"label": "❓ Stranger",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Encounters with someone completely unknown",
+			"terms": "unknown unknown person random chance meeting anonymous new encounter",
+			"common": false
+		},
+		"pbf": {
+			"label": "🤝 PBF",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Romantic or sexual tension with a parent's close friend",
+			"terms": "parent's best friend older forbidden taboo family friend generation gap",
+			"common": false
+		},
+		"parent-in-law": {
+			"label": "🧑‍🤝‍🧑 Parent-In-Law",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Complicated or romantic dynamics with a spouse's parent",
+			"terms": "in-law mother-in-law father-in-law taboo forbidden family marriage",
+			"common": false
+		},
+		"soft dom": {
+			"label": "🧸 Soft Dom",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Dominant but leads with care, patience, and a gentle touch",
+			"terms": "gentle dominant caring nurturing protective soft power dynamic",
+			"common": false
+		},
+		"selfcest": {
+			"label": "🫂 Selfcest",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Romantic/sexual relationship with a clone, AU version, or time-travelling self",
+			"terms": "clone alternate universe self time travel doppelganger duplicate",
+			"common": false
+		},
+		"netorare": {
+			"label": "😔 Netorare",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Your partner is seduced or taken by someone else",
+			"terms": "cuckold watching stolen partner cheating humiliation voyeur",
+			"common": false
+		},
+		"netori": {
+			"label": "😏 Netori",
+			"category": "Relationship Structure & Dynamics",
+			"description": "You are the one taking someone else's partner",
+			"terms": "seduce taken partner steal away affair pursuit rival lover",
+			"common": false
+		},
+		"netorase": {
+			"label": "🤝 Netorase",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Your partner is willingly shared or offered",
+			"terms": "consensual cuckolding shared partner encouraged watching agreed",
+			"common": false
+		},
+		"betrothed": {
+			"label": "💎 Betrothed",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Engaged or promised in marriage, whether by choice or obligation",
+			"terms": "engaged betrothal promised marriage arrangement fiancé fiancée",
+			"common": false
+		},
+		"situationship": {
+			"label": "🤷 Situationship",
+			"category": "Relationship Structure & Dynamics",
+			"description": "The undefined \"what are we\" dynamic; more than friends, less than partners",
+			"terms": "undefined casual no label complicated undefined romance gray area",
+			"common": false
+		},
+		"devotee": {
+			"label": "🗡️ Devotee",
+			"category": "Relationship Structure & Dynamics",
+			"description": "One character worships or is devoted to another, relational not kink",
+			"terms": "worship devotion fanatic follower zealot acolyte devoted faithful",
+			"common": false
+		},
+		"guardian": {
+			"label": "🛡️ Guardian",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Caretaker with authority over a ward",
+			"terms": "protector caretaker ward legal guardian watchful defender custodian",
+			"common": false
+		},
+		"protégé": {
+			"label": "🧑‍🎓 Protégé",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Mentorship blurring into romance; Western counterpart to Kouhai",
+			"terms": "apprentice student mentee pupil trainee disciple understudy",
+			"common": false
+		},
+		"rebound": {
+			"label": "🪃 Rebound",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Seeking a relationship to heal or provoke jealousy after a breakup",
+			"terms": "breakup recovery coping distraction new relationship heartbreak",
+			"common": false
+		},
+		"secret relationship": {
+			"label": "🔒 Secret Relationship",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Partners hiding their relationship from the people around them",
+			"terms": "hidden closeted concealed private undercover forbidden romance",
+			"common": false
+		},
+		"hostage": {
+			"label": "🔒 Hostage",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Person held against their will as leverage",
+			"terms": "held captive prisoner bargaining chip leverage confined",
+			"common": false
+		},
+		"arranged marriage": {
+			"label": "💍 Arranged Marriage",
+			"category": "Relationship Structure & Dynamics",
+			"description": "Marriages planned by families, politics, or duty",
+			"terms": "arranged wedding family obligation tradition contract political marriage",
+			"common": false
+		},
+		"smut": {
+			"label": "❤️‍🔥 Smut",
+			"category": "Story Genres & Styles",
+			"description": "Content with mature themes and consensual intimacy",
+			"terms": "erotic steamy spicy adult nsfw explicit sensual passionate romantic erotica",
+			"common": true
+		},
+		"fluff": {
+			"label": "❤️‍🩹 Fluff",
+			"category": "Story Genres & Styles",
+			"description": "Heartwarming content celebrating joy and comfort",
+			"terms": "wholesome sweet cute cozy gentle tender soft lighthearted warm",
+			"common": true
+		},
+		"angst": {
+			"label": "💔 Angst",
+			"category": "Story Genres & Styles",
+			"description": "Stories heavy with emotional pain, inner conflict, and suffering",
+			"terms": "sad painful suffering depression anxiety trauma hurt dramatic tragic melancholy",
+			"common": true
+		},
+		"comfort": {
+			"label": "🤗 Comfort",
+			"category": "Story Genres & Styles",
+			"description": "Content focused on providing emotional support and reassurance",
+			"terms": "comforting soothing reassuring supportive healing safe warm gentle",
+			"common": true
+		},
+		"hurt comfort": {
+			"label": "💔🤗 Hurt/Comfort",
+			"category": "Story Genres & Styles",
+			"description": "Emotional or physical hurt followed by comfort and care",
+			"terms": "hc whump recovery healing care support trauma",
+			"common": true
+		},
+		"hurt no comfort": {
+			"label": "💔 Hurt No Comfort",
+			"category": "Story Genres & Styles",
+			"description": "Emotional or physical hurt without resolution",
+			"terms": "hurt hnc whump angst no resolution suffering no comfort",
+			"common": false
+		},
+		"comedy": {
+			"label": "😂 Comedy",
+			"category": "Story Genres & Styles",
+			"description": "Content focused on humour and joy",
+			"terms": "funny hilarious jokes laughs silly goofy entertaining amusing witty",
+			"common": true
+		},
+		"crackfic": {
+			"label": "🤪 Crack/Crackfic",
+			"category": "Story Genres & Styles",
+			"description": "Absurd, intentionally silly scenarios that defy logic",
+			"terms": "absurd ridiculous silly random humor nonsensical chaotic parody wacky",
+			"common": false
+		},
+		"horror": {
+			"label": "🔦 Horror",
+			"category": "Story Genres & Styles",
+			"description": "Stories designed to frighten, unsettle, or create dread",
+			"terms": "scary spooky creepy terrifying dark supernatural eerie haunting sinister",
+			"common": true
+		},
+		"slasher": {
+			"label": "🔪 Slasher",
+			"category": "Story Genres & Styles",
+			"description": "A masked or relentless killer stalks and murders victims",
+			"terms": "killer stalker murder massacre serial psycho stalking survivor final girl",
+			"common": false
+		},
+		"drama": {
+			"label": "🎭 Drama",
+			"category": "Story Genres & Styles",
+			"description": "Character-driven stories powered by emotional conflict and consequence",
+			"terms": "emotional serious character driven interpersonal conflict tension mature",
+			"common": true
+		},
+		"fantasy": {
+			"label": "🏰 Fantasy",
+			"category": "Story Genres & Styles",
+			"description": "Content with magical and otherworldly elements",
+			"terms": "magic mythical dragons wizards supernatural enchanted mystical fairytale mythological",
+			"common": true
+		},
+		"grimdark": {
+			"label": "⚔️🩸 Grimdark",
+			"category": "Story Genres & Styles",
+			"description": "Ultra-dark, morally grey, and bleak fantasy",
+			"terms": "dark brutal bleak hopeless morally grey nihilistic cruel harsh cynical violent",
+			"common": false
+		},
+		"adventure": {
+			"label": "🗺️ Adventure",
+			"category": "Story Genres & Styles",
+			"description": "Content focused on exploration and discovery",
+			"terms": "quest journey expedition traveling wanderlust treasure hunting exciting",
+			"common": true
+		},
+		"action": {
+			"label": "💥 Action",
+			"category": "Story Genres & Styles",
+			"description": "Content with dynamic and exciting sequences",
+			"terms": "fighting combat battle intense thrilling fast-paced explosive energetic",
+			"common": true
+		},
+		"romance": {
+			"label": "💐 Romance",
+			"category": "Story Genres & Styles",
+			"description": "Content focused on romantic relationships and emotions",
+			"terms": "love couples relationship passion affection chemistry attraction",
+			"common": true
+		},
+		"slice of life": {
+			"label": "☕ Slice of Life",
+			"category": "Story Genres & Styles",
+			"description": "Ordinary day-to-day experiences",
+			"terms": "everyday mundane normal routine casual simple peaceful domestic realistic",
+			"common": true
+		},
+		"noir": {
+			"label": "🕵️‍♂️ Noir",
+			"category": "Story Genres & Styles",
+			"description": "Dark, cynical themes and stylised crime drama",
+			"terms": "detective mystery crime thriller moody gritty hardboiled investigator private",
+			"common": false
+		},
+		"urban fantasy": {
+			"label": "🌃 Urban Fantasy",
+			"category": "Story Genres & Styles",
+			"description": "Magical elements blended with modern city settings",
+			"terms": "supernatural paranormal metropolitan mystical creatures hidden world secret",
+			"common": true
+		},
+		"magical": {
+			"label": "🔮 Magical",
+			"category": "Story Genres & Styles",
+			"description": "Stories where magic, spells, and enchantment are central",
+			"terms": "wizards witches sorcery spells enchanted mystical arcane occult fantasy",
+			"common": true
+		},
+		"sci-fi": {
+			"label": "🛸 Sci-Fi",
+			"category": "Story Genres & Styles",
+			"description": "Stories set in futuristic or technologically advanced worlds",
+			"terms": "futuristic space aliens cyberpunk robots artificial intelligence dystopia advanced",
+			"common": true
+		},
+		"space opera": {
+			"label": "🌌 Space Opera",
+			"category": "Story Genres & Styles",
+			"description": "Sweeping interstellar epics of empires, fleets and factions",
+			"terms": "galactic empire starship fleet interstellar federation planetary saga epic",
+			"common": false
+		},
+		"lit rpg": {
+			"label": "🎮📖 LitRPG",
+			"category": "Story Genres & Styles",
+			"description": "Stories with game-like mechanics such as stats, levels, and skills",
+			"terms": "game system stats levels experience points progression mmorpg vrmmo isekai gamer",
+			"common": false
+		},
+		"mystery": {
+			"label": "🔍 Mystery",
+			"category": "Story Genres & Styles",
+			"description": "Content involving secrets, puzzles, or unsolved questions",
+			"terms": "detective investigation clues whodunit thriller suspense enigma riddle",
+			"common": true
+		},
+		"conspiracy": {
+			"label": "🕸️ Conspiracy",
+			"category": "Story Genres & Styles",
+			"description": "Stories featuring hidden plots and secret schemes",
+			"terms": "illuminati coverup paranoia espionage intrigue deception manipulation covert",
+			"common": false
+		},
+		"heist": {
+			"label": "💎 Heist",
+			"category": "Story Genres & Styles",
+			"description": "Narratives about elaborate theft or complex robberies",
+			"terms": "robbery stealing crime bank thieves stealth infiltration planning criminal",
+			"common": false
+		},
+		"slow burn": {
+			"label": "🔥 Slow Burn",
+			"category": "Story Genres & Styles",
+			"description": "Relationships develop gradually over extended periods",
+			"terms": "tension buildup anticipation patience yearning longing gradual romance",
+			"common": true
+		},
+		"love at first sight": {
+			"label": "💘 Love At First Sight",
+			"category": "Story Genres & Styles",
+			"description": "Instant, total infatuation from the very first meeting",
+			"terms": "instalove immediate attraction smitten struck coup de foudre destined instant",
+			"common": false
+		},
+		"second chance romance": {
+			"label": "🔁 Second Chance Romance",
+			"category": "Story Genres & Styles",
+			"description": "Former lovers reuniting and trying again years later",
+			"terms": "reunited exes rekindled reconciliation old flame estranged back together",
+			"common": false
+		},
+		"politics": {
+			"label": "📜 Politics",
+			"category": "Story Genres & Styles",
+			"description": "Stories centred on political intrigue, governance, and power",
+			"terms": "government leadership authority control policy diplomacy strategy",
+			"common": false
+		},
+		"religion": {
+			"label": "⛪ Religion",
+			"category": "Story Genres & Styles",
+			"description": "Content exploring faith and spirituality",
+			"terms": "worship deity divine sacred holy spiritual belief ritual",
+			"common": false
+		},
+		"philosophy": {
+			"label": "📙 Philosophy",
+			"category": "Story Genres & Styles",
+			"description": "Content examining life's big questions",
+			"terms": "wisdom knowledge truth meaning ethics morality metaphysics thinking",
+			"common": false
+		},
+		"coming of age": {
+			"label": "🦋 Coming of Age",
+			"category": "Story Genres & Styles",
+			"description": "Stories focusing on growth and transition from youth to adulthood",
+			"terms": "growing up maturity teenage adolescent development bildungsroman",
+			"common": false
+		},
+		"redemption": {
+			"label": "✨ Redemption",
+			"category": "Story Genres & Styles",
+			"description": "Stories about characters seeking forgiveness or atonement",
+			"terms": "forgiveness reform change growth healing recovery transformation",
+			"common": true
+		},
+		"revenge": {
+			"label": "⚔️ Revenge",
+			"category": "Story Genres & Styles",
+			"description": "Narratives centered on retribution for past wrongs",
+			"terms": "vengeance payback retaliation grudge hatred vendetta spite",
+			"common": false
+		},
+		"justice": {
+			"label": "⚖️ Justice",
+			"category": "Story Genres & Styles",
+			"description": "Content exploring fairness, morality, and consequences",
+			"terms": "law order righteousness ethics equality rights punishment reward",
+			"common": false
+		},
+		"betrayal": {
+			"label": "🗡️ Betrayal",
+			"category": "Story Genres & Styles",
+			"description": "Stories involving deception and broken trust",
+			"terms": "treachery backstab lies deceit unfaithful traitor dishonest",
+			"common": false
+		},
+		"tragedy": {
+			"label": "🎭 Tragedy",
+			"category": "Story Genres & Styles",
+			"description": "Stories ending in loss, downfall, or catastrophe",
+			"terms": "tragic downfall loss fate doomed sorrow fatal inevitable bittersweet heartbreaking",
+			"common": false
+		},
+		"sacrifice": {
+			"label": "🕯️ Sacrifice",
+			"category": "Story Genres & Styles",
+			"description": "Narratives featuring characters giving up something valuable",
+			"terms": "offering loss martyrdom surrender dedication commitment giving",
+			"common": false
+		},
+		"survival": {
+			"label": "🏕️ Survival",
+			"category": "Story Genres & Styles",
+			"description": "Content focusing on perseverance against difficult circumstances",
+			"terms": "endurance resilience wilderness hardship struggle determination",
+			"common": false
+		},
+		"identity": {
+			"label": "🪞 Identity",
+			"category": "Story Genres & Styles",
+			"description": "Stories exploring who characters are and their sense of self",
+			"terms": "personality discovery authenticity selfhood individuality essence",
+			"common": false
+		},
+		"gothic": {
+			"label": "🏚️ Gothic",
+			"category": "Story Genres & Styles",
+			"description": "Dark, atmospheric stories blending horror, romance, and decay",
+			"terms": "atmospheric brooding dark romantic decay mansion secrets dread melancholy victorian",
+			"common": false
+		},
+		"freedom": {
+			"label": "🕊️ Freedom",
+			"category": "Story Genres & Styles",
+			"description": "Content examining liberation and autonomy",
+			"terms": "liberation independence choice autonomy emancipation release",
+			"common": false
+		},
+		"otome": {
+			"label": "👧 Otome",
+			"category": "Story Genres & Styles",
+			"description": "Female-centric romantic relationships",
+			"terms": "love relationship dating novel",
+			"common": false
+		},
+		"supernatural": {
+			"label": "🔮 Supernatural",
+			"category": "Story Genres & Styles",
+			"description": "Paranormal phenomena; ghosts, cryptids, unexplained events",
+			"terms": "magic paranormal phenomenon cryptid ghost monster",
+			"common": true
+		},
+		"psychological": {
+			"label": "🧠 Psychological",
+			"category": "Story Genres & Styles",
+			"description": "Stories exploring the mind; manipulation, paranoia, psychological tension",
+			"terms": "mental illness health mind manipulation paranoia tension",
+			"common": false
+		},
+		"thriller": {
+			"label": "🔪 Thriller",
+			"category": "Story Genres & Styles",
+			"description": "Suspense, danger, and unexpected twists",
+			"terms": "suspense mystery danger unexpected twist tension",
+			"common": true
+		},
+		"urban fiction": {
+			"label": "🏙️ Urban Fiction",
+			"category": "Story Genres & Styles",
+			"description": "Gritty, street-level narratives set in modern city environments",
+			"terms": "street lit inner city hood life gritty metropolitan",
+			"common": true
+		},
+		"wuxia": {
+			"label": "🥋 Wuxia/Xianxia",
+			"category": "Story Genres & Styles",
+			"description": "Martial arts heroes and mystical cultivation in Chinese-inspired settings",
+			"terms": "jianghu martial arts swordsman sect chivalry pugilistic xianxia immortals cultivation daoist fantasy ancient china hero",
+			"common": false
+		},
+		"non canonical au": {
+			"label": "⛔ Non-Canonical/AU",
+			"category": "Story Genres & Styles",
+			"description": "Stories in an established universe changed from original",
+			"terms": "alternate universe what if diverge non-canon fan interpretation changed reimagined",
+			"common": false
+		},
+		"canon compliant": {
+			"label": "📜 Canon Compliant",
+			"category": "Story Genres & Styles",
+			"description": "Roleplays that stay true to media source",
+			"terms": "faithful accurate source material lore correct in-universe",
+			"common": false
+		},
+		"sfw": {
+			"label": "📓 SFW",
+			"category": "Story Genres & Styles",
+			"description": "Stories not designed to be sexually motivated",
+			"terms": "safe for work clean wholesome non-sexual appropriate no smut",
+			"common": false
+		},
+		"war": {
+			"label": "🪖 War",
+			"category": "Story Genres & Styles",
+			"description": "Narratives set during armed conflicts",
+			"terms": "conflict wartime battlefield front lines casualties combat fighting",
+			"common": false
+		},
+		"peace": {
+			"label": "☮️ Peace",
+			"category": "Story Genres & Styles",
+			"description": "Stories focusing on harmony and conflict resolution",
+			"terms": "harmony tranquility reconciliation agreement unity calm serenity",
+			"common": false
+		},
+		"risqué": {
+			"label": "❣️ Risqué",
+			"category": "Story Genres & Styles",
+			"description": "Not inherently intimate but can carry a sensual undertone",
+			"terms": "suggestive sensual subtle teasing flirtatious naughty innuendo",
+			"common": false
+		},
+		"urban": {
+			"label": "🏙️ Urban",
+			"category": "Locations and Eras",
+			"description": "Stories set in cities, towns, and everyday public venues",
+			"terms": "metropolitan downtown skyline cityscape urbanite cosmopolitan city",
+			"common": true
+		},
+		"institutional": {
+			"label": "🏛️ Institutional",
+			"category": "Locations and Eras",
+			"description": "Stories set in formal institutions, facilities, and organized establishments",
+			"terms": "facility institution organization establishment campus complex official",
+			"common": false
+		},
+		"domestic": {
+			"label": "🏡 Domestic",
+			"category": "Locations and Eras",
+			"description": "Stories set in homes and personal spaces",
+			"terms": "household family residence private intimate domesticity homestead",
+			"common": true
+		},
+		"outdoors": {
+			"label": "🌍 Outdoors",
+			"category": "Locations and Eras",
+			"description": "Stories set in natural environments",
+			"terms": "nature wilderness landscape terrain environment open air",
+			"common": false
+		},
+		"grand estates": {
+			"label": "💒 Grand Estates",
+			"category": "Locations and Eras",
+			"description": "Stories set in lavish residences, manors, and traditional lodging houses",
+			"terms": "manor estate palace villa lodge guesthouse grand residence luxury lodging",
+			"common": false
+		},
+		"events gatherings": {
+			"label": "🎡 Events & Gatherings",
+			"category": "Locations and Eras",
+			"description": "Stories centered on celebrations, spectacles, and social gatherings",
+			"terms": "celebration event gathering festivity spectacle occasion social outing",
+			"common": false
+		},
+		"digital": {
+			"label": "📱 Digital",
+			"category": "Locations and Eras",
+			"description": "Stories set primarily in online, virtual, or networked spaces",
+			"terms": "virtual internet networked cyberspace remote digital-only screen-based",
+			"common": false
+		},
+		"bar": {
+			"label": "🍸 Bar",
+			"category": "Locations and Eras",
+			"description": "Stories set in modern bars and drinking establishments",
+			"terms": "pub nightlife drinks alcohol cocktails beer wine bartender nightclub social gathering",
+			"common": true
+		},
+		"club": {
+			"label": "🕺 Club",
+			"category": "Locations and Eras",
+			"description": "Stories set in nightclubs and dance venues",
+			"terms": "nightclub disco dance music dj party nightlife entertainment venue dancing social",
+			"common": false
+		},
+		"eatery": {
+			"label": "🍽️ Eatery",
+			"category": "Locations and Eras",
+			"description": "Stories set in restaurant, fast food, or meal service areas",
+			"terms": "restaurant diner cafe bistro food court dining fast food",
+			"common": false
+		},
+		"gym": {
+			"label": "🏋️ Gym",
+			"category": "Locations and Eras",
+			"description": "Set in fitness centres and athletic training environments",
+			"terms": "fitness workout exercise training sports athletic locker room weights",
+			"common": false
+		},
+		"workplace": {
+			"label": "💼 Workplace",
+			"category": "Locations and Eras",
+			"description": "Stories set in professional work environments",
+			"terms": "office corporate business career professional coworkers job employment company",
+			"common": true
+		},
+		"small town": {
+			"label": "🏘️ Small Town",
+			"category": "Locations and Eras",
+			"description": "Stories set in tight-knit rural or suburban communities",
+			"terms": "rural countryside village community neighbors quaint cozy intimate local",
+			"common": false
+		},
+		"college": {
+			"label": "🎓 College",
+			"category": "Locations and Eras",
+			"description": "Stories set in higher education environments",
+			"terms": "university campus dorm student academic school fraternity sorority education classroom high school",
+			"common": true
+		},
+		"hospital": {
+			"label": "🏥 Hospital",
+			"category": "Locations and Eras",
+			"description": "Set in medical facilities",
+			"terms": "medical clinic emergency room ward patient doctor nurse surgery healthcare facility infirmary medical center",
+			"common": false
+		},
+		"library": {
+			"label": "📚 Library",
+			"category": "Locations and Eras",
+			"description": "Set in libraries and archives",
+			"terms": "books reading study quiet librarian archive research academic university public bookstore knowledge",
+			"common": false
+		},
+		"home": {
+			"label": "🏠 Home",
+			"category": "Locations and Eras",
+			"description": "Stories set in domestic home environments",
+			"terms": "house apartment residence dwelling domestic family living room bedroom kitchen household",
+			"common": true
+		},
+		"remote cabin": {
+			"label": "🛖 Remote Cabin",
+			"category": "Locations and Eras",
+			"description": "Set in isolated areas like cabins or lake houses",
+			"terms": "cabin woods lakehouse isolated retreat secluded countryside rustic",
+			"common": false
+		},
+		"farm setting": {
+			"label": "🧑‍🌾 Farm/Ranch",
+			"category": "Locations and Eras",
+			"description": "Working with the land, managing natural resources, raising animals, cultivating crops",
+			"terms": "farm ranch homestead crops livestock agriculture rural countryside",
+			"common": false
+		},
+		"mansion": {
+			"label": "🏛️ Mansion",
+			"category": "Locations and Eras",
+			"description": "Stories set in large, luxurious estates and grand homes",
+			"terms": "estate manor villa palace wealthy rich luxury aristocrat noble grand house mansion",
+			"common": false
+		},
+		"beach": {
+			"label": "🏖️ Beach",
+			"category": "Locations and Eras",
+			"description": "Set on sandy shores with sun, surf, and coastal vibes",
+			"terms": "ocean shore coastal surf sand summer waves boardwalk seaside",
+			"common": false
+		},
+		"desert": {
+			"label": "🏜️ Desert",
+			"category": "Locations and Eras",
+			"description": "Set in arid landscapes",
+			"terms": "arid sand dunes oasis wasteland dry heat sahara barren",
+			"common": false
+		},
+		"island": {
+			"label": "🏝️ Island",
+			"category": "Locations and Eras",
+			"description": "Stories set on islands, both tropical and remote",
+			"terms": "tropical paradise beach ocean sea isolated remote desert island archipelago atoll",
+			"common": false
+		},
+		"underwater": {
+			"label": "🌊 Underwater",
+			"category": "Locations and Eras",
+			"description": "Stories set beneath the ocean or in aquatic environments",
+			"terms": "marine aquatic sea ocean merfolk submarine deep atlantis diving",
+			"common": false
+		},
+		"wilderness": {
+			"label": "🏞️ Wilderness",
+			"category": "Locations and Eras",
+			"description": "Remote outdoors: forests, savannahs, plains, tundras",
+			"terms": "nature outdoors forest jungle tundra plains savannah remote wild",
+			"common": false
+		},
+		"zoo": {
+			"label": "🦁 Zoo",
+			"category": "Locations and Eras",
+			"description": "Stories set in zoos, safari parks, aquariums and animal sanctuaries",
+			"terms": "safari park aquarium menagerie wildlife sanctuary enclosure exhibit petting zoo animals",
+			"common": false
+		},
+		"historical": {
+			"label": "🕰️ Historical",
+			"category": "Locations and Eras",
+			"description": "Stories set in past time periods",
+			"terms": "medieval renaissance victorian classical vintage retro old civilization past era",
+			"common": true
+		},
+		"ancient": {
+			"label": "🏺 Ancient",
+			"category": "Locations and Eras",
+			"description": "Set in ancient civilisations and early history",
+			"terms": "antiquity classical greece rome egypt mesopotamia bronze age iron age pharaoh",
+			"common": false
+		},
+		"medieval": {
+			"label": "🏰 Medieval",
+			"category": "Locations and Eras",
+			"description": "Set in middle ages-inspired settings",
+			"terms": "knights castles kingdoms feudal ancient historical swords armor",
+			"common": true
+		},
+		"renaissance": {
+			"label": "🎭 Renaissance",
+			"category": "Locations and Eras",
+			"description": "Set during the cultural rebirth of 14th–17th century Europe",
+			"terms": "historical italy florence art classical baroque painters nobles merchant",
+			"common": false
+		},
+		"historical china": {
+			"label": "🐲 Historical China",
+			"category": "Locations and Eras",
+			"description": "Set in ancient or imperial China",
+			"terms": "ancient china imperial dynasty tang song ming qing emperor palace forbidden city ancient chinese",
+			"common": false
+		},
+		"victorian": {
+			"label": "👒 Victorian",
+			"category": "Locations and Eras",
+			"description": "Set in the Victorian era (1837–1901)",
+			"terms": "historical england industrial revolution london gothic regency aristocracy nobility",
+			"common": false
+		},
+		"regency": {
+			"label": "🏰 Regency",
+			"category": "Locations and Eras",
+			"description": "Set during the British Regency period (1795–1837)",
+			"terms": "regency jane austen balls debutante season ton society england 1800s",
+			"common": false
+		},
+		"wild west": {
+			"label": "🤠 Wild West",
+			"category": "Locations and Eras",
+			"description": "Set in the American frontier era",
+			"terms": "cowboy western frontier sheriff outlaw desert ranch gunslinger",
+			"common": false
+		},
+		"afterlife": {
+			"label": "🌌 Afterlife",
+			"category": "Locations and Eras",
+			"description": "Stories set in post-mortal planes of existence",
+			"terms": "supernatural spiritual souls departed realms beyond death otherworld",
+			"common": false
+		},
+		"heaven": {
+			"label": "😇 Heaven",
+			"category": "Locations and Eras",
+			"description": "Celestial paradise of divine beings and eternal peace",
+			"terms": "paradise divine celestial angels blessed holy bliss ascended",
+			"common": false
+		},
+		"hell": {
+			"label": "🔥 Hell",
+			"category": "Locations and Eras",
+			"description": "Infernal realm of demons, suffering, and dark temptation",
+			"terms": "inferno underworld demons brimstone eternal torment damnation hades",
+			"common": false
+		},
+		"limbo": {
+			"label": "⚖️ Limbo",
+			"category": "Locations and Eras",
+			"description": "Neutral borderland between planes, for the undecided or forgotten",
+			"terms": "transition uncertain waiting neither departed souls border boundary",
+			"common": false
+		},
+		"purgatory": {
+			"label": "🌫️ Purgatory",
+			"category": "Locations and Eras",
+			"description": "Transitional plane of atonement and judgment",
+			"terms": "purification atonement penance trial redemption cleansing judgment",
+			"common": false
+		},
+		"modern": {
+			"label": "📱 Modern",
+			"category": "Locations and Eras",
+			"description": "Content set in the present day",
+			"terms": "current today realistic everyday urban normal regular familiar present",
+			"common": true
+		},
+		"space": {
+			"label": "🚀 Space",
+			"category": "Locations and Eras",
+			"description": "Stories set in outer space or on other planets",
+			"terms": "astronaut cosmic alien planets starship galaxy interstellar exploration",
+			"common": false
+		},
+		"online": {
+			"label": "📱 Online",
+			"category": "Locations and Eras",
+			"description": "Stories set mainly over internet or digital settings",
+			"terms": "internet digital virtual chat text message social media discord",
+			"common": false
+		},
+		"hotel": {
+			"label": "🏨 Hotel",
+			"category": "Locations and Eras",
+			"description": "Set in hotels and modern accommodation",
+			"terms": "motel resort accommodation hospitality travel vacation business trip luxury suite lobby reception",
+			"common": false
+		},
+		"prison": {
+			"label": "🔒 Prison",
+			"category": "Locations and Eras",
+			"description": "Stories set in prison or correctional facilities",
+			"terms": "jail correctional facility inmate prisoner cell block solitary confinement",
+			"common": false
+		},
+		"military": {
+			"label": "🎖️ Military",
+			"category": "Locations and Eras",
+			"description": "Stories set in military or armed forces environments",
+			"terms": "armed forces service uniform barracks rank hierarchy officers enlisted soldiers",
+			"common": true
+		},
+		"temple church": {
+			"label": "🏛️ Temple/Church",
+			"category": "Locations and Eras",
+			"description": "Stories set within places of religious worship",
+			"terms": "shrine cathedral mosque synagogue sacred holy worship spiritual",
+			"common": false
+		},
+		"laboratory": {
+			"label": "🧪 Laboratory",
+			"category": "Locations and Eras",
+			"description": "Stories set within laboratory or research facilities",
+			"terms": "lab research facility science experiment testing clinical",
+			"common": false
+		},
+		"tavern inn": {
+			"label": "🍺 Tavern/Inn",
+			"category": "Locations and Eras",
+			"description": "Stories set in traditional inns, taverns, and guesthouses",
+			"terms": "pub inn guesthouse lodge accommodation medieval fantasy bar drink ale beer wine hostel roadhouse",
+			"common": false
+		},
+		"party festival": {
+			"label": "🎉 Party/Festival",
+			"category": "Locations and Eras",
+			"description": "Set at social gatherings or celebrations",
+			"terms": "celebration event gathering bash rave concert festival nightlife social",
+			"common": false
+		},
+		"circus": {
+			"label": "🎪 Circus",
+			"category": "Locations and Eras",
+			"description": "Stories set in circuses and traveling entertainment shows",
+			"terms": "carnival fair acrobat clown performer tent traveling show entertainment spectacle big top",
+			"common": false
+		},
+		"holidays": {
+			"label": "🎄 Holidays",
+			"category": "Locations and Eras",
+			"description": "Stories centered around holiday celebrations and seasonal festivities",
+			"terms": "christmas halloween thanksgiving easter valentine birthday new year celebration festive seasonal",
+			"common": false
+		},
+		"casino": {
+			"label": "🎰 Casino",
+			"category": "Locations and Eras",
+			"description": "Set in casino environments, gaming floors, and poker rooms",
+			"terms": "gambling bets poker slots roulette blackjack wagering gaming chips fortune luck",
+			"common": false
+		},
+		"cyberpunk": {
+			"label": "🌆 Cyberpunk",
+			"category": "Locations and Eras",
+			"description": "High-tech, low-life dystopian futures",
+			"terms": "neon future technology dystopia hacker corporation android cyber digital",
+			"common": false
+		},
+		"steampunk": {
+			"label": "⚙️ Steampunk",
+			"category": "Locations and Eras",
+			"description": "Victorian-inspired worlds with steam-powered technology",
+			"terms": "mechanical brass copper gears clockwork industrial alternative history retro",
+			"common": false
+		},
+		"solarpunk": {
+			"label": "☀️ Solarpunk",
+			"category": "Locations and Eras",
+			"description": "Sustainable futures powered by renewable energy",
+			"terms": "eco-friendly environmental utopia green technology sustainable ecological natural",
+			"common": false
+		},
+		"y2k": {
+			"label": "💽 Y2K",
+			"category": "Locations and Eras",
+			"description": "Early 2000s with millennium-era aesthetics",
+			"terms": "2000s noughties millennium turn of century early aughts dial-up internet flip phone",
+			"common": false
+		},
+		"vintage": {
+			"label": "🎞️ Vintage",
+			"category": "Locations and Eras",
+			"description": "Stories set in the 1900s era with classic, retro aesthetics",
+			"terms": "retro 1900s twentieth century art deco jazz age roaring twenties prohibition era golden age classic old fashioned",
+			"common": false
+		},
+		"dystopian": {
+			"label": "🏚️ Dystopian",
+			"category": "Locations and Eras",
+			"description": "Set in oppressive, troubled future societies",
+			"terms": "apocalyptic totalitarian dark future collapse control surveillance",
+			"common": false
+		},
+		"utopian": {
+			"label": "🌟 Utopian",
+			"category": "Locations and Eras",
+			"description": "Set in idealised, perfect future societies",
+			"terms": "paradise ideal perfect harmony advanced enlightened progressive",
+			"common": false
+		},
+		"post-apocalyptic": {
+			"label": "☢️ Post-Apocalyptic",
+			"category": "Locations and Eras",
+			"description": "Set after a global catastrophe or civilisation collapse",
+			"terms": "survival wasteland ruins disaster aftermath destruction fallout dystopia",
+			"common": false
+		},
+		"derelict": {
+			"label": "🏚️ Derelict",
+			"category": "Locations and Eras",
+			"description": "Abandoned, decaying structures long since left to rot",
+			"terms": "abandoned ruined condemned decayed deserted rotting husk wreck forsaken empty",
+			"common": false
+		},
+		"liminal spaces": {
+			"label": "🚪 Liminal Spaces",
+			"category": "Locations and Eras",
+			"description": "Empty transitional places that feel unsettlingly familiar",
+			"terms": "backrooms threshold in between nostalgic eerie corridor pool rooms dreamcore weirdcore uncanny",
+			"common": false
+		},
+		"soulmate au": {
+			"label": "💞 Soulmate AU",
+			"category": "World-Building Concepts",
+			"description": "World where soulmates are a fundamental mechanic of existence",
+			"terms": "fated destined twin flames bond predestined match true cosmic spiritual red string of fate",
+			"common": false
+		},
+		"soulmate marks": {
+			"label": "🖊️ Soulmate Marks",
+			"category": "World-Building Concepts",
+			"description": "Physical marks that appear to indicate a destined partner",
+			"terms": "tattoo symbol imprint branding first touch words name writing skin mark appearance",
+			"common": false
+		},
+		"countdown timer": {
+			"label": "⏱️ Countdown Timer",
+			"category": "World-Building Concepts",
+			"description": "A timer counting down to the moment you meet your soulmate",
+			"terms": "clock timer age numbers countdown meeting recognition birthday deadline ticking",
+			"common": false
+		},
+		"red string": {
+			"label": "🧵 Red String",
+			"category": "World-Building Concepts",
+			"description": "Fate visibly connects soulmates through an unbreakable thread",
+			"terms": "thread of fate invisible string connection tether binding destiny romantic link",
+			"common": false
+		},
+		"bdsm verse": {
+			"label": "⛓️‍💥 BDSMverse",
+			"category": "World-Building Concepts",
+			"description": "World setting where dom/sub/switch dynamics are fundamental to society",
+			"terms": "dominance submission power dynamics kink lifestyle universe world setting society",
+			"common": false
+		},
+		"omegaverse": {
+			"label": "🐺 Omegaverse",
+			"category": "World-Building Concepts",
+			"description": "World setting with alpha/beta/omega dynamics",
+			"terms": "abo dynamics pack hierarchy supernatural biology mating bonding werewolf",
+			"common": true
+		},
+		"alpha": {
+			"label": "🅰️ Alpha",
+			"category": "World-Building Concepts",
+			"description": "Dominant presenting role at the top of the omegaverse hierarchy",
+			"terms": "abo rut knot dominant prime pack leader sire",
+			"common": false
+		},
+		"omega": {
+			"label": "🅾️ Omega",
+			"category": "World-Building Concepts",
+			"description": "Submissive presenting role at the base of the omegaverse hierarchy",
+			"terms": "abo heat slick nest bearing submissive presenting",
+			"common": false
+		},
+		"beta": {
+			"label": "🅱️ Beta",
+			"category": "World-Building Concepts",
+			"description": "Middle omegaverse role without heats, ruts or presenting",
+			"terms": "abo neutral unpresented ordinary middle tier average",
+			"common": false
+		},
+		"mpreg": {
+			"label": "🫃 Mpreg",
+			"category": "World-Building Concepts",
+			"description": "World setting featuring male pregnancy",
+			"terms": "supernatural biology alternative reproduction fantasy magical transformation carrier",
+			"common": false
+		},
+		"guide sentinel": {
+			"label": "🧠 Guide/Sentinel",
+			"category": "World-Building Concepts",
+			"description": "World setting featuring enhanced sensory guides and their protectors",
+			"terms": "bonding empathy psychic abilities supernatural senses protection partnership connection",
+			"common": false
+		},
+		"hybridverse": {
+			"label": "🐾 Hybridverse",
+			"category": "World-Building Concepts",
+			"description": "World where human-animal hybrids exist as a recognised social class",
+			"terms": "kemonomimi animal ears tail beastfolk demihuman anthropomorphic transformation furry society",
+			"common": false
+		},
+		"slaveryverse": {
+			"label": "⛓️ Slaveryverse",
+			"category": "World-Building Concepts",
+			"description": "World where slavery or ownership is a legal and structured social institution",
+			"terms": "enslaved servitude ownership bonded captive institutional oppression hierarchy subjugation",
+			"common": false
+		},
+		"superhero au": {
+			"label": "🦸 Superhero AU",
+			"category": "World-Building Concepts",
+			"description": "World operating on superhero logic; powers, secret identities, and villains",
+			"terms": "powers cape vigilante hero villain secret identity metropolis enhanced abilities costume",
+			"common": false
+		},
+		"mundane au": {
+			"label": "☕ Mundane AU",
+			"category": "World-Building Concepts",
+			"description": "Fantasy or sci-fi characters placed into an ordinary everyday world",
+			"terms": "realistic everyday normal contemporary no powers no magic ordinary life grounded slice of life",
+			"common": false
+		},
+		"any pov": {
+			"label": "👤 AnyPOV",
+			"category": "Point of View",
+			"description": "Content inclusive and accessible to all readers",
+			"terms": "universal neutral general diverse multiple viewpoint perspective",
+			"common": true
+		},
+		"male pov": {
+			"label": "👨 MalePOV",
+			"category": "Point of View",
+			"description": "Content from masculine perspectives",
+			"terms": "man guy masculine boy gentleman male-centered his perspective",
+			"common": true
+		},
+		"fem pov": {
+			"label": "👩 FemPOV",
+			"category": "Point of View",
+			"description": "Content from feminine perspectives",
+			"terms": "woman girl feminine lady female-centered her perspective",
+			"common": true
+		},
+		"nbpov": {
+			"label": "🏳️‍🌈 NBPOV",
+			"category": "Point of View",
+			"description": "Content for non-binary perspectives and experiences",
+			"terms": "non-binary genderqueer genderfluid enby perspective they them their",
+			"common": false
+		},
+		"poc user": {
+			"label": "✊🏿✊🏾✊🏽 POC User",
+			"category": "Point of View",
+			"description": "Content for people of colour users' perspectives and experiences",
+			"terms": "black brown latino latina hispanic asian african american native indigenous bipoc minority diverse representation ethnic racial",
+			"common": false
+		},
+		"plus-size user": {
+			"label": "🍑 Plus-size User",
+			"category": "Point of View",
+			"description": "Content for plus-sized users' perspectives and experiences",
+			"terms": "curvy thick chubby fat body positive size inclusive bbw bigger larger heavy voluptuous round soft",
+			"common": false
+		},
+		"disabled user": {
+			"label": "🩹 Disabled User",
+			"category": "Point of View",
+			"description": "Content for disabled users' perspectives and experiences",
+			"terms": "accessibility disability wheelchair mobility chronic illness mental health neurodivergent autism adhd blind deaf inclusive representation",
+			"common": false
+		},
+		"trans pov": {
+			"label": "🏳️‍⚧️ TransPOV",
+			"category": "Point of View",
+			"description": "Content for trans perspectives and experiences",
+			"terms": "transgender trans ftm mtf transition dysphoria euphoria transmasc transfem nonbinary enby",
+			"common": false
+		},
+		"intersex pov": {
+			"label": "⚧️ IntersexPOV",
+			"category": "Point of View",
+			"description": "Content for intersex perspectives and experiences",
+			"terms": "dsd differences sex development variations characteristics perspective experience",
+			"common": false
+		},
+		"demi pov": {
+			"label": "🧬 DemiPOV",
+			"category": "Point of View",
+			"description": "Content for demi-human perspectives and experiences",
+			"terms": "hybrid kemonomimi beastkin therianthrope shapeshifter halfbreed mixed perspective experience",
+			"common": false
+		},
+		"monster pov": {
+			"label": "👹 MonsterPOV",
+			"category": "Point of View",
+			"description": "Content from a monster's perspective",
+			"terms": "monster perspective creature viewpoint beast demon dragon vampire werewolf alien supernatural pov",
+			"common": false
+		},
+		"villain pov": {
+			"label": "🦹 VillainPOV",
+			"category": "Point of View",
+			"description": "Content from a villain's perspective",
+			"terms": "villain perspective antagonist viewpoint evil bad guy villainess pov",
+			"common": false
+		},
+		"good person pov": {
+			"label": "🦸‍♂️ GoodPersonPOV",
+			"category": "Point of View",
+			"description": "Content from a hero or good person perspective",
+			"terms": "hero protagonist righteous noble virtuous heroic savior champion perspective",
+			"common": false
+		},
+		"non human pov": {
+			"label": "🦄 Non-humanPOV",
+			"category": "Point of View",
+			"description": "Content from a non-human or creature perspective",
+			"terms": "creature monster alien beast animal android robot perspective inhuman otherworldly",
+			"common": false
+		},
+		"older user": {
+			"label": "🧓 Older User",
+			"category": "Point of View",
+			"description": "For bots designed with user being an older person in mind (40s and above)",
+			"terms": "mature aged senior middle-aged forty fifty sixty elder perspective",
+			"common": false
+		},
+		"injured user": {
+			"label": "🩹 Injured User",
+			"category": "Point of View",
+			"description": "Roleplay starts with user sick or injured",
+			"terms": "sick hurt wounded ill patient recovery hospital healing bedridden",
+			"common": false
+		},
+		"tall user": {
+			"label": "🦒 Tall User",
+			"category": "Point of View",
+			"description": "For users that are really tall (7ft or more)",
+			"terms": "height giant towering looming huge imposing perspective",
+			"common": false
+		},
+		"short user": {
+			"label": "🌱 Short User",
+			"category": "Point of View",
+			"description": "For users that are really short (below 5ft)",
+			"terms": "petite tiny small little height perspective",
+			"common": false
+		},
+		"victim pov": {
+			"label": "⛓️ Victim POV",
+			"category": "Point of View",
+			"description": "Content told from a victim's perspective",
+			"terms": "survivor captive abused trapped helpless powerless suffering enduring perspective",
+			"common": false
+		},
+		"second person pov": {
+			"label": "2️⃣ Second Person POV",
+			"category": "Point of View",
+			"description": "Narration addresses the reader as 'you'",
+			"terms": "you your narrative voice immersive direct address reader",
+			"common": false
+		},
+		"third person pov": {
+			"label": "3️⃣ Third Person POV",
+			"category": "Point of View",
+			"description": "External narration using he/she/they",
+			"terms": "he she they narrator external omniscient limited narrative voice",
+			"common": false
+		},
+		"first person pov": {
+			"label": "1️⃣ First Person POV",
+			"category": "Point of View",
+			"description": "Character's narrative uses 'I'",
+			"terms": "I me my narrator character voice inner monologue subjective",
+			"common": false
+		},
+		"neurodivergent": {
+			"label": "🧠 Neurodivergent",
+			"category": "Character Archetypes & Personalities",
+			"description": "Companions who are neurodivergent, including autism, ADHD, and other neurological differences",
+			"terms": "autism adhd neurodiversity neurological differences spectrum disorder sensory processing executive dysfunction",
+			"common": false
+		},
+		"hero": {
+			"label": "🦸 Hero",
+			"category": "Character Archetypes & Personalities",
+			"description": "Protagonists who fight for good, protect others, or champion a cause",
+			"terms": "protagonist savior champion noble brave righteous good guardian",
+			"common": true
+		},
+		"villain": {
+			"label": "🦹‍♂️ Villain",
+			"category": "Character Archetypes & Personalities",
+			"description": "Antagonists who oppose the protagonist - from cunning schemers to outright evil",
+			"terms": "antagonist evil mastermind baddie antihero nemesis criminal dark",
+			"common": true
+		},
+		"villainess": {
+			"label": "🦹‍♀️ Villainess",
+			"category": "Character Archetypes & Personalities",
+			"description": "Female antagonists and morally grey characters",
+			"terms": "female antagonist evil woman mastermind baddie nemesis criminal dark",
+			"common": false
+		},
+		"anti-hero": {
+			"label": "🦹 Anti-Hero",
+			"category": "Character Archetypes & Personalities",
+			"description": "Protagonists with questionable morals or unconventional methods",
+			"terms": "antihero villain morally grey flawed protagonist reluctant hero vigilante dark hero complex character",
+			"common": false
+		},
+		"royalty": {
+			"label": "👑 Royalty",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters in positions of privilege and power",
+			"terms": "prince princess king queen noble monarch palace aristocrat ruler",
+			"common": true
+		},
+		"nobility": {
+			"label": "🏛️ Nobility",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters belonging to the noble class or aristocracy",
+			"terms": "aristocrat noble lord lady peer gentry upper class elite highborn patrician",
+			"common": false
+		},
+		"duke duchess": {
+			"label": "🎩 Duke/Duchess",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters holding the title of duke or duchess",
+			"terms": "duke duchess dukedom ducal title peerage high nobility",
+			"common": false
+		},
+		"pirate": {
+			"label": "🏴‍☠️ Pirate",
+			"category": "Character Archetypes & Personalities",
+			"description": "Seafaring outlaws, treasure hunters, and swashbucklers",
+			"terms": "captain booty treasure ship crewmate swashbuckler privateer buccaneer corsair marauder seafarer adventurer plunderer raider treasure-hunter sea-dog",
+			"common": false
+		},
+		"dilf": {
+			"label": "👴 DILF",
+			"category": "Character Archetypes & Personalities",
+			"description": "Content featuring an attractive older male character, often a father figure",
+			"terms": "older man attractive father figure mature experienced",
+			"common": true
+		},
+		"milf": {
+			"label": "👩 MILF",
+			"category": "Character Archetypes & Personalities",
+			"description": "Content featuring an attractive older female character, often a mother figure",
+			"terms": "older woman attractive mother figure mature experienced",
+			"common": false
+		},
+		"emo": {
+			"label": "🖤 Emo",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters with dark, emotional, and introspective personalities",
+			"terms": "gothic punk alternative brooding moody dark mysterious rebellious",
+			"common": false
+		},
+		"murderer": {
+			"label": "🔪 Murderer",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who have committed homicide",
+			"terms": "killer assassin criminal dangerous deadly violent psychopath dangerous",
+			"common": true
+		},
+		"jock": {
+			"label": "🏈 Jock",
+			"category": "Character Archetypes & Personalities",
+			"description": "Athletic characters often associated with sports",
+			"terms": "athlete sporty muscular strong player competitive fitness popular",
+			"common": false
+		},
+		"nerd": {
+			"label": "🤖 Nerd",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who are intellectual and nerdy",
+			"terms": "nerdy intellectual bookworm geek",
+			"common": false
+		},
+		"bimbo himbo": {
+			"label": "💋 Bimbo/Himbo",
+			"category": "Character Archetypes & Personalities",
+			"description": "Attractive characters who appear superficial but have good hearts",
+			"terms": "attractive naive innocent pure simple kindhearted genuine sweet",
+			"common": true
+		},
+		"bully": {
+			"label": "👊 Bully",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who intimidate or mistreat others",
+			"terms": "mean aggressive hostile cruel intimidating tormentor antagonistic harsh",
+			"common": false
+		},
+		"rival": {
+			"label": "🏆 Rival",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters in competition with each other",
+			"terms": "competitor opponent enemy nemesis adversary challenger competition foe",
+			"common": false
+		},
+		"virgin": {
+			"label": "🌱 Virgin",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who haven't experienced sexual intimacy",
+			"terms": "innocent pure inexperienced naive untouched first-time novice",
+			"common": true
+		},
+		"promiscuous": {
+			"label": "💋 Promiscuous",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters with multiple sexual partners or casual attitudes toward sex",
+			"terms": "flirty experienced seductive playful casual adventurous uninhibited",
+			"common": true
+		},
+		"filthy": {
+			"label": "🤢 Filthy",
+			"category": "Character Archetypes & Personalities",
+			"description": "Content featuring dirty, unhygienic, or unclean characters",
+			"terms": "dirty unhygienic unclean grimy messy soiled unsanitary grubby squalid",
+			"common": false
+		},
+		"wealthy": {
+			"label": "💰 Wealthy",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters with significant financial resources",
+			"terms": "rich affluent privileged luxurious millionaire elite prosperous money",
+			"common": true
+		},
+		"healer": {
+			"label": "💊 Healer",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who specialize in healing, whether magical or medical",
+			"terms": "medic doctor nurse cleric priestess shaman cure restore",
+			"common": false
+		},
+		"rogue": {
+			"label": "🗡️ Rogue",
+			"category": "Character Archetypes & Personalities",
+			"description": "Stealthy, cunning characters skilled in trickery or thievery",
+			"terms": "thief assassin spy trickster stealth agile",
+			"common": false
+		},
+		"warrior": {
+			"label": "⚔️ Warrior",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters skilled in combat and battle",
+			"terms": "fighter soldier knight gladiator combatant hero",
+			"common": true
+		},
+		"magic user": {
+			"label": "🔮 Magic User",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters with magical abilities or training",
+			"terms": "wizard sorcerer magician spellcaster magic",
+			"common": true
+		},
+		"witch": {
+			"label": "🧹 Witch",
+			"category": "Character Archetypes & Personalities",
+			"description": "Practitioners of witchcraft, covens, folk magic and hedge craft",
+			"terms": "coven warlock hex spell potion cauldron broom familiar hedge craft occult wicca",
+			"common": false
+		},
+		"magical girl": {
+			"label": "🌙 Magical Girl",
+			"category": "Character Archetypes & Personalities",
+			"description": "Transforming magical heroines fighting evil with wands and sidekicks",
+			"terms": "mahou shoujo transformation sequence henshin wand sailor senshi puella",
+			"common": false
+		},
+		"thief": {
+			"label": "🧤 Thief",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who steal for profit, survival or thrill",
+			"terms": "burglar pickpocket robber bandit smuggler cat burglar looter larceny",
+			"common": false
+		},
+		"gamer": {
+			"label": "🎮 Gamer",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters whose life revolves around playing games",
+			"terms": "gaming console pc esports arcade speedrun grinding raid lobby controller",
+			"common": false
+		},
+		"tsundere": {
+			"label": "😤 Tsundere",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who mask affection with hostility before revealing their true feelings",
+			"terms": "denial harsh exterior soft interior tough love harsh sweet",
+			"common": true
+		},
+		"yandere": {
+			"label": "🔪 Yandere",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters whose love manifests in obsessive or dangerous ways",
+			"terms": "stalker possessive jealous obsession crazy psychotic devoted",
+			"common": true
+		},
+		"kuudere": {
+			"label": "🧊 Kuudere",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who are emotionally reserved but caring underneath",
+			"terms": "cold exterior warm interior stoic calm collected distant aloof",
+			"common": true
+		},
+		"dandere": {
+			"label": "🤐 Dandere",
+			"category": "Character Archetypes & Personalities",
+			"description": "Quiet, shy characters who open up over time",
+			"terms": "reserved silent timid antisocial withdrawn hesitant meek",
+			"common": false
+		},
+		"deredere": {
+			"label": "😍 Deredere",
+			"category": "Character Archetypes & Personalities",
+			"description": "Sweet, affectionate characters who are openly loving",
+			"terms": "cheerful happy bubbly positive energetic enthusiastic caring",
+			"common": true
+		},
+		"himedere": {
+			"label": "👑 Himedere",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who act like royalty and expect to be treated as such",
+			"terms": "princess queen royal spoiled demanding entitled noble",
+			"common": false
+		},
+		"kamidere": {
+			"label": "⚡ Kamidere",
+			"category": "Character Archetypes & Personalities",
+			"description": "Arrogant characters with a god complex or superiority attitude",
+			"terms": "godlike almighty powerful egotistical narcissistic proud dominant",
+			"common": false
+		},
+		"bakadere": {
+			"label": "🤪 Bakadere",
+			"category": "Character Archetypes & Personalities",
+			"description": "Silly, clumsy characters who are often naive or oblivious",
+			"terms": "foolish stupid innocent ditzy airhead simple goofy",
+			"common": false
+		},
+		"kakkodere": {
+			"label": "😎💕 Kakkodere",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who are normally cool and confident, but become cute, affectionate, and deredere for their love interest",
+			"terms": "cool confident cute affectionate sweet loving deredere transformation",
+			"common": false
+		},
+		"introverted": {
+			"label": "🧠 Introverted",
+			"category": "Character Archetypes & Personalities",
+			"description": "Reserved characters who gain energy from solitude",
+			"terms": "quiet alone private internal thoughtful contemplative independent",
+			"common": true
+		},
+		"extroverted": {
+			"label": "🗣️ Extroverted",
+			"category": "Character Archetypes & Personalities",
+			"description": "Outgoing characters who gain energy from social interactions",
+			"terms": "social friendly talkative energetic charismatic people person",
+			"common": true
+		},
+		"anxious": {
+			"label": "😰 Anxious",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who experience worry, nervousness, or unease",
+			"terms": "stressed fearful panic overthinking scared afraid insecure",
+			"common": true
+		},
+		"ambitious": {
+			"label": "🚀 Ambitious",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters with strong desire and determination to achieve goals",
+			"terms": "driven motivated focused dedicated passionate hardworking aspiring",
+			"common": true
+		},
+		"incel": {
+			"label": "👤 Incel/Femcel",
+			"category": "Character Archetypes & Personalities",
+			"description": "Involuntarily celibate characters consumed by romantic or sexual frustration",
+			"terms": "inhibited sexually frustrated virgin involuntary celibate femcel",
+			"common": false
+		},
+		"stalker": {
+			"label": "👀 Stalker",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who are a little *too* obsessive",
+			"terms": "obsessive intrusive following yandere",
+			"common": true
+		},
+		"needy": {
+			"label": "🥺 Needy",
+			"category": "Character Archetypes & Personalities",
+			"description": "Personalities marked by intense attachment and reassurance seeking",
+			"terms": "dependent possessive attention seeking overly attached high maintenance clingy",
+			"common": true
+		},
+		"biker": {
+			"label": "🏍️ Biker",
+			"category": "Character Archetypes & Personalities",
+			"description": "Outlaw club or motorcycle culture archetype",
+			"terms": "motorcycle rider motorbike chopper outlaw club mc harley",
+			"common": false
+		},
+		"ninja samurai": {
+			"label": "🥷 Ninja/Samurai",
+			"category": "Character Archetypes & Personalities",
+			"description": "Traditional Japanese warriors and stealth fighters",
+			"terms": "warrior japan japanese stealth assassin katana sword honor bushido feudal martial arts shinobi ninjutsu historical ancient traditional",
+			"common": false
+		},
+		"esl": {
+			"label": "🗣️ ESL",
+			"category": "Character Archetypes & Personalities",
+			"description": "Non‑native speaker character trait affecting language and cadence",
+			"terms": "second language non native accent learner bilingual l2",
+			"common": false
+		},
+		"grumpy": {
+			"label": "😠 Grumpy",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters with a consistently irritable or bad-tempered personality",
+			"terms": "irritable grouchy cranky surly moody cantankerous sour",
+			"common": true
+		},
+		"brat": {
+			"label": "😈 Brat",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who are defiant, playfully disobedient, and enjoy pushing boundaries",
+			"terms": "bratty defiant disobedient sassy rebellious mischievous cheeky naughty tease",
+			"common": false
+		},
+		"masochist": {
+			"label": "⛓️ Masochist",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who derive pleasure from receiving pain or humiliation",
+			"terms": "pain pleasure suffering submission enjoyment subspace punishment",
+			"common": false
+		},
+		"sadist": {
+			"label": "🔥 Sadist",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who derive pleasure from inflicting pain or humiliation",
+			"terms": "pain inflictor dominant cruel pleasure punishment control torture",
+			"common": false
+		},
+		"person next door": {
+			"label": "🏡 Person Next Door",
+			"category": "Character Archetypes & Personalities",
+			"description": "Approachable, relatable characters with an everyday charm",
+			"terms": "girl next door boy next door wholesome approachable ordinary relatable everyday normal friendly",
+			"common": false
+		},
+		"gentle giant": {
+			"label": "🧸 Gentle Giant",
+			"category": "Character Archetypes & Personalities",
+			"description": "Large, imposing characters with a surprisingly soft and caring nature",
+			"terms": "big softie teddy bear intimidating kind caring protective soft sweetheart",
+			"common": false
+		},
+		"reluctant hero": {
+			"label": "😒🦸 Reluctant Hero",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who are thrust into heroic roles despite their own resistance",
+			"terms": "unwilling hero forced reluctant savior accidental destiny chosen one protest",
+			"common": false
+		},
+		"mastermind": {
+			"label": "🧠 Mastermind",
+			"category": "Character Archetypes & Personalities",
+			"description": "Brilliant strategists who orchestrate complex plans and manipulations",
+			"terms": "genius planner strategist manipulator schemer architect puppeteer chess master",
+			"common": false
+		},
+		"well-intentioned extremist": {
+			"label": "⚖️ Well-Intentioned Extremist",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who pursue noble goals through morally questionable methods",
+			"terms": "ends justify means radical zealot fanatic misguided noble cause dark methods",
+			"common": false
+		},
+		"daredevil": {
+			"label": "🏍️ Daredevil",
+			"category": "Character Archetypes & Personalities",
+			"description": "Thrill-seekers who live for danger and take extreme risks",
+			"terms": "adrenaline junkie risk taker thrill seeker fearless reckless extreme stunts",
+			"common": false
+		},
+		"mean catty": {
+			"label": "🐱 Mean/Catty",
+			"category": "Character Archetypes & Personalities",
+			"description": "Sharp-tongued, petty, and quick to tear others down",
+			"terms": "sharp petty cruel cutting snide bitchy spiteful vicious",
+			"common": false
+		},
+		"perverted": {
+			"label": "👀 Perverted",
+			"category": "Character Archetypes & Personalities",
+			"description": "Lecherous and dirty-minded characters",
+			"terms": "lecherous dirty-minded lewd lustful creepy voyeur",
+			"common": false
+		},
+		"sensitive": {
+			"label": "😢 Sensitive",
+			"category": "Character Archetypes & Personalities",
+			"description": "Emotionally/physically over-reactive characters",
+			"terms": "emotional reactive thin-skinned fragile delicate tender",
+			"common": false
+		},
+		"loyal": {
+			"label": "💍 Loyal",
+			"category": "Character Archetypes & Personalities",
+			"description": "Devoted and faithful characters",
+			"terms": "devoted faithful steadfast trustworthy dedicated unwavering allegiant",
+			"common": false
+		},
+		"manipulator": {
+			"label": "🧠 Manipulator",
+			"category": "Character Archetypes & Personalities",
+			"description": "Scheming characters who gaslight and control",
+			"terms": "scheming controlling gaslighting deceptive cunning puppet master coercive",
+			"common": false
+		},
+		"corrupt": {
+			"label": "😈 Corrupt",
+			"category": "Character Archetypes & Personalities",
+			"description": "Morally depraved characters",
+			"terms": "depraved immoral degenerate wicked debased venal crooked",
+			"common": false
+		},
+		"mentally ill": {
+			"label": "⚫ Mentally Ill",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters with any mental illness (includes delusional)",
+			"terms": "disorder delusional unstable psychosis schizophrenia bipolar mental health",
+			"common": false
+		},
+		"daddy issues": {
+			"label": "👔💔 Daddy Issues",
+			"category": "Character Archetypes & Personalities",
+			"description": "Emotional baggage from a strained, absent, or unhealthy relationship with a father figure",
+			"terms": "father absent dad abandonment validation attachment trust parental neglect",
+			"common": false
+		},
+		"mommy issues": {
+			"label": "👜💔 Mommy Issues",
+			"category": "Character Archetypes & Personalities",
+			"description": "Emotional baggage from a strained, absent, or unhealthy relationship with a mother figure",
+			"terms": "mother absent mom abandonment validation attachment trust parental neglect",
+			"common": false
+		},
+		"cosplayer": {
+			"label": "👗 Cosplayer",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who dress as other media characters as hobby",
+			"terms": "costume convention anime fan dress-up character portrayal fandom",
+			"common": false
+		},
+		"two-faced": {
+			"label": "🎭 Two-Faced",
+			"category": "Character Archetypes & Personalities",
+			"description": "Present façade while hiding true personality",
+			"terms": "fake pretending duplicitous double-faced hypocrite mask hidden",
+			"common": false
+		},
+		"stoner": {
+			"label": "🌿 Stoner",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters/settings involving cannabis use or stoner culture",
+			"terms": "cannabis weed marijuana 420 chill laid-back smoke high",
+			"common": false
+		},
+		"widowed": {
+			"label": "🥀 Widowed",
+			"category": "Character Archetypes & Personalities",
+			"description": "Someone who lost their partner",
+			"terms": "widow widower bereaved grieving lost spouse deceased partner",
+			"common": false
+		},
+		"divorced": {
+			"label": "⛓️‍💥 Divorced",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters navigating life after the end of a marriage",
+			"terms": "separated single again ex-spouse post-marriage split custody",
+			"common": false
+		},
+		"clown": {
+			"label": "🤡 Clown",
+			"category": "Character Archetypes & Personalities",
+			"description": "Individuals who work as clowns, jesters, or similar entertainment",
+			"terms": "jester entertainer circus performer funny painted face",
+			"common": false
+		},
+		"sassy": {
+			"label": "💅 Sassy",
+			"category": "Character Archetypes & Personalities",
+			"description": "Confident, flamboyant, \"extra\", but not malicious/mean-spirited",
+			"terms": "flamboyant confident bold extra dramatic flair attitude spunky",
+			"common": false
+		},
+		"drag crossdress": {
+			"label": "👗 Drag/Cross-dress",
+			"category": "Character Archetypes & Personalities",
+			"description": "Wearing clothing associated with another gender",
+			"terms": "drag queen king crossdressing gender expression costume feminine masculine clothing",
+			"common": false
+		},
+		"tomboy": {
+			"label": "🏃‍♀️ Tomboy",
+			"category": "Character Archetypes & Personalities",
+			"description": "Female character who enjoys typically masculine activities and style",
+			"terms": "sporty boyish rough-and-tumble unfeminine athletic independent",
+			"common": false
+		},
+		"femboy": {
+			"label": "💅 Femboy",
+			"category": "Character Archetypes & Personalities",
+			"description": "Male character who enjoys typically feminine activities and style",
+			"terms": "feminine presenting girly soft twink androgynous cute",
+			"common": false
+		},
+		"gyaru": {
+			"label": "💄 Gyaru",
+			"category": "Character Archetypes & Personalities",
+			"description": "Tanned skin, bleached/dyed hair, glamorous fashion and makeup, rebellious attitude",
+			"terms": "gal ganguro kogal himegyaru fashion japanese glamour rebellious",
+			"common": false
+		},
+		"popular": {
+			"label": "👑 Popular",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who command social authority and attention within their peer group",
+			"terms": "well-liked socially dominant queen bee alpha clique social hierarchy",
+			"common": false
+		},
+		"genki": {
+			"label": "😆 Genki",
+			"category": "Character Archetypes & Personalities",
+			"description": "Character has excessive amounts of energy and enthusiasm",
+			"terms": "energetic enthusiastic hyper bubbly lively spirited bouncy",
+			"common": false
+		},
+		"emotionally unavailable": {
+			"label": "🚪 Emotionally Unavailable",
+			"category": "Character Archetypes & Personalities",
+			"description": "Detached and unwilling to connect",
+			"terms": "distant cold closed off aloof detached withdrawn guarded",
+			"common": false
+		},
+		"hedonistic": {
+			"label": "🍷 Hedonistic",
+			"category": "Character Archetypes & Personalities",
+			"description": "Lives for excess, constantly chasing pleasure, luxury, and indulgence",
+			"terms": "pleasure seeking indulgent luxurious excess self-gratifying epicurean",
+			"common": false
+		},
+		"charismatic": {
+			"label": "🧲 Charismatic",
+			"category": "Character Archetypes & Personalities",
+			"description": "Effortlessly charming characters who draw others in with magnetic personality",
+			"terms": "charming magnetic alluring captivating compelling persuasive enchanting",
+			"common": false
+		},
+		"telepath": {
+			"label": "🧠 Telepath",
+			"category": "Character Archetypes & Personalities",
+			"description": "Character is able to read minds",
+			"terms": "mind reading psychic telepathy mental powers ESP thought perception",
+			"common": false
+		},
+		"empath": {
+			"label": "💗 Empath",
+			"category": "Character Archetypes & Personalities",
+			"description": "Deeply attuned to the emotions of others on an instinctual, near-supernatural level",
+			"terms": "emotion sensing feeling intuitive perceptive supernatural sensitivity",
+			"common": false
+		},
+		"unreliable": {
+			"label": "🔕 Unreliable/Flakey",
+			"category": "Character Archetypes & Personalities",
+			"description": "Wishy-washy, often say what they don't mean",
+			"terms": "flakey inconsistent wishy-washy undependable flighty uncommitted",
+			"common": false
+		},
+		"selfish": {
+			"label": "🪞 Selfish/Self-Centered",
+			"category": "Character Archetypes & Personalities",
+			"description": "Think of themselves above all others",
+			"terms": "self-centered narcissistic egotistical self-absorbed vain greedy",
+			"common": false
+		},
+		"empathetic": {
+			"label": "👭 Empathetic",
+			"category": "Character Archetypes & Personalities",
+			"description": "Connect to others on deep emotional level",
+			"terms": "understanding compassionate caring considerate warm emotional connection",
+			"common": false
+		},
+		"playful": {
+			"label": "🪅 Playful",
+			"category": "Character Archetypes & Personalities",
+			"description": "Enjoy playing around and teasing",
+			"terms": "teasing mischievous fun joking lighthearted frisky",
+			"common": false
+		},
+		"independent": {
+			"label": "✊ Independent",
+			"category": "Character Archetypes & Personalities",
+			"description": "Self-sufficient, don't need to rely on others",
+			"terms": "self-sufficient autonomous self-reliant lone wolf capable",
+			"common": false
+		},
+		"knight": {
+			"label": "⚜️ Knight",
+			"category": "Character Archetypes & Personalities",
+			"description": "Armored warriors bound by chivalry, honor, and feudal duty",
+			"terms": "chivalry armor sword shield crusader paladin cavalry feudal",
+			"common": false
+		},
+		"morally grey": {
+			"label": "⚫ Morally Grey",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters whose ethics are ambiguous, neither purely good nor evil",
+			"terms": "ambiguous ethics complex morality shades of grey gray antihero villain",
+			"common": false
+		},
+		"gifted": {
+			"label": "✨ Gifted",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters with innate or trained supernatural or extraordinary abilities",
+			"terms": "supernatural powers abilities talented prodigy extraordinary special",
+			"common": false
+		},
+		"delinquent": {
+			"label": "🏚️ Delinquent",
+			"category": "Character Archetypes & Personalities",
+			"description": "Rebellious rule-breakers, often from troubled or street backgrounds",
+			"terms": "rebel troublemaker gang street punk juvenile dropout hoodlum",
+			"common": false
+		},
+		"brooding": {
+			"label": "🖤 Brooding",
+			"category": "Character Archetypes & Personalities",
+			"description": "Dark, introspective personalities weighed down by inner turmoil",
+			"terms": "moody dark introspective troubled tormented melancholy somber",
+			"common": false
+		},
+		"cold aloof": {
+			"label": "❄️ Cold/Aloof",
+			"category": "Character Archetypes & Personalities",
+			"description": "Emotionally distant characters who keep others at arm's length",
+			"terms": "distant detached reserved icy standoffish unapproachable frosty",
+			"common": false
+		},
+		"protective": {
+			"label": "🛡️ Protective",
+			"category": "Character Archetypes & Personalities",
+			"description": "Characters who fiercely guard and defend those they care about",
+			"terms": "guardian defender shield caretaker watchful devoted safeguarding",
+			"common": false
+		},
+		"perfectionist": {
+			"label": "🎯 Perfectionist",
+			"category": "Character Archetypes & Personalities",
+			"description": "Driven characters who demand flawlessness from themselves and others",
+			"terms": "meticulous exacting demanding precise obsessive high standards",
+			"common": false
+		},
+		"oujidere": {
+			"label": "🤴 Oujidere",
+			"category": "Character Archetypes & Personalities",
+			"description": "Prince-like characters who act regal and expect royal treatment, whether or not they are actually royalty",
+			"terms": "prince royal spoiled demanding entitled regal pampered aristocratic",
+			"common": false
+		},
+		"gambler": {
+			"label": "🃏 Gambler",
+			"category": "Character Archetypes & Personalities",
+			"description": "Risk-takers who live by luck, wagers, and high-stakes games",
+			"terms": "betting poker cards dice casino wager risk luck fortune",
+			"common": false
+		},
+		"sunshine": {
+			"label": "☀️ Sunshine",
+			"category": "Character Archetypes & Personalities",
+			"description": "Warm, optimistic personalities who brighten every room they enter",
+			"terms": "optimistic cheerful bright positive radiant uplifting happy",
+			"common": false
+		},
+		"flirty": {
+			"label": "💬 Flirty",
+			"category": "Character Archetypes & Personalities",
+			"description": "Playfully seductive characters who use charm and teasing to connect",
+			"terms": "seductive charming teasing coy playful banter suggestive",
+			"common": false
+		},
+		"celebrity": {
+			"label": "🎭 Celebrity",
+			"category": "Professions",
+			"description": "Public figures known for their fame and public presence",
+			"terms": "famous star superstar hollywood actress actor influencer paparazzi fame spotlight",
+			"common": false
+		},
+		"detective": {
+			"label": "🕵️ Detective",
+			"category": "Professions",
+			"description": "Characters who investigate crimes and seek truth",
+			"terms": "sleuth inspector sherlock mystery private investigator spy agent clues forensics",
+			"common": false
+		},
+		"assistant": {
+			"label": "📝 Assistant/Secretary",
+			"category": "Professions",
+			"description": "Personal assistants who support their employers",
+			"terms": "receptionist clerk office worker administrative aide helper typist coordinator",
+			"common": false
+		},
+		"executive": {
+			"label": "💼 Executive",
+			"category": "Professions",
+			"description": "Characters in high-level management or corporate positions",
+			"terms": "ceo manager director executive corporate business",
+			"common": false
+		},
+		"business owner": {
+			"label": "🏢 Business Owner",
+			"category": "Professions",
+			"description": "Characters who own and operate businesses",
+			"terms": "entrepreneur ceo founder owner proprietor company business enterprise startup boss",
+			"common": false
+		},
+		"ol": {
+			"label": "👩‍💼 OL",
+			"category": "Professions",
+			"description": "Female white-collar office worker; common Japanese media archetype",
+			"terms": "office lady white collar worker professional",
+			"common": false
+		},
+		"content creator": {
+			"label": "📹 Content Creator",
+			"category": "Professions",
+			"description": "Digital creators who produce content for online audiences",
+			"terms": "streamer youtuber vtuber tiktok instagram influencer social media podcaster blogger vlogger",
+			"common": false
+		},
+		"vtuber": {
+			"label": "🦊 VTuber",
+			"category": "Professions",
+			"description": "Virtual YouTubers who stream and create content as anime avatars",
+			"terms": "avatar anime live2d streaming twitch virtual idol anime character animated streamer",
+			"common": false
+		},
+		"idol": {
+			"label": "🎤 Idol",
+			"category": "Professions",
+			"description": "Performers who entertain and inspire dedicated fans",
+			"terms": "kpop jpop singer dancer pop star celebrity trainee performer artist stage",
+			"common": false
+		},
+		"performer": {
+			"label": "🎭 Performer",
+			"category": "Professions",
+			"description": "Artists who entertain audiences through live or recorded performance",
+			"terms": "entertainer artist actor actress dancer singer musician comedian magician acrobat circus street performer",
+			"common": false
+		},
+		"crime syndicate": {
+			"label": "🔫 Crime Syndicate",
+			"category": "Professions",
+			"description": "Characters involved in organised crime at an institutional level",
+			"terms": "mafia gangster mob boss yakuza criminal syndicate underworld thug hitman famiglia triad secret society",
+			"common": true
+		},
+		"gangster": {
+			"label": "🚬 Gangster",
+			"category": "Professions",
+			"description": "Characters involved in street-level criminal activities and urban gangs",
+			"terms": "mafia yakuza triad street gang thug hoodlum mobster criminal delinquent hooligan gangbanger streetwise urban crime",
+			"common": false
+		},
+		"musician": {
+			"label": "🎵 Musician",
+			"category": "Professions",
+			"description": "Artists who create and perform music",
+			"terms": "singer songwriter band member instrumentalist composer producer dj rockstar rapper",
+			"common": true
+		},
+		"teacher professor": {
+			"label": "👩‍🏫 Teacher/Professor",
+			"category": "Professions",
+			"description": "Educators who impart knowledge and skills",
+			"terms": "instructor mentor tutor lecturer academic faculty sensei educator scholar",
+			"common": true
+		},
+		"student": {
+			"label": "🎓 Student",
+			"category": "Professions",
+			"description": "Individuals pursuing education and learning",
+			"terms": "pupil schoolgirl schoolboy college university freshman sophomore junior senior",
+			"common": true
+		},
+		"nurse": {
+			"label": "👩‍⚕️ Nurse",
+			"category": "Professions",
+			"description": "Healthcare professionals who provide care and support",
+			"terms": "rn caregiver medic hospital clinic medical staff orderly healer practitioner",
+			"common": false
+		},
+		"doctor": {
+			"label": "👨‍⚕️ Doctor",
+			"category": "Professions",
+			"description": "Medical professionals who diagnose and treat illnesses",
+			"terms": "physician surgeon specialist md practitioner clinician healer gp consultant",
+			"common": false
+		},
+		"police officer": {
+			"label": "👮 Police Officer",
+			"category": "Professions",
+			"description": "Law enforcement officers who maintain public safety",
+			"terms": "cop detective sheriff deputy marshal patrol security guard authority badge",
+			"common": false
+		},
+		"firefighter": {
+			"label": "🚒 Firefighter",
+			"category": "Professions",
+			"description": "Emergency responders who combat fires and rescue people",
+			"terms": "fireman firewoman first responder rescuer emergency hero smoke jumper paramedic",
+			"common": false
+		},
+		"pilot": {
+			"label": "✈️ Pilot",
+			"category": "Professions",
+			"description": "Aviation professionals who operate aircraft",
+			"terms": "aviator captain flyer airman commander navigator flight crew cockpit",
+			"common": false
+		},
+		"soldier": {
+			"label": "🎖️ Soldier",
+			"category": "Professions",
+			"description": "Military personnel who serve and protect",
+			"terms": "warrior trooper marine army navy airforce grunt infantry commando veteran",
+			"common": true
+		},
+		"chef": {
+			"label": "👨‍🍳 Chef",
+			"category": "Professions",
+			"description": "Culinary artists who create and prepare food",
+			"terms": "cook kitchen master culinary expert sous pastry baker gastronomy cuisine",
+			"common": false
+		},
+		"athlete": {
+			"label": "🏅 Athlete",
+			"category": "Professions",
+			"description": "Sports professionals who compete and excel",
+			"terms": "player sportsman sportswoman champion competitor olympian pro fitness trainer",
+			"common": true
+		},
+		"lawyer": {
+			"label": "⚖️ Lawyer",
+			"category": "Professions",
+			"description": "Legal professionals who represent and advise clients",
+			"terms": "attorney counsel advocate barrister solicitor prosecutor defender judge legal",
+			"common": false
+		},
+		"politician": {
+			"label": "🗳️ Politician",
+			"category": "Professions",
+			"description": "Public servants who govern and make decisions",
+			"terms": "senator congressman representative mayor diplomat official statesman leader",
+			"common": false
+		},
+		"scientist": {
+			"label": "🔬 Scientist",
+			"category": "Professions",
+			"description": "Researchers who explore and discover new knowledge",
+			"terms": "researcher chemist physicist biologist lab technician professor academic expert",
+			"common": false
+		},
+		"engineer": {
+			"label": "👷 Engineer",
+			"category": "Professions",
+			"description": "Professionals who design and build structures and systems",
+			"terms": "technician mechanic developer architect builder programmer coder constructor",
+			"common": false
+		},
+		"artist": {
+			"label": "🎨 Artist",
+			"category": "Professions",
+			"description": "Creative individuals who express themselves through visual art",
+			"terms": "painter sculptor illustrator designer creator drawer sketcher craftsman",
+			"common": false
+		},
+		"writer": {
+			"label": "📝 Writer",
+			"category": "Professions",
+			"description": "Authors who create and share written works",
+			"terms": "novelist poet screenwriter blogger author editor publisher scribe wordsmith",
+			"common": false
+		},
+		"journalist": {
+			"label": "📰 Journalist",
+			"category": "Professions",
+			"description": "Reporters who gather and disseminate news",
+			"terms": "reporter correspondent newscaster anchor media press columnist editor",
+			"common": false
+		},
+		"model": {
+			"label": "🧍 Model",
+			"category": "Professions",
+			"description": "Individuals who showcase fashion and products",
+			"terms": "supermodel runway fashion icon glamour photoshoot mannequin beauty pageant",
+			"common": false
+		},
+		"actor": {
+			"label": "🎬 Actor",
+			"category": "Professions",
+			"description": "Performers who portray characters in various media",
+			"terms": "performer thespian star celebrity drama theater stage screen talent",
+			"common": false
+		},
+		"intern": {
+			"label": "👤 Intern",
+			"category": "Professions",
+			"description": "Individuals gaining experience and training in a profession",
+			"terms": "trainee apprentice novice rookie beginner newcomer learner assistant",
+			"common": false
+		},
+		"librarian": {
+			"label": "📚 Librarian",
+			"category": "Professions",
+			"description": "Professionals who manage and organise information resources",
+			"terms": "archivist curator bookkeeper researcher scholar keeper knowledge wisdom",
+			"common": false
+		},
+		"plumber": {
+			"label": "🔧 Plumber",
+			"category": "Professions",
+			"description": "Skilled workers who install and repair plumbing",
+			"terms": "handyman tradesman pipefitter maintenance technician repairman contractor",
+			"common": false
+		},
+		"cowboy cowgirl": {
+			"label": "🤠 Cowboy/Cowgirl",
+			"category": "Professions",
+			"description": "Individuals associated with ranching and the American West",
+			"terms": "rancher wrangler rodeo western horseman cattle herder outlaw frontier",
+			"common": false
+		},
+		"maid butler": {
+			"label": "🧹 Maid/Butler",
+			"category": "Professions",
+			"description": "Domestic workers who provide cleaning and personal services",
+			"terms": "servant housekeeper caretaker cleaner attendant domestic staff steward",
+			"common": false
+		},
+		"bartender": {
+			"label": "🍹 Bartender",
+			"category": "Professions",
+			"description": "Professionals who mix and serve beverages",
+			"terms": "mixologist barkeeper publican tapster barista server nightclub bar",
+			"common": false
+		},
+		"waiter waitress": {
+			"label": "🍽️ Waiter/Waitress",
+			"category": "Professions",
+			"description": "Service professionals who take orders and serve food",
+			"terms": "server host hostess busser restaurant staff attendant hospitality",
+			"common": false
+		},
+		"stripper": {
+			"label": "💃 Stripper",
+			"category": "Professions",
+			"description": "Performers who entertain through dance and striptease",
+			"terms": "exotic dancer performer showgirl burlesque club entertainer pole dancer",
+			"common": false
+		},
+		"porn star": {
+			"label": "🌟 Porn Star",
+			"category": "Professions",
+			"description": "Adult film actors who perform in explicit content",
+			"terms": "adult performer xxx actress actor model erotic film star av idol jav",
+			"common": false
+		},
+		"hikikomori": {
+			"label": "🏠 Hikikomori",
+			"category": "Professions",
+			"description": "Individuals who withdraw from society and live in isolation",
+			"terms": "shut-in recluse hermit neet introvert antisocial withdrawn solitary",
+			"common": false
+		},
+		"unemployed": {
+			"label": "🚫 Unemployed",
+			"category": "Professions",
+			"description": "Individuals without a job or source of income",
+			"terms": "jobless neet between jobs seeking work laid off benefits welfare",
+			"common": false
+		},
+		"homeless": {
+			"label": "🏚️ Homeless",
+			"category": "Professions",
+			"description": "Individuals without a permanent place to live",
+			"terms": "vagrant transient drifter wanderer beggar street destitute unhoused",
+			"common": false
+		},
+		"bodyguard": {
+			"label": "💪 Bodyguard",
+			"category": "Professions",
+			"description": "Professionals who provide personal protection and security",
+			"terms": "guard protector personal escort defender shield watchman sentinel guardian bouncer protection detail",
+			"common": false
+		},
+		"viking": {
+			"label": "🪓 Viking",
+			"category": "Professions",
+			"description": "Norse-inspired seafaring warriors, raiders, and explorers",
+			"terms": "norse warrior seafarer raider scandinavian norseman shield-maiden berserker nordic explorer pillager medieval northman jarl",
+			"common": false
+		},
+		"adventurer": {
+			"label": "🗡️ Adventurer",
+			"category": "Professions",
+			"description": "Bold explorers who seek treasure, glory, and excitement",
+			"terms": "explorer hero quest treasure hunter dungeon crawler mercenary traveler wanderer rogue fighter ranger paladin brave bold journey expedition",
+			"common": false
+		},
+		"hunter": {
+			"label": "🏹 Hunter",
+			"category": "Professions",
+			"description": "Characters who track and hunt prey or targets",
+			"terms": "tracker ranger wilderness survival prey game bounty tracker trapper predator hunting",
+			"common": false
+		},
+		"blue collar": {
+			"label": "👷‍♂️ Blue Collar",
+			"category": "Professions",
+			"description": "Characters who perform skilled manual or trade labour",
+			"terms": "worker laborer tradesman craftsman factory employee manual worker industrial construction manufacturing",
+			"common": false
+		},
+		"white collar": {
+			"label": "👔 White Collar",
+			"category": "Professions",
+			"description": "Those who typically work in an office or professional environment",
+			"terms": "office worker professional businessman businesswoman corporate executive manager administrator clerk accountant banker finance consultant suit tie desk",
+			"common": true
+		},
+		"pink collar": {
+			"label": "💅 Pink Collar",
+			"category": "Professions",
+			"description": "Those who work roles typically associated with women",
+			"terms": "service worker caregiver healthcare aide social worker teacher nurse childcare hospitality retail customer service support staff",
+			"common": false
+		},
+		"professional domination": {
+			"label": "💋 Professional Domination",
+			"category": "Professions",
+			"description": "Professionals who provide domination services",
+			"terms": "pro dom domme dominant submissive bdsm kink sadism masochism dominatrix",
+			"common": false
+		},
+		"retail": {
+			"label": "🛍️ Retail",
+			"category": "Professions",
+			"description": "Those who work in retail stores",
+			"terms": "sales associate cashier store associate stock clerk shopping mall storefront customer",
+			"common": false
+		},
+		"cashier": {
+			"label": "💰 Cashier",
+			"category": "Professions",
+			"description": "Those who handle money and transactions",
+			"terms": "register checkout store associate stock clerk transactions",
+			"common": false
+		},
+		"surfer": {
+			"label": "🏄 Surfer",
+			"category": "Professions",
+			"description": "Those who live for the wave and the go-with-the-flow mentality",
+			"terms": "beach ocean waves laid-back chill relaxed coastal water sports",
+			"common": false
+		},
+		"servant": {
+			"label": "🙇 Servant",
+			"category": "Professions",
+			"description": "Those who serve others in various capacities",
+			"terms": "service attendant helper domestic staff worker obedient submissive",
+			"common": false
+		},
+		"special agents": {
+			"label": "🕶️ Special Agents",
+			"category": "Professions",
+			"description": "Law enforcement officers with specialised training and jurisdiction",
+			"terms": "fbi cia agent federal detective investigator special forces swat elite tactical undercover covert operations intelligence secret service",
+			"common": false
+		},
+		"spy": {
+			"label": "🕵️ Spy",
+			"category": "Professions",
+			"description": "Covert operative involved in intelligence gathering",
+			"terms": "espionage agent intelligence clandestine operative covert",
+			"common": false
+		},
+		"part-timer": {
+			"label": "⏰ Part-timer",
+			"category": "Professions",
+			"description": "Character working limited hours or a side job",
+			"terms": "hourly shift worker side gig seasonal staff flexible schedule",
+			"common": false
+		},
+		"pimp": {
+			"label": "💰 Pimp",
+			"category": "Professions",
+			"description": "Manager within the sex trade overseeing workers",
+			"terms": "procurer brothel boss handler madam fixer",
+			"common": false
+		},
+		"priest": {
+			"label": "⛪ Priest",
+			"category": "Professions",
+			"description": "Religious clergy offering rites, guidance, or counsel",
+			"terms": "clergy minister pastor monk friar ecclesiastic",
+			"common": false
+		},
+		"florist": {
+			"label": "💐 Florist",
+			"category": "Professions",
+			"description": "Artisan who arranges and sells flowers",
+			"terms": "flower shop bouquet arrangement plants garden botanical wedding",
+			"common": false
+		},
+		"assassin": {
+			"label": "🗡️ Assassin",
+			"category": "Professions",
+			"description": "Professional killer trained in stealth and lethal techniques",
+			"terms": "hitman killer mercenary contract ninja shadow deadly professional",
+			"common": false
+		},
+		"mail carrier": {
+			"label": "📬 Mail Carrier",
+			"category": "Professions",
+			"description": "Postal worker who delivers mail and packages to homes and businesses",
+			"terms": "postman mailman postal worker delivery courier package letter",
+			"common": false
+		},
+		"masseuse": {
+			"label": "💆 Masseuse",
+			"category": "Professions",
+			"description": "Professional who provides therapeutic massage",
+			"terms": "massage therapist spa relaxation body work physical therapy wellness",
+			"common": false
+		},
+		"therapist": {
+			"label": "🛋️ Therapist",
+			"category": "Professions",
+			"description": "Mental health professional who provides counselling",
+			"terms": "psychiatrist psychologist counselor mental health shrink therapy doctor",
+			"common": false
+		},
+		"barista": {
+			"label": "☕ Barista",
+			"category": "Professions",
+			"description": "Coffee specialist who crafts drinks at cafes",
+			"terms": "coffee shop cafe latte espresso cappuccino brew service counter",
+			"common": false
+		},
+		"housespouse": {
+			"label": "🏠 Housespouse",
+			"category": "Professions",
+			"description": "Characters with a stay-at-home domestic role",
+			"terms": "housewife househusband stay-at-home domestic homemaker caretaker",
+			"common": false
+		},
+		"coach": {
+			"label": "🏅 Coach",
+			"category": "Professions",
+			"description": "Athletic trainers, team coaches, or personal fitness mentors",
+			"terms": "trainer mentor sports team athletic instructor fitness personal",
+			"common": false
+		},
+		"fan": {
+			"label": "📸 Fan",
+			"category": "Professions",
+			"description": "Devoted admirers or superfans fixated on someone they idolise",
+			"terms": "superfan groupie admirer devotee follower obsessed celebrity idol",
+			"common": false
+		},
+		"lessor": {
+			"label": "🏠 Lessor",
+			"category": "Professions",
+			"description": "Characters who lease housing to tenants",
+			"terms": "landlord landlady property owner tenant rental housing lease",
+			"common": false
+		},
+		"sex worker": {
+			"label": "🏩 Sex Worker",
+			"category": "Professions",
+			"description": "Individuals who engage in sexual activity for monetary exchange",
+			"terms": "escort prostitute companion adult worker professional",
+			"common": false
+		},
+		"frat sorority": {
+			"label": "🏛️ Fraternity/Sorority",
+			"category": "Professions",
+			"description": "Individuals in college Greek life organizations",
+			"terms": "greek life frat sorority college pledge hazing brotherhood sisterhood",
+			"common": false
+		},
+		"farmer": {
+			"label": "🧑‍🌾 Farmer/Farmhand",
+			"category": "Professions",
+			"description": "Individuals who own or work the land",
+			"terms": "agriculture crop livestock ranch field harvest rural homestead",
+			"common": false
+		},
+		"mechanic": {
+			"label": "🔧 Mechanic",
+			"category": "Professions",
+			"description": "Person working as mechanic on cars, planes, mechs",
+			"terms": "auto repair garage technician grease engineer fix vehicle",
+			"common": false
+		},
+		"zookeeper": {
+			"label": "🦓 Zookeeper",
+			"category": "Professions",
+			"description": "Characters who care for and handle animals at zoos and sanctuaries",
+			"terms": "animal keeper handler caretaker trainer wildlife ranger sanctuary aquarist safari",
+			"common": false
+		},
+		"janitor": {
+			"label": "🧹 Janitor",
+			"category": "Professions",
+			"description": "Characters who clean, maintain, and secure buildings",
+			"terms": "custodian caretaker cleaner maintenance porter night shift school building",
+			"common": false
+		},
+		"milkman": {
+			"label": "🥛 Milkman",
+			"category": "Professions",
+			"description": "Characters who deliver and sell milk and dairy door to door",
+			"terms": "milk delivery dairy doorstep rounds deliveryman milk float",
+			"common": false
+		},
+		"blacksmith": {
+			"label": "⚒️ Blacksmith",
+			"category": "Professions",
+			"description": "Characters who forge and shape metal into tools, weapons, and armour",
+			"terms": "smith forge anvil metalworker armourer weaponsmith farrier smithy",
+			"common": false
+		},
+		"handyman": {
+			"label": "🧰 Handyman",
+			"category": "Professions",
+			"description": "Characters who do general repairs, maintenance, and odd jobs",
+			"terms": "odd jobs repairman fixer maintenance contractor diy tradesman",
+			"common": false
+		},
+		"trucker": {
+			"label": "🚛 Trucker",
+			"category": "Professions",
+			"description": "Characters who drive long-haul semi trucks for a living",
+			"terms": "truck driver semi big rig long haul freight highway road trucking",
+			"common": false
+		},
+		"owner": {
+			"label": "🗞️ Owner",
+			"category": "Professions",
+			"description": "Characters who own others (slave master, pet owner)",
+			"terms": "master mistress keeper proprietor handler possessor controller",
+			"common": false
+		},
+		"pet": {
+			"label": "🐕‍🦺 Pet",
+			"category": "Professions",
+			"description": "Pet characters such as demi-humans kept as pets",
+			"terms": "kept companion owned collared tamed demi-human humanoid",
+			"common": false
+		},
+		"sugar baby": {
+			"label": "💸 Sugar Baby",
+			"category": "Professions",
+			"description": "Person who receives cash in exchange for their companionship",
+			"terms": "kept maintained sponsored benefactor arrangement dating",
+			"common": false
+		},
+		"racer": {
+			"label": "🏎️ Racer",
+			"category": "Professions",
+			"description": "High-speed competitors across cars, bikes, and tracks",
+			"terms": "racing driver motorsport speed track circuit competitive",
+			"common": false
+		},
+		"tech": {
+			"label": "💻 Tech",
+			"category": "Professions",
+			"description": "Works in the tech sector, cyber security, or digital fields",
+			"terms": "programmer developer coder hacker cybersecurity IT software startup",
+			"common": false
+		},
+		"indentured": {
+			"label": "🔗 Indentured",
+			"category": "Professions",
+			"description": "Characters in a state of ownership or servitude",
+			"terms": "bound enslaved servitude obligation contract debt bondage",
+			"common": false
+		},
+		"astronaut": {
+			"label": "🧑‍🚀 Astronaut",
+			"category": "Professions",
+			"description": "Explorers venturing beyond Earth's atmosphere",
+			"terms": "space explorer cosmonaut mission crew spacecraft orbit launch",
+			"common": false
+		},
+		"martial artist": {
+			"label": "🥊 Martial Artist",
+			"category": "Professions",
+			"description": "Professional fighters and combat sports athletes",
+			"terms": "boxer fighter mma karate judo wrestling kickboxing combat sports ring champion bout",
+			"common": false
+		},
+		"hacker": {
+			"label": "🖥️ Hacker",
+			"category": "Professions",
+			"description": "Person who hacks into computers, legal or illegal",
+			"terms": "cybersecurity cracker exploit penetration tester phreaker script kiddie darkweb underground",
+			"common": false
+		},
+		"healthcare": {
+			"label": "👨‍⚕️ Healthcare",
+			"category": "Professions",
+			"description": "Characters who work in medical or therapeutic fields",
+			"terms": "medical clinic hospital wellness care treatment nursing physician",
+			"common": false
+		},
+		"caregiver": {
+			"label": "🤲 Caregiver",
+			"category": "Professions",
+			"description": "Provides assistance with daily living, such as a carer or personal aide",
+			"terms": "carer aide home care personal support worker assisted living elderly disability",
+			"common": false
+		},
+		"law enforcement": {
+			"label": "👮 Law Enforcement",
+			"category": "Professions",
+			"description": "Characters who uphold the law and maintain public order",
+			"terms": "police sheriff deputy marshal patrol authority badge cop",
+			"common": false
+		},
+		"prison guard": {
+			"label": "🔦 Prison Guard",
+			"category": "Professions",
+			"description": "Law enforcement official supervising inmates within a prison",
+			"terms": "corrections officer jail warden guard prison custody inmate",
+			"common": false
+		},
+		"intelligence": {
+			"label": "🕵️ Intelligence",
+			"category": "Professions",
+			"description": "Covert operatives involved in espionage and intelligence work",
+			"terms": "espionage covert operative clandestine agency classified secret",
+			"common": false
+		},
+		"food hospitality": {
+			"label": "🍽️ Food & Hospitality",
+			"category": "Professions",
+			"description": "Characters who work in food service or hospitality industries",
+			"terms": "restaurant cafe hotel service dining kitchen hospitality catering",
+			"common": false
+		},
+		"tattooist": {
+			"label": "🖋️ Tattooist",
+			"category": "Professions",
+			"description": "Character who works as a tattoo artist",
+			"terms": "tattoo artist ink body art parlor needle design permanent",
+			"common": false
+		},
+		"butcher": {
+			"label": "🥩 Butcher",
+			"category": "Professions",
+			"description": "A person whose trade is cutting up and selling meat",
+			"terms": "meat cutter slaughterhouse deli carnivore cleaver chop",
+			"common": false
+		},
+		"freelance": {
+			"label": "🌐 Freelance",
+			"category": "Professions",
+			"description": "Worker juggling multiple short-term clients",
+			"terms": "contractor gig worker independent self-employed consultant remote",
+			"common": false
+		},
+		"mercenary": {
+			"label": "⚔️ Mercenary",
+			"category": "Professions",
+			"description": "Hired combat professionals loyal to payment, not cause",
+			"terms": "soldier of fortune hired gun contract fighter warrior sellsword",
+			"common": false
+		},
+		"bounty hunter": {
+			"label": "🎯 Bounty Hunter",
+			"category": "Professions",
+			"description": "Tracks and captures targets for payment",
+			"terms": "tracker capture fugitive reward wanted poster chase pursuit",
+			"common": false
+		},
+		"professional gambler": {
+			"label": "🃏 Professional Gambler",
+			"category": "Professions",
+			"description": "Characters who make a profession out of gambling and wagering",
+			"terms": "poker blackjack casino card shark high roller betting stakes",
+			"common": false
+		},
+		"retired": {
+			"label": "⭐ Retired",
+			"category": "Professions",
+			"description": "Living off saved funds; no longer in active employment",
+			"terms": "pension senior elderly golden years former ex-worker leisure",
+			"common": false
+		},
+		"occultist": {
+			"label": "🔮 Occultist",
+			"category": "Professions",
+			"description": "Practitioners of forbidden or arcane arts as a vocation",
+			"terms": "witch warlock sorcerer mystic ritual magic esoteric arcane",
+			"common": false
+		},
+		"human": {
+			"label": "🧑 Human",
+			"category": "Species/Being Types",
+			"description": "Ordinary characters without non-human traits",
+			"terms": "mortal ordinary mundane regular person baseline",
+			"common": true
+		},
+		"non-human": {
+			"label": "🦄 Non-human",
+			"category": "Species/Being Types",
+			"description": "Characters who are any non-human species or entity",
+			"terms": "creature being entity supernatural mythical fantasy otherworldly inhuman centaur cyclops dragon mermaid",
+			"common": true
+		},
+		"giant": {
+			"label": "🧖 Giant",
+			"category": "Species/Being Types",
+			"description": "Characters of extraordinary size",
+			"terms": "titan colossus huge massive enormous tall macro giantess",
+			"common": false
+		},
+		"insectoid": {
+			"label": "🪲 Insectoid",
+			"category": "Species/Being Types",
+			"description": "Characters possessing insect-like traits",
+			"terms": "bug insect arthropod antenna wings exoskeleton chitin hive",
+			"common": false
+		},
+		"elf": {
+			"label": "🧝‍♀️ Elf",
+			"category": "Species/Being Types",
+			"description": "Graceful, long-lived beings associated with magic, beauty, or nature",
+			"terms": "fae fairy magical fantasy pointy ears woodland forest mythical ethereal",
+			"common": false
+		},
+		"dwarf": {
+			"label": "⛏️ Dwarf",
+			"category": "Species/Being Types",
+			"description": "Stout humanoids known for mining, crafting, and fierce loyalty",
+			"terms": "short stocky miner blacksmith forge mountain beard axe hardy fantasy",
+			"common": false
+		},
+		"mutant": {
+			"label": "🧬 Mutant",
+			"category": "Species/Being Types",
+			"description": "Characters with abilities or traits from genetic mutation",
+			"terms": "genetic mutation power superpower altered dna xmen superhero",
+			"common": false
+		},
+		"eldritch": {
+			"label": "🧙‍♂️ Eldritch",
+			"category": "Species/Being Types",
+			"description": "Cosmic or incomprehensible beings, often tied to horror",
+			"terms": "cosmic horror abomination lovecraftian old god ancient one tentacle madness void unknowable alien unspeakable terror mythos",
+			"common": false
+		},
+		"sentient fictional creature": {
+			"label": "🐲 Sentient Fictional Creature",
+			"category": "Species/Being Types",
+			"description": "Sentient fantasy creatures (fictional animals with human-level intelligence, not real-life species)",
+			"terms": "alien monster fantasy species anthropomorphic non human fictional creature beast",
+			"common": false
+		},
+		"mythical": {
+			"label": "🐉 Mythical",
+			"category": "Species/Being Types",
+			"description": "Legendary creatures from myth, folklore, and ancient storytelling",
+			"terms": "legend folklore myth god goddess hero creature",
+			"common": false
+		},
+		"dragon": {
+			"label": "🐉 Dragon",
+			"category": "Species/Being Types",
+			"description": "Powerful mythical reptilian beings with magic and ancient wisdom",
+			"terms": "dragonborn wyvern wyrm drake serpent reptile fire ice breath scales wings hoard treasure ancient mythical legendary beast magical",
+			"common": false
+		},
+		"merfolk": {
+			"label": "🧜‍♀️ Merfolk",
+			"category": "Species/Being Types",
+			"description": "Mythical beings with a human upper body and a fish tail",
+			"terms": "merman siren sea ocean aquatic fish tail scales underwater myth legend fantasy triton mermen girl woman princess lagoon",
+			"common": false
+		},
+		"naga": {
+			"label": "🐍 Naga",
+			"category": "Species/Being Types",
+			"description": "Characters with the upper body of a human and lower body of a serpent",
+			"terms": "snake serpent lamia half-human hybrid mythology scales",
+			"common": false
+		},
+		"centauroid": {
+			"label": "🐎 Centauroid",
+			"category": "Species/Being Types",
+			"description": "Half-human, half-horse beings combining human intellect with equine strength",
+			"terms": "horse hybrid mythical archer forest wisdom nature gallop hooves mane stallion mare equine",
+			"common": false
+		},
+		"alien": {
+			"label": "👽 Alien",
+			"category": "Species/Being Types",
+			"description": "Extraterrestrial beings from other planets or dimensions",
+			"terms": "extraterrestrial et ufo space creature martian otherworldly cosmic",
+			"common": false
+		},
+		"cryptid": {
+			"label": "👽 Cryptid",
+			"category": "Species/Being Types",
+			"description": "Mysterious creatures of uncertain origin from folklore and urban legend",
+			"terms": "cryptozoology bigfoot sasquatch yeti chupacabra mothman jersey devil wendigo skinwalker loch ness monster ufo alien unexplained mysterious legendary folklore urban legend",
+			"common": false
+		},
+		"shapechanger": {
+			"label": "🔄 Shapechanger",
+			"category": "Species/Being Types",
+			"description": "Characters that can change forms, usually at will",
+			"terms": "shapeshifter metamorph mimic doppelganger form-changing transform",
+			"common": false
+		},
+		"demi-human": {
+			"label": "🧬 Demi-human",
+			"category": "Species/Being Types",
+			"description": "Characters blending human and animal traits",
+			"terms": "hybrid kemonomimi beastkin therianthrope shapeshifter halfbreed mixed",
+			"common": true
+		},
+		"beastkin": {
+			"label": "🐾 Beastkin",
+			"category": "Species/Being Types",
+			"description": "Humanoids with animal features like ears, tails, or fur",
+			"terms": "kemonomimi animal hybrid demi-human therianthrope beast ears tail fur claws paws anthropomorphic catgirl dogboy foxgirl wolfboy neko inumimi usagimimi",
+			"common": false
+		},
+		"furry": {
+			"label": "🐺 Furry",
+			"category": "Species/Being Types",
+			"description": "Fully anthropomorphic animal characters with human-like traits",
+			"terms": "anthro kemono animal person feral beast anthropomorphic fursuit dog cat wolf fox rabbit",
+			"common": true
+		},
+		"kemono": {
+			"label": "🐻 Kemono",
+			"category": "Species/Being Types",
+			"description": "Japanese-style anthropomorphic animal characters",
+			"terms": "furry beast animal anthro kemonomimi kemono manga anime japan japanese cartoon mascot bipedal cute fluffy tail ears paws",
+			"common": false
+		},
+		"werekin": {
+			"label": "🐺 Werekin",
+			"category": "Species/Being Types",
+			"description": "Humans with animal forms, triggered or voluntary",
+			"terms": "therianthrope shapeshifter spiritual animal otherkin transformation beast supernatural moon warewolf werecat weretiger werebear lycanthrope feline ursine lupine furry pack",
+			"common": false
+		},
+		"werewolf": {
+			"label": "🐺 Werewolf",
+			"category": "Species/Being Types",
+			"description": "Humans who transform into wolves or wolf-like beasts",
+			"terms": "lycanthrope shapeshifter full transformation cursed beast supernatural pack howl feral alpha beta omega warewolf lupine night",
+			"common": false
+		},
+		"fae": {
+			"label": "🧚‍♀️ Fae",
+			"category": "Species/Being Types",
+			"description": "Mysterious magical folk from the faerie realm, often tricky or ancient",
+			"terms": "fairy faerie sidhe elf elven seelie unseelie magical fantasy mythical ethereal fairytale glamour trickster enchantment folklore otherworld",
+			"common": false
+		},
+		"fairy": {
+			"label": "🧚‍♀️ Fairy",
+			"category": "Species/Being Types",
+			"description": "Small, magical beings from folklore known for enchantment and mischief",
+			"terms": "faerie fae sprite pixie nymph magical fantasy mythical ethereal fairytale enchantment wings nature mischievous woodland",
+			"common": false
+		},
+		"deity": {
+			"label": "👼 Deity",
+			"category": "Species/Being Types",
+			"description": "Divine beings, gods, or goddesses with supernatural powers",
+			"terms": "god goddess deity angel demon supernatural pantheon immortal divine celestial omnipotent mythological creator spirit higher being holy sacred demigod",
+			"common": false
+		},
+		"angel": {
+			"label": "😇 Angel",
+			"category": "Species/Being Types",
+			"description": "Celestial beings associated with light, purity, and guidance",
+			"terms": "celestial divine holy wings halo heaven seraph cherub messenger guardian",
+			"common": false
+		},
+		"demigod": {
+			"label": "🏺 Demigod",
+			"category": "Species/Being Types",
+			"description": "Characters descended from gods",
+			"terms": "half-god divine offspring mythology heroic powers pantheon",
+			"common": false
+		},
+		"demon": {
+			"label": "👹 Demon",
+			"category": "Species/Being Types",
+			"description": "Supernatural beings from the underworld, embodying temptation or chaos",
+			"terms": "demonic devil infernal hellish fiend satan lucifer incubus succubus fallen angel dark spirit evil supernatural underworld temptation chaos corruption",
+			"common": true
+		},
+		"tiefling": {
+			"label": "😈 Tiefling",
+			"category": "Species/Being Types",
+			"description": "Characters with draconic or demonic features",
+			"terms": "half-demon horns tail dnd dungeons dragons infernal fantasy",
+			"common": false
+		},
+		"undead": {
+			"label": "💀 Undead",
+			"category": "Species/Being Types",
+			"description": "Creatures that died but continue to exist through supernatural means",
+			"terms": "skeleton lich revenant wight corpse reanimated death necromancy risen",
+			"common": false
+		},
+		"vampire": {
+			"label": "🧛 Vampire",
+			"category": "Species/Being Types",
+			"description": "Blood-drinking immortals with supernatural powers and dark allure",
+			"terms": "nosferatu undead bloodsucker dracula immortal nocturnal fangs supernatural",
+			"common": false
+		},
+		"zombie": {
+			"label": "🧟 Zombie",
+			"category": "Species/Being Types",
+			"description": "Reanimated beings driven by supernatural means",
+			"terms": "undead walking dead reanimated corpse shambler ghoul infected apocalypse brain virus plague decay horror",
+			"common": false
+		},
+		"ghost": {
+			"label": "👻 Ghost",
+			"category": "Species/Being Types",
+			"description": "Disembodied spirit or lingering presence from the afterlife",
+			"terms": "spirit phantom specter apparition poltergeist wraith",
+			"common": false
+		},
+		"monster": {
+			"label": "👹 Monster",
+			"category": "Species/Being Types",
+			"description": "Fearsome or grotesque creatures distinct from demi-humans and furries",
+			"terms": "beast creature fiend demon horror supernatural mythical yokai oni centaur cyclops dragon mermaid",
+			"common": false
+		},
+		"monster boy": {
+			"label": "👦 Monster Boy",
+			"category": "Species/Being Types",
+			"description": "Male or masculine characters with monster or supernatural features",
+			"terms": "monster male boy beast supernatural non-human demon vampire werewolf dragon goblin incubus creature yokai fantasy claws fangs horns tail",
+			"common": false
+		},
+		"slime": {
+			"label": "🫧 Slime",
+			"category": "Species/Being Types",
+			"description": "Gelatinous, amorphous creatures able to reshape their bodies",
+			"terms": "ooze goo blob gel jelly amorphous shapeless absorb engulf squishy translucent",
+			"common": false
+		},
+		"monster girl": {
+			"label": "👧 Monster Girl",
+			"category": "Species/Being Types",
+			"description": "Feminine characters with monstrous or inhuman physical features",
+			"terms": "kemonomimi monstergirl kemono beast girl creature hybrid magical fantasy mermaid",
+			"common": false
+		},
+		"kobold": {
+			"label": "🦎 Kobold",
+			"category": "Species/Being Types",
+			"description": "Small reptilian creatures known for cunning and trap-making",
+			"terms": "dragon lizard reptile small clever trap mining tunnel dnd fantasy creature",
+			"common": false
+		},
+		"goblin": {
+			"label": "👺 Goblin",
+			"category": "Species/Being Types",
+			"description": "Small mischievous creatures known for cunning and trickery",
+			"terms": "imp gremlin kobold small creature mischief trickster cunning sneaky green ears pointed short fantasy",
+			"common": false
+		},
+		"orc": {
+			"label": "⚔️ Orc",
+			"category": "Species/Being Types",
+			"description": "Strong warrior beings often portrayed as fierce and tribal",
+			"terms": "greenskin tusks warrior tribal barbarian savage strength combat clan fantasy brutish",
+			"common": false
+		},
+		"fit": {
+			"label": "🍋 Fit",
+			"category": "Species/Being Types",
+			"description": "Well-defined muscles with low-to-moderate body fat",
+			"terms": "athletic toned muscular lean conditioned sporty in-shape healthy",
+			"common": false
+		},
+		"ripped": {
+			"label": "🍍 Ripped",
+			"category": "Species/Being Types",
+			"description": "Extremely low body fat with maximum muscle definition",
+			"terms": "muscular shredded defined bodybuilder abs vascular buff jacked",
+			"common": false
+		},
+		"robot": {
+			"label": "🤖 Robot",
+			"category": "Species/Being Types",
+			"description": "Fully artificial or mechanical beings: androids, automata, AI constructs",
+			"terms": "android cyborg machine ai artificial mechanical automaton synthetic cybernetic",
+			"common": false
+		},
+		"cyborg": {
+			"label": "🦾 Cyborg",
+			"category": "Species/Being Types",
+			"description": "Characters that are partially machine",
+			"terms": "half-robot augmented mechanical prosthetic bionic implant hybrid",
+			"common": false
+		},
+		"enhanced": {
+			"label": "🧪 Enhanced",
+			"category": "Species/Being Types",
+			"description": "Characters with abilities gained through science",
+			"terms": "augmented boosted upgraded superhuman serum experiment scientific",
+			"common": false
+		},
+		"disabled": {
+			"label": "♿ Disabled",
+			"category": "Species/Being Types",
+			"description": "Companions with a physical or mental condition that limits their movements, senses, or activities",
+			"terms": "handicapped mobility impaired accessibility wheelchair crutches cane blind deaf mute",
+			"common": false
+		},
+		"altersex": {
+			"label": "🔀 Altersex",
+			"category": "Species/Being Types",
+			"description": "Companions with alternative or non-standard sex characteristics",
+			"terms": "alternative sex characteristics non-standard fantasy speculative gender variant",
+			"common": false
+		},
+		"futa": {
+			"label": "🔄 Futa",
+			"category": "Species/Being Types",
+			"description": "Companions identifying as futanari, with both male and female traits",
+			"terms": "futanari dickgirl hermaphrodite intersex genderqueer non-binary androgynous",
+			"common": false
+		},
+		"plus-sized": {
+			"label": "🍑 Plus-sized",
+			"category": "Species/Being Types",
+			"description": "Companions with a larger body type",
+			"terms": "curvy thick chubby fat body positive size inclusive bbw bigger larger",
+			"common": false
+		},
+		"thicc": {
+			"label": "🥭 Thicc",
+			"category": "Species/Being Types",
+			"description": "Strong musculature hidden under a layer of fat",
+			"terms": "curvy voluptuous thick hips thighs booty full-figured bodacious",
+			"common": false
+		},
+		"stocky": {
+			"label": "🍎 Stocky",
+			"category": "Species/Being Types",
+			"description": "Broad, short-limbed, heavy-set with solid muscle underneath",
+			"terms": "broad sturdy compact solid thickset heavyset squat built",
+			"common": false
+		},
+		"lanky": {
+			"label": "🍌 Lanky",
+			"category": "Species/Being Types",
+			"description": "Long and thin limbs with low muscle and fat mass",
+			"terms": "tall thin slender gangly spindly long-limbed lean awkward",
+			"common": false
+		},
+		"shortstack": {
+			"label": "🧁 Shortstack",
+			"category": "Species/Being Types",
+			"description": "Short in stature with a curvy, voluptuous build",
+			"terms": "short petite small curvy thick wide hips busty goblin gnome halfling",
+			"common": false
+		},
+		"hyper": {
+			"label": "⚡💪 Hyper",
+			"category": "Species/Being Types",
+			"description": "Characters with exaggerated or extreme anatomical proportions",
+			"terms": "exaggerated oversized enlarged disproportionate unrealistic stylized extreme proportions",
+			"common": false
+		},
+		"game": {
+			"label": "🎮 Game",
+			"category": "Media Sources",
+			"description": "Characters from video games",
+			"terms": "gaming console playstation xbox nintendo pc steam digital interactive entertainment",
+			"common": true
+		},
+		"rpg character": {
+			"label": "🎲 RPG Character",
+			"category": "Media Sources",
+			"description": "Content from roleplaying games",
+			"terms": "dungeons dragons pathfinder tabletop dice fantasy adventure character sheet campaign",
+			"common": false
+		},
+		"anime": {
+			"label": "📺 Anime",
+			"category": "Media Sources",
+			"description": "Characters from Japanese media",
+			"terms": "manga otaku animation cartoon tokyo asian oriental eastern weeb hentai",
+			"common": true
+		},
+		"books": {
+			"label": "📚 Books",
+			"category": "Media Sources",
+			"description": "Characters from literature",
+			"terms": "novel fiction paperback hardcover reading written text story author publication",
+			"common": true
+		},
+		"movie": {
+			"label": "🎬 Movie",
+			"category": "Media Sources",
+			"description": "Characters from films",
+			"terms": "cinema hollywood bollywood film motion picture screenplay blockbuster feature",
+			"common": true
+		},
+		"tv show": {
+			"label": "📺 TV Show",
+			"category": "Media Sources",
+			"description": "Characters from television",
+			"terms": "series episode broadcast streaming netflix hulu amazon prime serial",
+			"common": true
+		},
+		"comic": {
+			"label": "📖 Comic",
+			"category": "Media Sources",
+			"description": "Characters from visual storytelling",
+			"terms": "manga graphic novel superhero panels illustration strip webcomic sequential art",
+			"common": true
+		},
+		"theatre": {
+			"label": "🎭 Theatre",
+			"category": "Media Sources",
+			"description": "Characters from theatrical performances",
+			"terms": "stage play drama musical broadway acting performance live show opera",
+			"common": false
+		},
+		"enemies to lovers": {
+			"label": "⚔️ Enemies to Lovers",
+			"category": "Plot Devices & Structure",
+			"description": "Conflict transforming into romance",
+			"terms": "rivals nemesis antagonist hate-love redemption opposites tension",
+			"common": true
+		},
+		"friends to lovers": {
+			"label": "🤝❤️ Friends to Lovers",
+			"category": "Plot Devices & Structure",
+			"description": "Friendship evolving into romance",
+			"terms": "bestfriends companions pals buddies slow-burn gradual natural",
+			"common": true
+		},
+		"love triangle": {
+			"label": "❤️🔺 Love Triangle",
+			"category": "Plot Devices & Structure",
+			"description": "Stories involving three people in a complicated romantic dynamic",
+			"terms": "rivalry competition jealousy choice torn between multiple",
+			"common": false
+		},
+		"forced proximity": {
+			"label": "🚪 Forced Proximity",
+			"category": "Plot Devices & Structure",
+			"description": "Stories where characters are forced to stay close together",
+			"terms": "trapped stranded roommates lockdown quarantine stuck together",
+			"common": true
+		},
+		"fake relationship": {
+			"label": "💔 Fake Relationship",
+			"category": "Plot Devices & Structure",
+			"description": "Partners pretending to date or be together for ulterior motives",
+			"terms": "dating phony contract couple sham",
+			"common": false
+		},
+		"dare bet": {
+			"label": "🎯 Dare/Bet",
+			"category": "Plot Devices & Structure",
+			"description": "Romance sparked by a wager, challenge, or dare",
+			"terms": "wager challenge bet punishment forfeit dare stakes double-or-nothing",
+			"common": false
+		},
+		"pregnancy": {
+			"label": "🤰 Pregnancy",
+			"category": "Plot Devices & Structure",
+			"description": "Scenarios involving pregnancy",
+			"terms": "pregnant expecting mother-to-be gestation maternity",
+			"common": false
+		},
+		"oc": {
+			"label": "🧑‍🎨 OC",
+			"category": "Plot Devices & Structure",
+			"description": "Original user-created characters",
+			"terms": "custom personal unique fanfiction self insert creative original character fanart",
+			"common": true
+		},
+		"premise": {
+			"label": "🪢 Premise",
+			"category": "Plot Devices & Structure",
+			"description": "Companion centered on a single core idea or dilemma, with no predefined lead character.",
+			"terms": "scenario setup circumstance context setting scene plot arrangement condition event",
+			"common": true
+		},
+		"interactive rpg": {
+			"label": "🎮 Interactive RPG",
+			"category": "Plot Devices & Structure",
+			"description": "Companion functions as an interactive roleplaying game",
+			"terms": "interactive roleplay game mechanics character progression choice based narrative rpg system",
+			"common": false
+		},
+		"cyoa": {
+			"label": "🔀 CYOA",
+			"category": "Plot Devices & Structure",
+			"description": "Choose your own adventure with branching numbered choices",
+			"terms": "choose your own adventure branching choice gamebook route path decision fork",
+			"common": false
+		},
+		"open world": {
+			"label": "🗺️ Open World",
+			"category": "Plot Devices & Structure",
+			"description": "Set world and lore open for exploration and discovery",
+			"terms": "exploration free roam wander discovery non-linear vast map",
+			"common": false
+		},
+		"sandbox": {
+			"label": "🎲 Sandbox",
+			"category": "Plot Devices & Structure",
+			"description": "Completely open for free exploration without set objectives",
+			"terms": "open-ended emergent freeform unstructured create build player agency",
+			"common": false
+		},
+		"amnesia": {
+			"label": "💭 Amnesia",
+			"category": "Plot Devices & Structure",
+			"description": "Stories featuring memory loss as a plot device",
+			"terms": "forgotten memories blackout confusion identity lost past blank mind",
+			"common": false
+		},
+		"gender bend": {
+			"label": "⚧️🔄 Gender Bend",
+			"category": "Plot Devices & Structure",
+			"description": "Stories featuring characters transformed into the opposite gender",
+			"terms": "transformation body swap switched genderswap genderflip role reversal opposite sex changed",
+			"common": false
+		},
+		"time travel": {
+			"label": "⏳ Time Travel",
+			"category": "Plot Devices & Structure",
+			"description": "Characters move between different time periods",
+			"terms": "temporal paradox future past timeline chronology timeloop displacement",
+			"common": false
+		},
+		"chosen one": {
+			"label": "⭐ Chosen One",
+			"category": "Plot Devices & Structure",
+			"description": "Narratives with a character destined for greatness",
+			"terms": "hero savior messiah prophecy fate destiny legendary champion",
+			"common": false
+		},
+		"prophecy": {
+			"label": "📜 Prophecy",
+			"category": "Plot Devices & Structure",
+			"description": "Content involving predicted events or destinies",
+			"terms": "fortune telling oracle seer vision future fate foretold divination",
+			"common": false
+		},
+		"quest": {
+			"label": "🧭 Quest",
+			"category": "Plot Devices & Structure",
+			"description": "Stories structured around journeys to achieve goals",
+			"terms": "mission adventure expedition journey task challenge objective exploration",
+			"common": false
+		},
+		"tournament": {
+			"label": "🏆 Tournament",
+			"category": "Plot Devices & Structure",
+			"description": "Narratives centred on competitions or formalized contests",
+			"terms": "competition championship arena battle contest match game sport",
+			"common": false
+		},
+		"found family": {
+			"label": "👨‍👩‍👧‍👦 Found Family",
+			"category": "Plot Devices & Structure",
+			"description": "Stories about non-biological family bonds formed through circumstance",
+			"terms": "adoption chosen family friendship bonds community support group loyalty",
+			"common": false
+		},
+		"ensemble cast": {
+			"label": "👥 Ensemble Cast",
+			"category": "Plot Devices & Structure",
+			"description": "Stories featuring multiple main characters of equal importance",
+			"terms": "group team collective diverse characters multiple protagonists party",
+			"common": true
+		},
+		"unreliable narrator": {
+			"label": "🎭 Unreliable Narrator",
+			"category": "Plot Devices & Structure",
+			"description": "Content told from the perspective of a character whose credibility is questionable",
+			"terms": "deceptive perspective untrustworthy bias misleading subjective dishonest",
+			"common": false
+		},
+		"colleagues to lovers": {
+			"label": "🧑‍💼 Colleagues to Lovers",
+			"category": "Plot Devices & Structure",
+			"description": "Stories where professional relationships evolve into romance",
+			"terms": "coworkers office romance professional workplace forbidden love",
+			"common": false
+		},
+		"curse": {
+			"label": "🐦‍⬛ Curse",
+			"category": "Plot Devices & Structure",
+			"description": "Stories where character/setting is under supernatural harm/misfortune",
+			"terms": "cursed hex spell witchcraft jinx supernatural misfortune affliction",
+			"common": false
+		},
+		"mistaken identity": {
+			"label": "❓ Mistaken Identity",
+			"category": "Plot Devices & Structure",
+			"description": "Characters led to believe someone's identity is another's",
+			"terms": "wrong person confusion mix-up impersonation lookalike switched",
+			"common": false
+		},
+		"chance meeting": {
+			"label": "⁉️ Chance Meeting",
+			"category": "Plot Devices & Structure",
+			"description": "Stories about characters who just happen to run into each other",
+			"terms": "coincidence fate serendipity accident random encounter unexpected",
+			"common": false
+		},
+		"kidnapping": {
+			"label": "🚐 Kidnapping",
+			"category": "Plot Devices & Structure",
+			"description": "Forced abduction and confinement",
+			"terms": "abduction abducted taken captive forced confined",
+			"common": false
+		},
+		"escape": {
+			"label": "🪟 Escape",
+			"category": "Plot Devices & Structure",
+			"description": "Breaking out of captivity, containment or a closing trap",
+			"terms": "breakout flee fugitive run away jailbreak getaway evade elude on the run",
+			"common": false
+		},
+		"rescue": {
+			"label": "🛟 Rescue",
+			"category": "Plot Devices & Structure",
+			"description": "Saving someone from danger, capture or disaster",
+			"terms": "save saved damsel extraction retrieval intervention knight in shining armour",
+			"common": false
+		},
+		"lore heavy": {
+			"label": "📖 Lore Heavy",
+			"category": "Plot Devices & Structure",
+			"description": "Companions deeply tied to the lore of their world",
+			"terms": "worldbuilding deep lore canon source material universe backstory rich",
+			"common": false
+		},
+		"passional crime": {
+			"label": "🫀 Passional Crime",
+			"category": "Plot Devices & Structure",
+			"description": "A violent crime committed in a sudden heat of passion",
+			"terms": "crime of passion rage jealousy heat of moment violence impulse",
+			"common": false
+		},
+		"sexual awakening": {
+			"label": "🌈 Sexual Awakening",
+			"category": "Plot Devices & Structure",
+			"description": "Characters discovering an unexplored side of their sexuality",
+			"terms": "discovery coming out exploration identity first time realizing queer",
+			"common": false
+		},
+		"parallel universe": {
+			"label": "🌍 Parallel Universe",
+			"category": "Plot Devices & Structure",
+			"description": "Stories featuring alternate versions of reality or different dimensions that exist alongside our own",
+			"terms": "alternate reality multiverse dimension parallel world mirror universe what-if scenario alternate timeline",
+			"common": true
+		},
+		"isekai": {
+			"label": "🌍 Isekai",
+			"category": "Plot Devices & Structure",
+			"description": "Characters transported or reincarnated into a different world",
+			"terms": "gateway dimensional isekai multiverse parallel wormhole doorway reincarnation magic world transfer",
+			"common": false
+		},
+		"confession": {
+			"label": "💘 Confession",
+			"category": "Plot Devices & Structure",
+			"description": "The climactic moment of declaring romantic feelings",
+			"terms": "confess admit reveal feelings love declaration truth secret",
+			"common": false
+		},
+		"reincarnation": {
+			"label": "🔁 Reincarnation",
+			"category": "Plot Devices & Structure",
+			"description": "Reborn in the same or a different world, often with past-life memories",
+			"terms": "reborn past life transmigration rebirth soul transfer cycle",
+			"common": false
+		},
+		"resurrection": {
+			"label": "🌅 Resurrection",
+			"category": "Plot Devices & Structure",
+			"description": "Characters who died and came back to life, or were reborn as themselves",
+			"terms": "rebirth revived returned from death undying second life raised back to life necromancy",
+			"common": false
+		},
+		"scripted": {
+			"label": "📜 Scripted",
+			"category": "Plot Devices & Structure",
+			"description": "Companion with a scripted storyline",
+			"terms": "on-rails fixed storyline linear railroaded predetermined beats outline",
+			"common": false
+		},
+		"secret identity": {
+			"label": "🎭 Secret Identity",
+			"category": "Plot Devices & Structure",
+			"description": "Character deliberately hiding who they really are",
+			"terms": "disguise hidden alias alter ego undercover masked conceal",
+			"common": false
+		},
+		"accidental bond": {
+			"label": "🔗 Accidental Bond",
+			"category": "Plot Devices & Structure",
+			"description": "Bound together by magic, curse, soul link, or circumstance",
+			"terms": "soul bond mate link tether bound connection magical link",
+			"common": false
+		},
+		"body swap": {
+			"label": "🔄 Body Swap",
+			"category": "Plot Devices & Structure",
+			"description": "Two characters swap bodies",
+			"terms": "switch bodies swap minds consciousness transfer possession switched",
+			"common": false
+		},
+		"gambling wagering": {
+			"label": "♠️ Gambling & Wagering",
+			"category": "Plot Devices & Structure",
+			"description": "High-stakes games of chance drive the plot; bets, odds, and risk as narrative fuel",
+			"terms": "bet wager gamble casino poker cards risk reward stakes",
+			"common": false
+		},
+		"body worship": {
+			"label": "🙏 Body Worship",
+			"category": "Kinks & Intimate Content",
+			"description": "Adoration and reverence of a partner's body",
+			"terms": "admiration devotion physical appreciation sensual reverence",
+			"common": true
+		},
+		"ass worship": {
+			"label": "🍑 Ass Worship",
+			"category": "Kinks & Intimate Content",
+			"description": "Adoration focused on a partner's rear",
+			"terms": "butt booty rear glutes cheeks spanking kissing squeezing pygophilia",
+			"common": false
+		},
+		"tail fetish": {
+			"label": "🦊 Tail Fetish",
+			"category": "Kinks & Intimate Content",
+			"description": "Attraction to and erotic play with tails",
+			"terms": "tails prehensile fluffy wagging stroking grooming furry monster appendage",
+			"common": false
+		},
+		"feet": {
+			"label": "🦶 Feet",
+			"category": "Kinks & Intimate Content",
+			"description": "Attraction to and worship of feet",
+			"terms": "foot fetish worship toes soles podophilia",
+			"common": false
+		},
+		"hair kink": {
+			"label": "💇‍♀️ Hair Kink",
+			"category": "Kinks & Intimate Content",
+			"description": "Attraction to or erotic play with hair",
+			"terms": "hairplay brushing styling cutting washing braiding ponytail locks tresses mane",
+			"common": false
+		},
+		"thigh fetish": {
+			"label": "🦵 Thigh Fetish",
+			"category": "Kinks & Intimate Content",
+			"description": "Sexual attraction specifically focused on the upper legs",
+			"terms": "upper legs lap hips quadriceps legs worship",
+			"common": false
+		},
+		"sensory play": {
+			"label": "🪶 Sensory Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Focus on heightened sensations and stimulus experimentation",
+			"terms": "blindfold feather silk touch deprivation teasing stimulus",
+			"common": false
+		},
+		"shockplay": {
+			"label": "⚡ Shockplay",
+			"category": "Kinks & Intimate Content",
+			"description": "Electrical stimulation used for sensation and control",
+			"terms": "electrostimulation electro estim violet wand tens shock zapping current",
+			"common": false
+		},
+		"temperature play": {
+			"label": "🌡️ Temperature Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Temperature-based sensations used for sexual pleasure",
+			"terms": "hot cold ice thermal sensation contrast stimulation",
+			"common": false
+		},
+		"wax play": {
+			"label": "🕯️ Wax Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Using warm or hot wax for sensory stimulation",
+			"terms": "candle dripping temperature hot sensation pain pleasure sensory",
+			"common": false
+		},
+		"voice kink": {
+			"label": "🗣️ Voice Kink",
+			"category": "Kinks & Intimate Content",
+			"description": "Arousal triggered by the sound or quality of a specific voice",
+			"terms": "vocal tone asmr whisper moaning audio spoken timbre",
+			"common": false
+		},
+		"mask kink": {
+			"label": "🥷 Mask Kink",
+			"category": "Kinks & Intimate Content",
+			"description": "Arousal from a partner wearing a mask or hood during intimacy",
+			"terms": "hood disguise concealed face covered anonymous gimp",
+			"common": false
+		},
+		"lingerie fetish": {
+			"label": "🧵 Lingerie Fetish",
+			"category": "Kinks & Intimate Content",
+			"description": "Attraction to delicate or luxurious undergarments",
+			"terms": "underwear bra panties stockings garter lace intimate apparel",
+			"common": false
+		},
+		"olfactophilia": {
+			"label": "😶‍🌫️ Olfactophilia",
+			"category": "Kinks & Intimate Content",
+			"description": "Arousal from scents and smells",
+			"terms": "scent smell odor aroma perfume sniffing pheromone",
+			"common": false
+		},
+		"fart fetish": {
+			"label": "💨 Fart Fetish",
+			"category": "Kinks & Intimate Content",
+			"description": "Sexual arousal from flatulence",
+			"terms": "flatulence gas eproctophilia",
+			"common": false
+		},
+		"musk": {
+			"label": "💪 Musk",
+			"category": "Kinks & Intimate Content",
+			"description": "Arousal from natural body odour; distinct from perfumes or neutral smells",
+			"terms": "body odor pheromone natural smell sweat unwashed armpit",
+			"common": false
+		},
+		"oral": {
+			"label": "👅 Oral",
+			"category": "Kinks & Intimate Content",
+			"description": "Focus on mouth-to-genital acts for sexual pleasure",
+			"terms": "blowjob cunnilingus fellatio rimming head mouth tongue",
+			"common": false
+		},
+		"face sitting": {
+			"label": "🍑 Face Sitting",
+			"category": "Kinks & Intimate Content",
+			"description": "One partner sits on the other's face for oral stimulation",
+			"terms": "queening sitting facesit domination grinding",
+			"common": false
+		},
+		"bondage": {
+			"label": "⛓️ Bondage",
+			"category": "Kinks & Intimate Content",
+			"description": "Physical restraint used for sensual or sexual pleasure",
+			"terms": "rope ties restraints chains cuffs binding restriction",
+			"common": true
+		},
+		"chastity": {
+			"label": "🔐 Chastity",
+			"category": "Kinks & Intimate Content",
+			"description": "Confinement of genitalia for ownership, pain, or pleasure denial",
+			"terms": "cage belt lock denial confinement keyholder owned",
+			"common": false
+		},
+		"breeding": {
+			"label": "🌱 Breeding",
+			"category": "Kinks & Intimate Content",
+			"description": "Impregnation fantasies and related dynamics",
+			"terms": "pregnancy fertility reproduction mating seed insemination",
+			"common": true
+		},
+		"ovipositor": {
+			"label": "🥚 Ovipositor",
+			"category": "Kinks & Intimate Content",
+			"description": "Laying eggs for sexual pleasure",
+			"terms": "eggs laying egg oviposition monster alien fantasy",
+			"common": false
+		},
+		"transformation": {
+			"label": "🔄 Transformation",
+			"category": "Kinks & Intimate Content",
+			"description": "Physical or mental transformation of characters",
+			"terms": "body swap shapeshifting metamorphosis change alter mutate evolve morph",
+			"common": false
+		},
+		"dollification": {
+			"label": "🪆 Dollification",
+			"category": "Kinks & Intimate Content",
+			"description": "Transformation or treatment of a partner as a living doll",
+			"terms": "mannequin objectification plasticized porcelain posed display",
+			"common": false
+		},
+		"corruption": {
+			"label": "🖤 Corruption",
+			"category": "Kinks & Intimate Content",
+			"description": "Gradual moral or sexual transformation of a pure or innocent character",
+			"terms": "innocent pure fall darken depravity moral decay seduction taint",
+			"common": false
+		},
+		"mind control": {
+			"label": "🌀 Mind Control",
+			"category": "Kinks & Intimate Content",
+			"description": "Compelled thought, altered will, or implanted urges",
+			"terms": "brainwashing compulsion domination mesmerism trance",
+			"common": false
+		},
+		"hypnosis": {
+			"label": "💫 Hypnosis",
+			"category": "Kinks & Intimate Content",
+			"description": "Arousal through trance, suggestion, or hypnotic control",
+			"terms": "trance suggestion mesmerize hypnotic induction trigger",
+			"common": false
+		},
+		"breastplay": {
+			"label": "🍈 Breastplay",
+			"category": "Kinks & Intimate Content",
+			"description": "Erotic focus on stimulating breasts",
+			"terms": "breast boob nipple fondle suck squeeze chest",
+			"common": false
+		},
+		"lactation": {
+			"label": "🥛 Lactation",
+			"category": "Kinks & Intimate Content",
+			"description": "Arousal from or involving the production and consumption of breast milk",
+			"terms": "breastfeeding milk nursing breast suckling",
+			"common": false
+		},
+		"orgasm denial": {
+			"label": "⏱️ Orgasm Denial",
+			"category": "Kinks & Intimate Content",
+			"description": "Controlling or withholding release for heightened pleasure",
+			"terms": "tease control delay frustration withholding restraint",
+			"common": false
+		},
+		"edging": {
+			"label": "🌊 Edging",
+			"category": "Kinks & Intimate Content",
+			"description": "Repeatedly bringing to the edge of climax without allowing release",
+			"terms": "climax brink tease denial ruined orgasm plateau",
+			"common": false
+		},
+		"pet play": {
+			"label": "🐾 Pet Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Roleplaying as pets or owners in a power dynamic",
+			"terms": "animal roleplay master owner collar leash obedience training",
+			"common": false
+		},
+		"puppy play": {
+			"label": "🐶 Puppy Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Roleplaying as a puppy or puppy owner",
+			"terms": "dog pup handler owner collar leash barking",
+			"common": false
+		},
+		"pony play": {
+			"label": "🐴 Pony Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Roleplaying as a pony or handler",
+			"terms": "horse ponygirl ponyboy tack bridle bit handler",
+			"common": false
+		},
+		"kitten play": {
+			"label": "🐱 Kitten Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Roleplaying as a kitten or owner",
+			"terms": "cat kitty feline owner collar meowing paws",
+			"common": false
+		},
+		"marking claiming": {
+			"label": "🐾 Marking/Claiming",
+			"category": "Kinks & Intimate Content",
+			"description": "Physically or symbolically marking a partner as one's own",
+			"terms": "ownership possessive bite brand scar hickey territory claimed",
+			"common": false
+		},
+		"scenting": {
+			"label": "😤 Scenting",
+			"category": "Kinks & Intimate Content",
+			"description": "Identifying or marking a partner through scent; common in omegaverse and demi-human content",
+			"terms": "pheromone scent mark omegaverse smell nest territorial",
+			"common": false
+		},
+		"group sex": {
+			"label": "👥 Group Sex",
+			"category": "Kinks & Intimate Content",
+			"description": "Sexual activity involving more than two participants",
+			"terms": "threesome orgy gangbang gang more participants",
+			"common": false
+		},
+		"double penetration": {
+			"label": "🔀 Double Penetration",
+			"category": "Kinks & Intimate Content",
+			"description": "Simultaneous penetration of two openings",
+			"terms": "dp two holes simultaneous dual",
+			"common": false
+		},
+		"spitroast": {
+			"label": "🍢 Spitroast",
+			"category": "Kinks & Intimate Content",
+			"description": "Simultaneous penetration from both ends",
+			"terms": "both ends spit roast sandwich airtight",
+			"common": false
+		},
+		"fluid play": {
+			"label": "💧 Fluid Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Content centred around body fluids as part of intimacy",
+			"terms": "bodily fluids wet messy liquids",
+			"common": false
+		},
+		"semen play": {
+			"label": "🥛 Semen Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Arousal from cum-related acts; creampies, facials, cumswap",
+			"terms": "cum creampie facial cumswap bukkake swallowing",
+			"common": false
+		},
+		"omorashi": {
+			"label": "💦 Omorashi",
+			"category": "Kinks & Intimate Content",
+			"description": "Arousal from holding or losing bladder control",
+			"terms": "bladder holding desperate wetting urge desperation",
+			"common": false
+		},
+		"watersports": {
+			"label": "🚿 Watersports",
+			"category": "Kinks & Intimate Content",
+			"description": "Uro-centric play involving fluids as part of intimacy",
+			"terms": "urination pee stream bladder release golden shower",
+			"common": false
+		},
+		"top": {
+			"label": "⬆️ Top",
+			"category": "Kinks & Intimate Content",
+			"description": "Characters who exclusively take the dominant or penetrative role in intimacy",
+			"terms": "dominant active penetrating giver power position",
+			"common": false
+		},
+		"bottom": {
+			"label": "⬇️ Bottom",
+			"category": "Kinks & Intimate Content",
+			"description": "Characters who exclusively take the receptive role in intimacy",
+			"terms": "submissive passive receptive taker power position",
+			"common": false
+		},
+		"age play": {
+			"label": "🧸 Age Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Roleplay involving caregiver and regressed roles by agreement",
+			"terms": "cg l caregiver little regression nursery pacifier diaper dynamic ddlg ddlb",
+			"common": false
+		},
+		"anal play": {
+			"label": "🍑 Anal Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Characters that enjoy receiving anal stimulation",
+			"terms": "rimming prostate ass butt anal",
+			"common": false
+		},
+		"blood play": {
+			"label": "🩸 Blood Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Use of blood for sexual pleasure",
+			"terms": "cutting knife blade sharp crimson red vampire bite piercing wound",
+			"common": false
+		},
+		"brat taming": {
+			"label": "😈 Brat Taming",
+			"category": "Kinks & Intimate Content",
+			"description": "Disciplining defiant or rebellious partners",
+			"terms": "discipline punishment submission defiance rebellion sass attitude challenge disobedience control power dynamic",
+			"common": true
+		},
+		"breath play": {
+			"label": "🌬️ Breath Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Intentional restriction of oxygen for sexual pleasure",
+			"terms": "choking asphyxiation suffocation oxygen restriction airway control breathing",
+			"common": false
+		},
+		"cnc": {
+			"label": "🎭 CNC",
+			"category": "Kinks & Intimate Content",
+			"description": "Consensual non-consent role-play scenarios",
+			"terms": "consensual non-consent roleplay fantasy simulation pretend forced resistance struggle power dynamic",
+			"common": false
+		},
+		"crush fetish": {
+			"label": "😤 Crush Fetish",
+			"category": "Kinks & Intimate Content",
+			"description": "Arousal from crushing or being crushed by objects, creatures, or a partner",
+			"terms": "squishing stomping giantess crushing weight flattened",
+			"common": false
+		},
+		"dacryphilia": {
+			"label": "😭 Dacryphilia",
+			"category": "Kinks & Intimate Content",
+			"description": "Sexual interest in tears or sobbing",
+			"terms": "crying tears sobbing weeping emotional arousal",
+			"common": false
+		},
+		"dirty talk": {
+			"label": "👄 Dirty Talk",
+			"category": "Kinks & Intimate Content",
+			"description": "Arousing pleasure through explicit or provocative language",
+			"terms": "explicit language filthy words verbal erotic talking",
+			"common": false
+		},
+		"drunk sex": {
+			"label": "💊 Drunk Sex/Chemsex",
+			"category": "Kinks & Intimate Content",
+			"description": "Characters under the influence during sex",
+			"terms": "intoxicated alcohol aphrodisiac substances inebriated influenced",
+			"common": false
+		},
+		"e-sex": {
+			"label": "🫦 E-Sex",
+			"category": "Kinks & Intimate Content",
+			"description": "Sexual activities conducted in digital or online spaces",
+			"terms": "cybersex online phone sex virtual reality digital intimate",
+			"common": false
+		},
+		"exhibitionism": {
+			"label": "🎭 Exhibitionism",
+			"category": "Kinks & Intimate Content",
+			"description": "Sexual thrill derived from being seen or watched by others",
+			"terms": "display showing exposure public reveal demonstration performance",
+			"common": true
+		},
+		"feederism": {
+			"label": "🍴 Feederism",
+			"category": "Kinks & Intimate Content",
+			"description": "Weight gain, feeding kinks, or feeder/feedee dynamics",
+			"terms": "weight gain feeding feedee stuffing fattening",
+			"common": false
+		},
+		"findom": {
+			"label": "💸 Findom",
+			"category": "Kinks & Intimate Content",
+			"description": "Sexual control through financial domination",
+			"terms": "financial domination money control tribute wallet paypig",
+			"common": false
+		},
+		"food play": {
+			"label": "🍓 Food Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Incorporating food into intimate activities for sensory pleasure",
+			"terms": "sploshing wet messy whipped cream chocolate syrup fruit sensory feeding",
+			"common": false
+		},
+		"freeuse": {
+			"label": "🔓 Freeuse",
+			"category": "Kinks & Intimate Content",
+			"description": "Consensual arrangement where one partner is available at any time",
+			"terms": "available access consensual non-con cnc anytime anywhere permission standing",
+			"common": false
+		},
+		"glory hole": {
+			"label": "🕳️ Glory Hole",
+			"category": "Kinks & Intimate Content",
+			"description": "Anonymous sexual activity through a partition",
+			"terms": "anonymous glory public wall hole partition",
+			"common": false
+		},
+		"heat rut": {
+			"label": "🌡️ Heat/Rut",
+			"category": "Kinks & Intimate Content",
+			"description": "Intense, instinct-driven sexual desire or mating cycle",
+			"terms": "omegaverse alpha omega mating cycle estrus instinct driven desire",
+			"common": false
+		},
+		"humiliation": {
+			"label": "😳 Humiliation",
+			"category": "Kinks & Intimate Content",
+			"description": "Embarrassment and degradation as a source of arousal",
+			"terms": "shame degradation mockery teasing belittlement submission",
+			"common": true
+		},
+		"impact play": {
+			"label": "💥 Impact Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Physical force or impact used for sexual pleasure",
+			"terms": "spanking hitting slapping striking force contact physical",
+			"common": false
+		},
+		"inflation": {
+			"label": "🎈 Inflation",
+			"category": "Kinks & Intimate Content",
+			"description": "Characters inflated to extreme and unnatural limits",
+			"terms": "expanding swelling bloating belly air water inflation",
+			"common": false
+		},
+		"expansion": {
+			"label": "📈 Expansion",
+			"category": "Kinks & Intimate Content",
+			"description": "A character or their body parts growing in size, often dramatically",
+			"terms": "growth growing swelling enlarging bigger size increase",
+			"common": false
+		},
+		"breast expansion": {
+			"label": "🍈 Breast Expansion",
+			"category": "Kinks & Intimate Content",
+			"description": "Breasts growing in size, often dramatically",
+			"terms": "be boob growth chest growth busty bust enlargement",
+			"common": false
+		},
+		"butt expansion": {
+			"label": "🍑 Butt Expansion",
+			"category": "Kinks & Intimate Content",
+			"description": "Buttocks growing in size, often dramatically",
+			"terms": "ae ass expansion booty growth rear enlargement hips",
+			"common": false
+		},
+		"penis expansion": {
+			"label": "🍆 Penis Expansion",
+			"category": "Kinks & Intimate Content",
+			"description": "Penis growing in size, often dramatically",
+			"terms": "pe cock growth dick growth enlargement hung",
+			"common": false
+		},
+		"large anatomy": {
+			"label": "🍒 Large Anatomy",
+			"category": "Kinks & Intimate Content",
+			"description": "Characters with above average or large genitalia",
+			"terms": "big large above average hung busty endowed",
+			"common": false
+		},
+		"masturbation": {
+			"label": "✊ Masturbation",
+			"category": "Kinks & Intimate Content",
+			"description": "Sexual self-gratification",
+			"terms": "solo self pleasure touching fingering self-gratification",
+			"common": false
+		},
+		"macro micro": {
+			"label": "🔬 Macro/Micro",
+			"category": "Kinks & Intimate Content",
+			"description": "Extreme size play; one partner gigantic, the other tiny",
+			"terms": "giant tiny gigantic shrinking size play extreme",
+			"common": false
+		},
+		"non-human genitalia": {
+			"label": "🌵 Non-Human Genitalia",
+			"category": "Kinks & Intimate Content",
+			"description": "Exotic anatomy like knots, ovipositors, or hemipenes",
+			"terms": "knot ovipositor hemipenis exotic fantasy anatomy inhuman monstrous alien",
+			"common": false
+		},
+		"pegging": {
+			"label": "🍑 Pegging",
+			"category": "Kinks & Intimate Content",
+			"description": "Female-to-male anal penetration",
+			"terms": "strap-on strapon female to male anal ftm",
+			"common": false
+		},
+		"plushophilia": {
+			"label": "🧸 Plushophilia",
+			"category": "Kinks & Intimate Content",
+			"description": "Sexual attraction to or interaction with stuffed animals",
+			"terms": "stuffed animal plushie toy soft cuddly",
+			"common": false
+		},
+		"praise kink": {
+			"label": "🏆 Praise Kink",
+			"category": "Kinks & Intimate Content",
+			"description": "Verbal affirmation and positive reinforcement as arousal",
+			"terms": "compliments encouragement validation approval recognition reward",
+			"common": true
+		},
+		"primal play": {
+			"label": "🐺 Primal Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Raw, animalistic intimacy; growling, biting, scratching, predator/prey dynamics",
+			"terms": "animalistic instinct predator prey growling biting scratching wrestling hunt",
+			"common": false
+		},
+		"manhandling": {
+			"label": "💪 Manhandling",
+			"category": "Kinks & Intimate Content",
+			"description": "Being physically moved, lifted and pinned with easy strength",
+			"terms": "pinned held down lifted carried thrown hoisted grabbed overpowered strength",
+			"common": false
+		},
+		"role reversal": {
+			"label": "🔁 Role Reversal",
+			"category": "Kinks & Intimate Content",
+			"description": "Switching expected power, gender, or positional roles",
+			"terms": "switching expected roles genderbent power swap flipped",
+			"common": false
+		},
+		"safe sex": {
+			"label": "🛡️ Safe Sex",
+			"category": "Kinks & Intimate Content",
+			"description": "Practice of safe and consensual sex with protection",
+			"terms": "condom protection contraception consensual responsible",
+			"common": false
+		},
+		"sex toys": {
+			"label": "📿 Sex Toys",
+			"category": "Kinks & Intimate Content",
+			"description": "Use of sex toys or objects for sexual pleasure",
+			"terms": "vibrator dildo plug toy object device stimulation",
+			"common": false
+		},
+		"sexual roleplay": {
+			"label": "🥸 Sexual Roleplay",
+			"category": "Kinks & Intimate Content",
+			"description": "Consensual sexual LARPing or acting out roles",
+			"terms": "larp acting scenario cosplay character fantasy pretend dress-up",
+			"common": false
+		},
+		"size difference": {
+			"label": "📏 Size Difference",
+			"category": "Kinks & Intimate Content",
+			"description": "Height or body size disparities between partners",
+			"terms": "tall short giant tiny height contrast scale",
+			"common": true
+		},
+		"small anatomy": {
+			"label": "🤏 Small Anatomy",
+			"category": "Kinks & Intimate Content",
+			"description": "Characters with below average or small genitalia",
+			"terms": "small below average petite flat tiny modest",
+			"common": false
+		},
+		"somnophilia": {
+			"label": "💤 Somnophilia",
+			"category": "Kinks & Intimate Content",
+			"description": "Attraction to sleeping or unconscious individuals",
+			"terms": "sleep unconscious dormant rest slumber drowsy dreaming",
+			"common": false
+		},
+		"tendrils": {
+			"label": "🦑 Tendrils",
+			"category": "Kinks & Intimate Content",
+			"description": "Sexual use of tentacles or tentacle-like appendages",
+			"terms": "tentacles appendages eldritch monster alien squid octopus",
+			"common": false
+		},
+		"ugly bastard": {
+			"label": "🐷 Ugly Bastard",
+			"category": "Kinks & Intimate Content",
+			"description": "Sexual content involving an unattractive or repulsive character",
+			"terms": "unattractive repulsive grotesque unseemly undesirable",
+			"common": false
+		},
+		"voyeurism": {
+			"label": "👁️ Voyeurism",
+			"category": "Kinks & Intimate Content",
+			"description": "Sexual excitement from watching others without being seen",
+			"terms": "watching observing spying peeking spectator viewer witness",
+			"common": false
+		},
+		"weapon play": {
+			"label": "🔪🔫 Weapon Play",
+			"category": "Kinks & Intimate Content",
+			"description": "Use of weapons for sexual pleasure or threat",
+			"terms": "gun knife sword whip flog",
+			"common": false
+		},
+		"dead dove": {
+			"label": "🕊🗡 Dead Dove",
+			"category": "Content Warnings",
+			"description": "Content warning: Tags are here for a reason; active content may be disturbing or distressing",
+			"terms": "trigger warning graphic intense extreme explicit dark mature sensitive unsettling",
+			"common": true
+		},
+		"noncon dubcon": {
+			"label": "⚠️ Noncon/Dubcon",
+			"category": "Content Warnings",
+			"description": "Content warning: Non-consensual or dubiously consensual elements",
+			"terms": "forced coerced unwilling reluctant resistance struggle",
+			"common": true
+		},
+		"abuse": {
+			"label": "⚠️ Abuse",
+			"category": "Content Warnings",
+			"description": "Content warning: Physical, emotional, or psychological mistreatment",
+			"terms": "trauma hurt harm toxic manipulation cruelty maltreatment",
+			"common": true
+		},
+		"blackmail": {
+			"label": "⚠️ Blackmail",
+			"category": "Content Warnings",
+			"description": "Content warning: Coercive leverage through threats or exposure",
+			"terms": "extortion coercion leverage intimidation threats compromise",
+			"common": false
+		},
+		"discrimination": {
+			"label": "⚠️ Discrimination",
+			"category": "Content Warnings",
+			"description": "Content warning: Material contains prejudice or bigotry toward specific groups",
+			"terms": "prejudice bigotry bias hatred intolerance marginalization oppression harassment",
+			"common": true
+		},
+		"homophobia": {
+			"label": "⚠️ Homophobia",
+			"category": "Content Warnings",
+			"description": "Content warning: Prejudice or hostility toward gay people",
+			"terms": "anti gay lesbian queer homophobic bigotry harassment violence intolerance",
+			"common": true
+		},
+		"transphobia": {
+			"label": "⚠️ Transphobia",
+			"category": "Content Warnings",
+			"description": "Content warning: Prejudice or hostility toward trans people",
+			"terms": "anti trans misgender deadname transphobic bigotry harassment violence intolerance",
+			"common": true
+		},
+		"fatphobia": {
+			"label": "⚠️ Fatphobia",
+			"category": "Content Warnings",
+			"description": "Content warning: Prejudice or hostility toward fat people",
+			"terms": "body shaming weight stigma size prejudice anti fat harassment bullying",
+			"common": false
+		},
+		"ableism": {
+			"label": "⚠️ Ableism",
+			"category": "Content Warnings",
+			"description": "Content warning: Prejudice or hostility toward disabled people",
+			"terms": "disability prejudice stigma discrimination handicap invalidation neurodivergent",
+			"common": false
+		},
+		"sexism": {
+			"label": "⚠️ Sexism",
+			"category": "Content Warnings",
+			"description": "Content warning: Prejudice or hostility based on gender",
+			"terms": "misogyny misandry gender prejudice sexist harassment chauvinism patriarchy",
+			"common": true
+		},
+		"religious discrimination": {
+			"label": "⚠️ Religious Discrimination",
+			"category": "Content Warnings",
+			"description": "Content warning: Prejudice or hostility based on faith or belief",
+			"terms": "faith belief prejudice persecution intolerance anti religious harassment",
+			"common": false
+		},
+		"raceplay": {
+			"label": "⚠️ Raceplay",
+			"category": "Content Warnings",
+			"description": "Content warning: Content involving racial roleplay themes or power dynamics based on race",
+			"terms": "racial fetishization slurs power dynamics ethnic roleplay racist dynamics",
+			"common": false
+		},
+		"slur usage": {
+			"label": "⚠️ Slur Usage",
+			"category": "Content Warnings",
+			"description": "Content warning: Usage of derogatory slurs or offensive language",
+			"terms": "derogatory offensive language hate speech discriminatory terms",
+			"common": false
+		},
+		"self harm suicide": {
+			"label": "⚠️ Self-Harm/Suicide",
+			"category": "Content Warnings",
+			"description": "Content warning: Self-harm, suicidal ideation, or suicide attempts",
+			"terms": "suicidal ideation self-injury cutting self destructive attempt crisis hotline prevention",
+			"common": true
+		},
+		"violence": {
+			"label": "⚠️ Violence",
+			"category": "Content Warnings",
+			"description": "Content warning: Material contains explicit violent themes",
+			"terms": "fighting combat assault aggressive brutal physical force",
+			"common": true
+		},
+		"gore": {
+			"label": "⚠️ Gore",
+			"category": "Content Warnings",
+			"description": "Content warning: Graphic depictions of blood, injuries, and viscera",
+			"terms": "blood injury wound graphic brutal visceral explicit",
+			"common": true
+		},
+		"drugs addiction": {
+			"label": "⚠️ Drugs/Addiction",
+			"category": "Content Warnings",
+			"description": "Content warning: Substance use and dependency",
+			"terms": "substance abuse dependency chemical intoxication withdrawal",
+			"common": true
+		},
+		"stepcest": {
+			"label": "⚠️ Stepcest",
+			"category": "Content Warnings",
+			"description": "Content warning: Incestuous relationships. Blood incest is not allowed on Saucepan.",
+			"terms": "family taboo forbidden relative stepfamily relation",
+			"common": false
+		},
+		"vore": {
+			"label": "🐟 Vore",
+			"category": "Content Warnings",
+			"description": "Content warning: Characters being consumed, swallowed whole, or absorbed",
+			"terms": "consumption swallowing devouring absorption prey predator",
+			"common": false
+		},
+		"cannibalism": {
+			"label": "⚠️ Cannibalism",
+			"category": "Content Warnings",
+			"description": "Content warning: Characters consuming or eating other characters",
+			"terms": "eating human flesh consumption cannibal",
+			"common": false
+		},
+		"sentient animal": {
+			"label": "⚠️ Sentient Animal",
+			"category": "Content Warnings",
+			"description": "Content warning: Content with sentient animals (real-life animals with human-level intelligence, not fictional species)",
+			"terms": "sapient anthropomorphic furry beast creature monster harkness animal person quadruped feral",
+			"common": false
+		},
+		"trauma": {
+			"label": "⚠️ Trauma",
+			"category": "Content Warnings",
+			"description": "Content warning: Depictions of traumatic experiences or their aftermath",
+			"terms": "ptsd flashback abuse childhood neglect emotional psychological distress panic anxiety",
+			"common": true
+		},
+		"terminal illness": {
+			"label": "⚠️ Terminal Illness",
+			"category": "Content Warnings",
+			"description": "Content warning: Depictions of terminal illness, disease, or end-of-life conditions",
+			"terms": "illness disease sickness chronic terminal cancer hospital disability condition symptoms",
+			"common": false
+		},
+		"medical trauma": {
+			"label": "⚠️ Medical Trauma",
+			"category": "Content Warnings",
+			"description": "Content warning: Traumatic medical experiences distinct from terminal illness",
+			"terms": "surgery hospital procedure invasive treatment medical distress clinical graphic",
+			"common": false
+		},
+		"user harm": {
+			"label": "⚠️ User Harm",
+			"category": "Content Warnings",
+			"description": "Content warning: Scenarios where the user character may be harmed",
+			"terms": "reader harm injury torture captive victim danger threat hurt pain suffering",
+			"common": true
+		},
+		"death": {
+			"label": "⚠️ Death",
+			"category": "Content Warnings",
+			"description": "Content warning: Dying, loss of life, or grief",
+			"terms": "dying grief loss mortality funeral mourning passing deceased",
+			"common": false
+		},
+		"body horror": {
+			"label": "⚠️ Body Horror",
+			"category": "Content Warnings",
+			"description": "Content warning: Graphic depictions of monstrous or grotesque bodily transformation",
+			"terms": "grotesque monstrous flesh mutation disfigurement visceral disturbing corporeal",
+			"common": false
+		},
+		"eating disorder": {
+			"label": "⚠️ Eating Disorder",
+			"category": "Content Warnings",
+			"description": "Content warning: Anorexia, bulimia, or other harmful relationships with food",
+			"terms": "anorexia bulimia restriction purging food relationship disordered eating",
+			"common": false
+		},
+		"amputation": {
+			"label": "⚠️ Amputation",
+			"category": "Content Warnings",
+			"description": "Content warning: Non-consensual amputations or loss of limbs",
+			"terms": "limb loss dismemberment severed body part surgery involuntary maiming",
+			"common": false
+		},
+		"miscarriage": {
+			"label": "⚠️ Miscarriage",
+			"category": "Content Warnings",
+			"description": "Content warning: Loss of a child or pregnancy",
+			"terms": "pregnancy loss stillbirth infant death grief mourning fetal",
+			"common": false
+		},
+		"scat": {
+			"label": "💩 Scat",
+			"category": "Content Warnings",
+			"description": "Content warning: Sexual content involving feces",
+			"terms": "feces scatological bathroom filth coprophilia waste",
+			"common": false
+		},
+		"utility": {
+			"label": "🔧 Utility",
+			"category": "Other",
+			"description": "Content focused on practical or functional purposes",
+			"terms": "practical functional tool helper assistant service",
+			"common": false
+		},
+		"unknown": {
+			"label": "🔍 Unknown",
+			"category": "Other",
+			"description": "Content that doesn't fit into any other category",
+			"terms": "",
+			"common": false
+		}
+	}
+}

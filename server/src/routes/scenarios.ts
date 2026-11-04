@@ -2,7 +2,8 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { sql } from "kysely";
 import type { KawaScenarioCard, PublishResult, ScenarioLookup, ScenarioSort, SearchField } from "@shared/api";
-import { LIMITS, normalizeTags } from "@shared/api";
+import { LIMITS } from "@shared/api";
+import { tagIndex } from "../tags";
 import { requireCreator, requireUser, type AppEnv } from "../auth";
 import {
 	SEARCH_FIELDS,
@@ -103,7 +104,8 @@ function validateCard(raw: unknown): KawaScenarioCard {
 	if (title.length > LIMITS.title) fail(400, "card title is too long");
 	if (!isString(card.card.description)) fail(400, "card description must be a string");
 
-	const tags = isStringArray(card.card.tags) ? normalizeTags(card.card.tags) : [];
+	// aliases become main names, unknown tags are kept as typed (normalized)
+	const tags = isStringArray(card.card.tags) ? tagIndex.canonicalize(card.card.tags) : [];
 	if (tags.length > LIMITS.tags) fail(400, `at most ${LIMITS.tags} tags`);
 	if (tags.some(t => t.length > LIMITS.tagLength)) fail(400, "tag is too long");
 

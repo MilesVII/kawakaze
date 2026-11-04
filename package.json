@@ -5,14 +5,15 @@
 	"type": "module",
 	"engines": { "node": ">=24" },
 	"scripts": {
+		"build:tags":   "esbuild scripts/tags-check.ts --bundle --platform=node --format=esm --log-level=warning --outfile=dist/tags-check.js && node dist/tags-check.js",
 		"build:web":    "esbuild web/src/index.ts --bundle --minify --sourcemap --loader:.html=text --outfile=web/assets/index.js",
 		"watch:web":    "esbuild web/src/index.ts --bundle --sourcemap --loader:.html=text --watch --outfile=web/assets/index.js",
 		"build:server": "esbuild server/src/main.ts server/src/cli.ts --bundle --platform=node --format=esm --target=node24 --packages=external --sourcemap --outdir=dist",
 		"watch:server": "esbuild server/src/main.ts server/src/cli.ts --bundle --platform=node --format=esm --target=node24 --packages=external --sourcemap --outdir=dist --watch",
-		"build":        "npm run build:web && npm run build:server",
+		"build":        "npm run build:tags && npm run build:web && npm run build:server",
 		"start":        "node --env-file-if-exists=.env --enable-source-maps dist/main.js",
 		"cli":          "node --env-file-if-exists=.env dist/cli.js",
-		"dev":          "concurrently -k \"npm:watch:web\" \"npm:watch:server\" \"node --env-file-if-exists=.env --enable-source-maps --watch dist/main.js\"",
+		"dev":          "npm run build:tags && concurrently -k \"npm:watch:web\" \"npm:watch:server\" \"node --env-file-if-exists=.env --enable-source-maps --watch dist/main.js\"",
 		"typecheck":    "tsc -p web && tsc -p server"
 	},
 	"dependencies": {
