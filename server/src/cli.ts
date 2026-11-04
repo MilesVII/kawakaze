@@ -1,3 +1,4 @@
+import { retagScenarios } from "./catalog";
 import { db, initDB } from "./db";
 import { issueInvites } from "./routes/admin";
 import { findUserByName } from "./users";
@@ -7,7 +8,9 @@ const USAGE = [
 	"  cli migrate                 apply database migrations",
 	"  cli admin <username>        grant admin (and creator) rights",
 	"  cli unadmin <username>      revoke admin rights",
-	"  cli invite [count] [note]   issue creator invite tokens"
+	"  cli invite [count] [note]   issue creator invite tokens",
+	"  cli retag [--dry]           rewrite published cards' tags with the current tag list (aliases to main names);",
+	"                              edit timestamps stay, --dry only lists the changes"
 ].join("\n");
 
 async function main(args: string[]) {
@@ -42,6 +45,13 @@ async function main(args: string[]) {
 			}
 			const tokens = await issueInvites(count, rest.slice(1).join(" "), null);
 			console.log(tokens.join("\n"));
+			return 0;
+		}
+		case "retag": {
+			const dry = rest.includes("--dry");
+			const { checked, changes } = await retagScenarios(dry);
+			changes.forEach(c => console.log(`${c.title} (${c.id}): ${c.from.join(", ")} → ${c.to.join(", ")}`));
+			console.log(`${checked} cards checked, ${changes.length} ${dry ? "would change" : "retagged"}`);
 			return 0;
 		}
 		default:

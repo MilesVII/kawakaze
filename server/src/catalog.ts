@@ -203,6 +203,40 @@ export async function unindexScenario(trx: Trx, id: string) {
 	await sql`delete from scenarios_fts where id = ${id}`.execute(trx);
 }
 
+export type RetagChange = { id: string, title: string, from: string[], to: string[] };
+/**
+ * Runs every stored card's tags (delisted ones too) through the current vocabulary, as publishing does:
+ * aliases become main names, duplicates go. Updates the tags column, the card data and the search index,
+ * leaving `updated_at` and the card's `lastUpdate` alone. With `dryRun` it only reports.
+ * A running server keeps its cached home page until its next publish or restart.
+ */
+export async function retagScenarios(dryRun: boolean) {
+	const rows = await db.selectFrom("scenarios").select(["id", "title", "tags", "data", "authors", "delisted_at"]).execute();
+	const changes: (RetagChange & { row: typeof rows[number], card: KawaScenarioCard })[] = [];
+	for (const row of rows) {
+		const card = parseJSON<KawaScenarioCard | null>(row.data, null);
+		const from = card?.card?.tags ?? parseJSON<string[]>(row.tags, []);
+		const to = tagIndex.canonicalize(from);
+		const column = parseJSON<string[]>(row.tags, []);
+		if (!card || (sameTags(from, to) && sameTags(column, to))) continue;
+		changes.push({ id: row.id, title: row.title, from, to, row, card });
+	}
+	if (!dryRun && changes.length) {
+		await db.transaction().execute(async trx => {
+			for (const { row, card, to } of changes) {
+				card.card.tags = to;
+				const data = JSON.stringify(card);
+				await trx.updateTable("scenarios").set({ tags: JSON.stringify(to), data }).where("id", "=", row.id).execute();
+				await indexScenario(trx, { ...row, data });
+			}
+		});
+	}
+	return { checked: rows.length, changes: changes.map(({ id, title, from, to }) => ({ id, title, from, to })) };
+}
+function sameTags(a: string[], b: string[]) {
+	return a.length === b.length && a.every((t, i) => t === b[i]);
+}
+
 /** After a rename: refresh the index rows that mention the user as an author */
 export async function reindexAuthor(userId: string) {
 	const rows = await db
