@@ -2,10 +2,10 @@ import { Hono } from "hono";
 import { sql } from "kysely";
 import type { CommentWithScenario, Notification, SessionInfo } from "@shared/api";
 import { LIMITS, PER_PAGE, USERNAME_RE } from "@shared/api";
-import { requireUser, signOut, type AppEnv } from "../auth";
+import { requireCreator, requireUser, signOut, type AppEnv } from "../auth";
 import { authorsFor, invalidateHome, reindexAuthor, toMeta } from "../catalog";
 import { db } from "../db";
-import { storePicture } from "../media";
+import { addToLibrary, mediaLibrary, storePicture } from "../media";
 import { deleteAccount } from "../purge";
 import { findUserByName, toMe, usersById } from "../users";
 import { clampVote, ensure, fail, isString, isStringArray, makePage, pageParam, readJSON } from "../util";
@@ -70,6 +70,19 @@ meRoutes.delete("/icon", async c => {
 	await db.updateTable("users").set({ icon: null }).where("id", "=", user.id).execute();
 	invalidateHome();
 	return c.json(await toMe(await freshUser(user.id)));
+});
+
+meRoutes.get("/media", async c => {
+	const user = requireCreator(c);
+	return c.json(await mediaLibrary(user.id));
+});
+
+meRoutes.post("/media", async c => {
+	const user = requireCreator(c);
+	const body = await c.req.parseBody();
+	const file = body.picture instanceof File ? body.picture : fail(400, "picture file is required");
+	await addToLibrary(file, user.id);
+	return c.json(await mediaLibrary(user.id));
 });
 
 meRoutes.delete("/", async c => {

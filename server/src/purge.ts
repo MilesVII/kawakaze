@@ -35,7 +35,9 @@ export async function purgeContent(userId: string): Promise<PurgeResult> {
 		for (const s of scenarios) await unindexScenario(trx, s.id);
 		await trx.deleteFrom("scenarios").where("owner_id", "=", userId).execute();
 		const result = await trx.deleteFrom("comments").where("user_id", "=", userId).executeTakeFirst();
+		// links others made to these pictures go with them (on delete cascade)
 		await trx.deleteFrom("media").where("owner_id", "=", userId).execute();
+		await trx.deleteFrom("media_library").where("user_id", "=", userId).execute();
 		await trx.updateTable("users").set({ icon: null, bio: "" }).where("id", "=", userId).execute();
 		return result;
 	});

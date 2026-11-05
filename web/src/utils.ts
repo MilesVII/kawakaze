@@ -65,6 +65,17 @@ export async function renderMDAsync(content: string) {
 	return dompurify.default.sanitize(await marked.parse(content, markedOptions));
 }
 
+/** 1536 -> "1.5 KiB" */
+export function formatBytes(n: number) {
+	const units = ["B", "KiB", "MiB", "GiB", "TiB"];
+	let i = 0;
+	while (n >= 1024 && i < units.length - 1) {
+		n /= 1024;
+		++i;
+	}
+	return `${n.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
+}
+
 const PLACHEOLDER = "/assets/gfx/placeholder.png";
 export function placeholder(url: string | null) {
 	return url || PLACHEOLDER;

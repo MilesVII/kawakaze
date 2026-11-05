@@ -11,6 +11,7 @@ export type Database = {
 	comment_votes:  VotesTable & { comment_id: number },
 	notifications:  NotificationsTable,
 	media:          MediaTable,
+	media_library:  MediaLibraryTable,
 	sync:           SyncTable
 };
 
@@ -115,6 +116,12 @@ export type MediaTable = {
 	width: number,
 	height: number,
 	created_at: number
+};
+
+export type MediaLibraryTable = {
+	user_id: string,
+	hash: string,
+	added_at: number
 };
 
 export type SyncTable = {

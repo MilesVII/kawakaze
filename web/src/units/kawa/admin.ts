@@ -2,7 +2,7 @@ import type { AdminComment, AdminUser, DiskReport, Invite, Page, PurgeResult } f
 import { RampikePagination } from "@rampike/pagination";
 import { account, api } from "@root/api";
 import { getRoute, onRoute } from "@root/router";
-import { placeholder } from "@root/utils";
+import { formatBytes, placeholder } from "@root/utils";
 import { mudcrack } from "rampike";
 import { placeholderView } from "@views/common";
 import { makeCommentView } from "@views/comment";
@@ -61,16 +61,6 @@ function loadAll() {
 	loadComments();
 }
 
-function bytes(n: number) {
-	const units = ["B", "KB", "MB", "GB", "TB"];
-	let i = 0;
-	while (n >= 1024 && i < units.length - 1) {
-		n /= 1024;
-		++i;
-	}
-	return `${n.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
-}
-
 async function loadDisk() {
 	const box = document.querySelector<HTMLElement>("#admin-disk")!;
 	const r = await api<DiskReport>("GET", "/api/admin/disk");
@@ -78,10 +68,10 @@ async function loadDisk() {
 	const d = r.value;
 	const used = d.totalBytes - d.freeBytes;
 	const rows: [string, string][] = [
-		["disk", `${bytes(used)} used of ${bytes(d.totalBytes)} (${bytes(d.freeBytes)} free)`],
-		["database", bytes(d.dbBytes)],
-		["media", `${bytes(d.mediaBytes)} in ${d.mediaFiles} files`],
-		["chat sync", `${bytes(d.syncBytes)} in ${d.syncItems} chats`],
+		["disk", `${formatBytes(used)} used of ${formatBytes(d.totalBytes)} (${formatBytes(d.freeBytes)} free)`],
+		["database", formatBytes(d.dbBytes)],
+		["media", `${formatBytes(d.mediaBytes)} in ${d.mediaFiles} files`],
+		["chat sync", `${formatBytes(d.syncBytes)} in ${d.syncItems} chats`],
 		["users", `${d.users} (${d.creators} creators)`],
 		["scenarios", String(d.scenarios)],
 		["comments", String(d.comments)]
@@ -196,8 +186,8 @@ function userView(u: AdminUser) {
 				contents: [
 					`${u.scenarioCount} scenarios`,
 					`${u.commentCount} comments`,
-					`media ${bytes(u.mediaBytes)}`,
-					`sync ${bytes(u.syncBytes)}`,
+					`media ${formatBytes(u.mediaBytes)}`,
+					`sync ${formatBytes(u.syncBytes)}`,
 					`joined ${new Date(u.createdAt).toLocaleDateString()}`,
 					u.lastSeenAt ? `seen ${relativeTime(u.lastSeenAt)}` : "never seen"
 				].join(" · ")

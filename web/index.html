@@ -302,6 +302,8 @@
 						<div class="hint">Card icon is used in chat when no chat icon is provided</div>
 					</div>
 
+					<button id="scenario-media-button" class="lineout" title="upload pictures to use in the description and messages" hidden>media library</button>
+
 					<ram-labeled
 						legend="Card title"
 						id="scenario-card-title"
@@ -815,6 +817,21 @@
 				value=""
 				multiline
 			></ram-labeled>
+		</ram-modal>
+		<ram-modal id="media-modal">
+			<div class="list">
+				<div class="row-compact align-center">
+					<ram-file-picker id="media-picker" accept="image/*" multiple>
+						<div class="lineout pointer fit">pick pictures</div>
+					</ram-file-picker>
+					<button id="media-upload" class="lineout fit" disabled>upload</button>
+					<button id="media-close" class="lineout fit float-end">close</button>
+				</div>
+				<div id="media-picked" class="hint">Pictures are converted to webp, the smaller side up to 2048 pixels.</div>
+				<progress id="media-quota" class="wide" max="1" value="0"></progress>
+				<div id="media-quota-text" class="hint"></div>
+				<div id="media-list" class="media-grid"></div>
+			</div>
 		</ram-modal>
 		<ram-modal id="scenario-preview">
 			<button id="scenario-preview-close" class="lineout float-end">close</button>

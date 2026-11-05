@@ -159,6 +159,8 @@ GET    /api/me                    -> Me | null
 PATCH  /api/me                    { username?, bio?, hiddenTags? } -> Me
 PUT    /api/me/icon               multipart icon=<file> -> Me
 DELETE /api/me/icon               -> Me
+GET    /api/me/media              -> MediaLibrary (creators)
+POST   /api/me/media              multipart picture=<file> -> MediaLibrary (creators), re-encoded like card pictures
 DELETE /api/me                    { confirm: <username> } -> { ok: true }
 POST   /api/me/redeem             { token: string, acceptTerms: true } -> Me
 GET    /api/me/comments?page=     -> Page<CommentWithScenario>
@@ -176,6 +178,19 @@ export type Me = UserRef & {
 	unread: number,
 	createdAt: number,
 	termsAcceptedAt: number | null
+};
+/** pictures to link from markdown: the ones added to the library and every other picture the user uploaded, newest first */
+export type MediaLibrary = {
+	items: MediaItem[],
+	/** what counts against the quota: pictures the user uploaded first */
+	usedBytes: number,
+	quotaBytes: number
+};
+export type MediaItem = {
+	url: string,
+	width: number,
+	height: number,
+	addedAt: number
 };
 export type Notification = {
 	id: number,

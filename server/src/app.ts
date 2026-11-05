@@ -23,6 +23,7 @@ const DEFAULT_BODY_LIMIT = 256 * 1024;
 function bodyLimitFor(method: string, path: string) {
 	if (method === "POST" && path === "/api/scenarios") return LIMITS.cardBytes + 2 * LIMITS.pictureBytes + MULTIPART_SLACK;
 	if (method === "PUT" && path === "/api/me/icon") return LIMITS.pictureBytes + MULTIPART_SLACK;
+	if (method === "POST" && path === "/api/me/media") return LIMITS.pictureBytes + MULTIPART_SLACK;
 	if (method === "PUT" && path.startsWith("/api/sync/")) return LIMITS.syncBytes;
 	return DEFAULT_BODY_LIMIT;
 }

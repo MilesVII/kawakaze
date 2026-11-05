@@ -132,8 +132,22 @@ const init: Migration = {
 	}
 };
 
+/** pictures a user added to their media library; the ones they uploaded first are theirs in media.owner_id anyway,
+this also keeps pictures someone else had uploaded before */
+const mediaLibrary: Migration = {
+	async up(db) {
+		await sql.raw(`create table media_library (
+			user_id  text not null references users(id) on delete cascade,
+			hash     text not null references media(hash) on delete cascade,
+			added_at integer not null,
+			primary key (user_id, hash)
+		)`).execute(db);
+	}
+};
+
 const migrations: Record<string, Migration> = {
-	"0001_init": init
+	"0001_init": init,
+	"0002_media_library": mediaLibrary
 };
 
 const provider: MigrationProvider = {

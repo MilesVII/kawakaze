@@ -385,6 +385,23 @@ input[type="number"] {
 	padding: var(--dims-reg);
 }
 
+/* ---- media library ---- */
+
+.media-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(152px, 1fr));
+	gap: var(--dims-huge) var(--dims-reg);
+}
+.media-grid button {
+	white-space: nowrap;
+}
+.media-grid img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 1;
+	object-fit: cover;
+}
+
 /* ---- admin ---- */
 
 .admin-grid {

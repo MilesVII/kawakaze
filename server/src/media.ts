@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import sharp, { type OutputInfo } from "sharp";
 import { sql } from "kysely";
-import { LIMITS } from "@shared/api";
+import { LIMITS, type MediaLibrary } from "@shared/api";
 import { config } from "./config";
 import { db } from "./db";
 import { HttpError, fail, sha256 } from "./util";
@@ -97,6 +97,35 @@ export async function storePicture(file: File, ownerId: string): Promise<string>
 		.onConflict(oc => oc.column("hash").doNothing())
 		.execute();
 	return hash;
+}
+
+/** Stores a picture (see storePicture) and adds it to the user's media library, or moves it to the top if it's there already */
+export async function addToLibrary(file: File, userId: string) {
+	const hash = await storePicture(file, userId);
+	const now = Date.now();
+	await db
+		.insertInto("media_library")
+		.values({ user_id: userId, hash, added_at: now })
+		.onConflict(oc => oc.columns(["user_id", "hash"]).doUpdateSet({ added_at: now }))
+		.execute();
+}
+
+/** The library: pictures added to it and every other picture the user uploaded (icons, card pictures), newest first */
+export async function mediaLibrary(userId: string): Promise<MediaLibrary> {
+	const rows = await db
+		.selectFrom("media")
+		.leftJoin("media_library", join => join
+			.onRef("media_library.hash", "=", "media.hash")
+			.on("media_library.user_id", "=", userId))
+		.select(["media.hash", "media.width", "media.height", sql<number>`coalesce(media_library.added_at, media.created_at)`.as("added_at")])
+		.where(eb => eb.or([eb("media.owner_id", "=", userId), eb("media_library.user_id", "is not", null)]))
+		.orderBy(sql`added_at`, "desc")
+		.execute();
+	return {
+		items: rows.map(r => ({ url: mediaUrl(r.hash), width: r.width, height: r.height, addedAt: r.added_at })),
+		usedBytes: await userMediaBytes(userId),
+		quotaBytes: config.quota.mediaBytes
+	};
 }
 
 export async function readPictureBase64(hash: string | null) {
