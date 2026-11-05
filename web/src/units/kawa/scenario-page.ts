@@ -11,7 +11,7 @@ import { makeCommentView } from "@views/comment";
 import { makeVoteView } from "@views/vote";
 import { openStartModal } from "@units/library";
 import { toast } from "@units/toasts";
-import { relativeTime, saveToLibrary, scenarioLink, userLink } from "./catalog";
+import { onTagLabels, relativeTime, saveToLibrary, scenarioLink, tagLabel, userLink } from "./catalog";
 import { invalidateHome } from "./home";
 import { renderTurnstile, TurnstileHandle } from "./turnstile";
 
@@ -87,6 +87,9 @@ export function scenarioPageUnit() {
 	// in-page anchor clicks (comment timestamps) bypass the router
 	window.addEventListener("hashchange", () => {
 		if (getRoute()[0] === "c") scrollToHash();
+	});
+	onTagLabels(() => {
+		if (getRoute()[0] === "c" && loaded) renderTags(loaded.meta);
 	});
 	if (getRoute()[0] === "c") load();
 }
@@ -195,11 +198,7 @@ function renderHeader({ meta }: Loaded) {
 			return r.value;
 		}
 	));
-	document.querySelector<HTMLElement>("#sp-tags")!.replaceChildren(...meta.tags.map(tag => mudcrack({
-		tagName: "a",
-		attributes: { href: `/?tag=${encodeURIComponent(tag)}` },
-		contents: tag
-	})));
+	renderTags(meta);
 	document.querySelector<HTMLElement>("#sp-delisted")!.hidden = !meta.delisted;
 	document.querySelector<HTMLElement>("#sp-edit")!.hidden = !(me && me.id === meta.ownerId);
 
@@ -209,6 +208,14 @@ function renderHeader({ meta }: Loaded) {
 		"Forked from ",
 		mudcrack({ tagName: "a", attributes: { href: scenarioLink(meta.parentId) }, contents: "the original" })
 	);
+}
+
+function renderTags(meta: ScenarioMeta) {
+	document.querySelector<HTMLElement>("#sp-tags")!.replaceChildren(...meta.tags.map(tag => mudcrack({
+		tagName: "a",
+		attributes: { href: `/?tag=${encodeURIComponent(tag)}` },
+		contents: tagLabel(tag)
+	})));
 }
 
 function renderCard(card: KawaScenarioCard) {

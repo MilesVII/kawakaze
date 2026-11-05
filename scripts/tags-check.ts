@@ -1,13 +1,15 @@
 /*
-Checks the hand-edited tag sources in shared/tags/ and merges them into web/assets/tags.json for the client.
+Checks the hand-edited tag sources in shared/tags/ and merges them for the client:
+web/assets/tags.json with everything and web/assets/tag-labels.json with just labels, aliases and groups.
 Runs as `npm run build:tags` (part of `npm run build`); exits with 1 and writes nothing when something is wrong.
 */
 import { readFileSync, writeFileSync } from "node:fs";
 import { LIMITS } from "../shared/api";
-import { validateTagSources, type TagSources } from "../shared/tags";
+import { tagLabels, validateTagSources, type TagSources } from "../shared/tags";
 
 const DIR = "shared/tags/";
 const OUT = "web/assets/tags.json";
+const LABELS_OUT = "web/assets/tag-labels.json";
 
 function read(file: string): unknown {
 	try {
@@ -42,5 +44,6 @@ const errors = validateTagSources(sources, LIMITS.tagLength);
 if (errors.length) fail(errors);
 
 writeFileSync(OUT, JSON.stringify(sources));
+writeFileSync(LABELS_OUT, JSON.stringify(tagLabels(sources)));
 const count = (m: Record<string, string[]>) => Object.values(m).flat().length;
-console.log(`tags: ${Object.keys(sources.tags).length} tags, ${count(sources.aliases)} aliases, ${count(sources.groups)} implications → ${OUT}`);
+console.log(`tags: ${Object.keys(sources.tags).length} tags, ${count(sources.aliases)} aliases, ${count(sources.groups)} implications → ${OUT}, ${LABELS_OUT}`);

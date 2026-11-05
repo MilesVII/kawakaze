@@ -4,7 +4,8 @@ Sources live in shared/tags/ and are edited by hand:
 - tags.json:    { categories, tags: { "main name": { label, category, description, terms, common } } }
 - aliases.json: { "main name": ["alias", ...] }, true synonyms, rewritten to the main name on publish
 - groups.json:  { "parent": ["child", ...] }, a child implies its parent, so filtering or hiding a parent covers its children
-`npm run build:tags` checks them with `validateTagSources` and merges them into web/assets/tags.json for the client.
+`npm run build:tags` checks them with `validateTagSources` and merges them for the client: web/assets/tags.json (everything, for the editor)
+and web/assets/tag-labels.json (`TagLabels`, for showing labels and matching hidden tags on every page).
 Search terms are loose associations for suggestions only, never for search.
 */
 import { normalizeTags } from "./api";
@@ -26,12 +27,27 @@ export type TagSources = {
 	groups: Record<string, string[]>
 };
 
+/** what display, text search and hidden-tag matching need, without descriptions and terms: web/assets/tag-labels.json */
+export type TagLabels = {
+	labels: Record<string, string>,
+	aliases: Record<string, string[]>,
+	groups: Record<string, string[]>
+};
+export function tagLabels(src: TagSources): TagLabels {
+	return {
+		labels: Object.fromEntries(Object.entries(src.tags).map(([name, t]) => [name, t.label])),
+		aliases: src.aliases,
+		groups: src.groups
+	};
+}
+
+export type TagLookup = ReturnType<typeof makeTagLookup>;
 export type TagIndex = ReturnType<typeof makeTagIndex>;
 
 /** Lookups over checked sources; unknown tags pass through as themselves */
-export function makeTagIndex(src: TagSources) {
+export function makeTagLookup(src: TagLabels) {
 	const main = new Map<string, string>();
-	Object.keys(src.tags).forEach(t => main.set(t, t));
+	Object.keys(src.labels).forEach(t => main.set(t, t));
 	Object.entries(src.aliases).forEach(([t, list]) => list.forEach(a => main.set(a, t)));
 
 	const parentsOf = new Map<string, string[]>();
@@ -80,7 +96,24 @@ export function makeTagIndex(src: TagSources) {
 		});
 		return names;
 	}
+	/** how a tag is shown: the label of a known tag or alias, anything else as it is */
+	function label(tag: string) {
+		const name = canonical(tag);
+		return name ? src.labels[name] : tag;
+	}
+	/** the words a card's tags are found by in text search: what's shown (labels) and what's typed (main names, aliases) */
+	function searchText(tags: string[]) {
+		return Array.from(new Set(tags.flatMap(t => {
+			const name = canonical(t);
+			return name ? [name, plain(src.labels[name]), ...(src.aliases[name] ?? [])] : [t];
+		}))).join(" ");
+	}
 
+	return { canonical, canonicalize, implied, covered, spellings, label, searchText };
+}
+
+/** The lookups plus suggestions, which need descriptions and terms */
+export function makeTagIndex(src: TagSources) {
 	// words each tag is found by, accent-free: [names (main, label, aliases), loose terms]
 	let words: Map<string, [names: string[], terms: string[]]> | null = null;
 	function searchWords() {
@@ -121,7 +154,7 @@ export function makeTagIndex(src: TagSources) {
 			.map(([name]) => name);
 	}
 
-	return { sources: src, canonical, canonicalize, implied, covered, spellings, suggest };
+	return { ...makeTagLookup(tagLabels(src)), sources: src, suggest };
 }
 
 /** a label without its leading emoji, lowercase */

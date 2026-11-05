@@ -5,7 +5,7 @@ import { mudcrack } from "rampike";
 import { getQuery, getRoute, navigate, onRoute } from "@root/router";
 import { placeholderView } from "@views/common";
 import { makeKawaCardView } from "@views/kawa-card";
-import { onHiddenTagsChange } from "./catalog";
+import { onHiddenTagsChange, tagLabel } from "./catalog";
 
 /*
 Homepage catalog. Query state lives in the URL (?q=&sort=&page=&tag=&fields=) so back/forward and links work.
@@ -69,7 +69,9 @@ export function homeUnit() {
 		if (getRoute()[0] === "") update();
 	});
 	onHiddenTagsChange(() => {
-		if (getRoute()[0] === "" && lastPage) render(lastPage);
+		if (getRoute()[0] !== "") return;
+		document.querySelector<HTMLElement>("#home-tag-name")!.textContent = tagLabel(readQuery().tag);
+		if (lastPage) render(lastPage);
 	});
 	if (getRoute()[0] === "") update();
 
@@ -79,7 +81,7 @@ export function homeUnit() {
 		fieldBoxes.forEach(b => b.checked = query.fields.includes(b.value as SearchField));
 		const tagRow = document.querySelector<HTMLElement>("#home-tag")!;
 		tagRow.hidden = !query.tag;
-		document.querySelector<HTMLElement>("#home-tag-name")!.textContent = query.tag;
+		document.querySelector<HTMLElement>("#home-tag-name")!.textContent = tagLabel(query.tag);
 	}
 
 	async function updateStats() {

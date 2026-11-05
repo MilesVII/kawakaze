@@ -201,7 +201,7 @@ export async function indexScenario(trx: Trx, row: Pick<ScenarioRow, "id" | "dat
 			${row.id},
 			${card.card.title},
 			${card.card.description},
-			${card.card.tags.join(" ")},
+			${tagIndex.searchText(card.card.tags)},
 			${card.chat.name},
 			${users.map(u => u.username).join(" ")},
 			${card.chat.definition},
@@ -216,9 +216,9 @@ export async function unindexScenario(trx: Trx, id: string) {
 export type RetagChange = { id: string, title: string, from: string[], to: string[] };
 /**
  * Runs every stored card's tags (delisted ones too) through the current vocabulary, as publishing does:
- * aliases become main names, duplicates go. Updates the tags column, the card data and the search index,
- * leaving `updated_at` and the card's `lastUpdate` alone. With `dryRun` it only reports.
- * A running server keeps its cached home page until its next publish or restart.
+ * aliases become main names, duplicates go. Updates the tags column and the card data, leaving `updated_at`
+ * and the card's `lastUpdate` alone, and refreshes every card's search index entry, which carries labels and aliases.
+ * With `dryRun` it only reports. A running server notices through foreignDataVersion.
  */
 export async function retagScenarios(dryRun: boolean) {
 	const rows = await db.selectFrom("scenarios").select(["id", "title", "tags", "data", "authors", "delisted_at"]).execute();
@@ -231,12 +231,19 @@ export async function retagScenarios(dryRun: boolean) {
 		if (!card || (sameTags(from, to) && sameTags(column, to))) continue;
 		changes.push({ id: row.id, title: row.title, from, to, row, card });
 	}
-	if (!dryRun && changes.length) {
+	if (!dryRun) {
 		await db.transaction().execute(async trx => {
-			for (const { row, card, to } of changes) {
-				card.card.tags = to;
-				const data = JSON.stringify(card);
-				await trx.updateTable("scenarios").set({ tags: JSON.stringify(to), data }).where("id", "=", row.id).execute();
+			const changed = new Map(changes.map(c => [c.id, c]));
+			for (const row of rows) {
+				const change = changed.get(row.id);
+				if (!change) {
+					// label and alias edits change what a card is found by, even when its tags stay
+					await indexScenario(trx, row);
+					continue;
+				}
+				change.card.card.tags = change.to;
+				const data = JSON.stringify(change.card);
+				await trx.updateTable("scenarios").set({ tags: JSON.stringify(change.to), data }).where("id", "=", row.id).execute();
 				await indexScenario(trx, { ...row, data });
 			}
 		});

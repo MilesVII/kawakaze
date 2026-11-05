@@ -3,7 +3,7 @@ import { account, api } from "@root/api";
 import { refToBlob } from "@root/media";
 import { idb, isRemoteRef, listen, local } from "@root/persist";
 import type { Result, ScenarioCard } from "@root/types";
-import { makeTagIndex, type TagIndex, type TagSources } from "@shared/tags";
+import { makeTagIndex, makeTagLookup, type TagIndex, type TagLabels, type TagLookup, type TagSources } from "@shared/tags";
 
 /*
 Glue between the local library and the server catalog:
@@ -107,24 +107,52 @@ export async function delistScenario(id: string) {
 
 // ---- tag vocabulary ----
 
+function fetchJSON<T>(url: string) {
+	return fetch(url).then(r => r.ok ? r.json() as Promise<T> : Promise.reject(new Error(`status ${r.status}`)));
+}
+
 let loading: Promise<TagIndex | null> | null = null;
-let loadedIndex: TagIndex | null = null;
-const indexListeners: (() => void)[] = [];
-/** the vocabulary (web/assets/tags.json, see shared/tags.ts), fetched once; null while it can't be loaded */
+/** the whole vocabulary with suggestions (web/assets/tags.json, see shared/tags.ts), fetched once; null while it can't be loaded */
 export function loadTagIndex() {
-	loading ??= fetch("/assets/tags.json")
-		.then(r => r.ok ? r.json() as Promise<TagSources> : Promise.reject(new Error(`status ${r.status}`)))
-		.then(sources => {
-			loadedIndex = makeTagIndex(sources);
-			indexListeners.forEach(cb => cb());
-			return loadedIndex;
-		})
+	loading ??= fetchJSON<TagSources>("/assets/tags.json")
+		.then(makeTagIndex)
 		.catch(e => {
 			console.warn("tags: can't load the vocabulary", e);
 			loading = null; // the next caller tries again
 			return null;
 		});
 	return loading;
+}
+
+/*
+Labels, aliases and groups only (web/assets/tag-labels.json, preloaded by index.html): enough to show labels and match hidden tags,
+so every page can have them without the descriptions and terms. Until it arrives tags show as stored.
+*/
+let loadingLookup: Promise<TagLookup | null> | null = null;
+let lookup: TagLookup | null = null;
+const lookupListeners: (() => void)[] = [];
+function loadTagLookup() {
+	loadingLookup ??= fetchJSON<TagLabels>("/assets/tag-labels.json")
+		.then(sources => {
+			lookup = makeTagLookup(sources);
+			lookupListeners.forEach(cb => cb());
+			return lookup;
+		})
+		.catch(e => {
+			console.warn("tags: can't load the labels", e);
+			loadingLookup = null;
+			return null;
+		});
+	return loadingLookup;
+}
+/** how a card tag is shown: its label once the labels have loaded, the stored name until then and for unknown tags */
+export function tagLabel(tag: string) {
+	if (!lookup) loadTagLookup();
+	return lookup?.label(tag) ?? tag;
+}
+/** fires once the labels arrive, for views rendered before that */
+export function onTagLabels(cb: () => void) {
+	lookupListeners.push(cb);
 }
 
 // ---- hidden content ----
@@ -146,15 +174,15 @@ export function hiddenTags(): string[] {
 let hiddenSpellings: { key: string, expanded: boolean, names: Set<string> } | null = null;
 /**
  * The card tags a hidden tag covers: its own spellings and those of every tag under it, so hiding "violence" covers "gore".
- * Until the vocabulary loads, tags match as typed; onHiddenTagsChange listeners hear when it arrives.
+ * Until the labels load, tags match as typed; onHiddenTagsChange listeners hear when they arrive.
  */
 export function hiddenMatches(tags: string[]) {
 	const hidden = hiddenTags();
 	if (hidden.length === 0) return [];
-	if (!loadedIndex) loadTagIndex();
+	if (!lookup) loadTagLookup();
 	const key = hidden.join(",");
-	if (hiddenSpellings?.key !== key || hiddenSpellings.expanded !== Boolean(loadedIndex)) {
-		const ix = loadedIndex;
+	if (hiddenSpellings?.key !== key || hiddenSpellings.expanded !== Boolean(lookup)) {
+		const ix = lookup;
 		hiddenSpellings = {
 			key,
 			expanded: Boolean(ix),
@@ -164,9 +192,9 @@ export function hiddenMatches(tags: string[]) {
 	const names = hiddenSpellings.names;
 	return tags.filter(t => names.has(normalizeTags([t])[0] ?? ""));
 }
-/** fires when the hidden tags change, and once the vocabulary loads (hidden tags then cover more) */
+/** fires when the hidden tags change, and once the labels load (hidden tags then cover more, and cards show labels) */
 export function onHiddenTagsChange(cb: () => void) {
-	indexListeners.push(cb);
+	lookupListeners.push(cb);
 	account.listen(cb);
 	listen(u => {
 		if (u.storage === "local" && u.key === "hiddenTags") cb();

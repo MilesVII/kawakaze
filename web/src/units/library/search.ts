@@ -1,4 +1,5 @@
 import { ScenarioCard } from "@root/types";
+import { tagLabel } from "@units/kawa/catalog";
 
 export function filterBySearch(cards: ScenarioCard[]) {
 	const params = getSearchParams();
@@ -29,7 +30,8 @@ function getSearchParams() {
 		filter: (card: ScenarioCard) => {
 			if (search.filters.ct.checked && card.card.title?.toLowerCase().includes(q)) return true;
 			if (search.filters.cd.checked && card.card.description.toLowerCase().includes(q)) return true;
-			if (search.filters.tg.checked && card.card.tags?.some(t => t.toLowerCase().includes(q))) return true;
+			// the label too: it is what the card shows
+			if (search.filters.tg.checked && card.card.tags?.some(t => [t, tagLabel(t)].some(s => s.toLowerCase().includes(q)))) return true;
 			if (search.filters.cn.checked && card.chat.name?.toLowerCase().includes(q)) return true;
 			if (search.filters.an.checked && card.card.author?.name?.toLowerCase().includes(q)) return true;
 			if (search.filters.an.checked && card.card.author?.url?.toLowerCase().includes(q)) return true;

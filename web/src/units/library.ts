@@ -5,7 +5,7 @@ import { account } from "@root/api";
 import { encodeRef } from "@root/media";
 import { mudcrack } from "rampike";
 import type { ScenarioLookup } from "@shared/api";
-import { lookupScenarios, peekLookup, saveToLibrary, scenarioLink } from "./kawa/catalog";
+import { lookupScenarios, onTagLabels, peekLookup, saveToLibrary, scenarioLink } from "./kawa/catalog";
 import { placeholderView } from "@views/common";
 import { makeScenarioCardView } from "@views/scenario-card";
 import { RampikeModal } from "@rampike/modal";
@@ -92,6 +92,7 @@ export function libraryUnit() {
 
 		update();
 	});
+	onTagLabels(update);
 	update();
 }
 

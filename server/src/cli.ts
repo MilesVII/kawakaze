@@ -9,8 +9,8 @@ const USAGE = [
 	"  cli admin <username>        grant admin (and creator) rights",
 	"  cli unadmin <username>      revoke admin rights",
 	"  cli invite [count] [note]   issue creator invite tokens",
-	"  cli retag [--dry]           rewrite published cards' tags with the current tag list (aliases to main names);",
-	"                              edit timestamps stay, --dry only lists the changes"
+	"  cli retag [--dry]           rewrite published cards' tags with the current tag list (aliases to main names)",
+	"                              and refresh the search index; edit timestamps stay, --dry only lists the changes"
 ].join("\n");
 
 async function main(args: string[]) {

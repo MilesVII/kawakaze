@@ -5,7 +5,7 @@ git stash
 git pull
 npm ci
 npm run build
-# tag list edits ship with the code: bring published cards in line (edit timestamps stay)
+# tag list edits ship with the code: bring published cards and the search index in line (edit timestamps stay)
 npm run cli -- retag
 # the app keeps index.html in memory and runs the old dist/main.js until restarted
 sudo systemctl restart kawakaze

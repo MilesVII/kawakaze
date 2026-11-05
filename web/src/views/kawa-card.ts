@@ -2,7 +2,7 @@ import html from "./kawa-card.html";
 import type { ScenarioListItem } from "@shared/api";
 import { neatNumber, placeholder } from "@root/utils";
 import { htmlTemplate, mudcrack, sprout } from "rampike";
-import { hiddenMatches, relativeTime, scenarioLink, userLink } from "@units/kawa/catalog";
+import { hiddenMatches, relativeTime, scenarioLink, tagLabel, userLink } from "@units/kawa/catalog";
 
 export type KawaCardHandlers = {
 	tag?: (tag: string) => void
@@ -52,7 +52,7 @@ export function makeKawaCardView(item: ScenarioListItem, handlers: KawaCardHandl
 		.map(tag => mudcrack({
 			tagName: "span",
 			className: "pointer",
-			contents: tag,
+			contents: tagLabel(tag),
 			events: { click: () => handlers.tag?.(tag) }
 		}))
 		.toReversed()
@@ -61,7 +61,7 @@ export function makeKawaCardView(item: ScenarioListItem, handlers: KawaCardHandl
 	const hidden = hiddenMatches(item.tags);
 	if (hidden.length > 0) {
 		r.cover.hidden = false;
-		r["cover-tags"].textContent = hidden.join(", ");
+		r["cover-tags"].textContent = hidden.map(tagLabel).join(", ");
 		root.classList.add("kawa-covered");
 		r.reveal.addEventListener("click", () => {
 			r.cover.hidden = true;

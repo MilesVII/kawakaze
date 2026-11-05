@@ -3,6 +3,7 @@ import { ScenarioCard } from "@root/types";
 import { neatNumber, placeholder, renderMD } from "@root/utils";
 import { htmlTemplate, mudcrack, sprout } from "rampike";
 import { PictureSource, setPicture } from "./common";
+import { tagLabel } from "@units/kawa/catalog";
 
 export type ScenarioCardHandlers = {
 	play: () => void,
@@ -47,7 +48,7 @@ export function makeScenarioCardView(item: ScenarioCard, picture: PictureSource,
 	r.tokens.title = `${item.chat.tokenCount ?? "N/A"} tokens`;
 	r.description.innerHTML = renderMD(item.card.description ?? "");
 	r.tags.append(...item.card.tags
-		.map(tag => mudcrack({ tagName: "span", className: "pointer", contents: tag }))
+		.map(tag => mudcrack({ tagName: "span", className: "pointer", contents: tagLabel(tag) }))
 		.toReversed()
 	);
 
