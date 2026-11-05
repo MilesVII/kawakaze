@@ -4824,7 +4824,7 @@
 			"category": "Content Warnings",
 			"description": "Content warning: Incestuous relationships. Blood incest is not allowed on Saucepan. But we are not on Saucepan. wink wink.",
 			"terms": "family taboo forbidden relative relation",
-			"common": false
+			"common": true
 		},
 		"stepcest": {
 			"label": "⚠️ Stepcest",
