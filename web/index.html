@@ -54,6 +54,7 @@
 							<input type="search" id="home-search-input" class="lineout wide" placeholder="search characters" enterkeyhint="search" />
 							<button id="home-search-button" class="lineout">search</button>
 							<button id="home-search-options" class="lineout" title="search options">⋯</button>
+							<button id="home-blacklist" class="lineout" title="hide characters by tag">blacklist</button>
 						</div>
 						<div id="home-search-fields" class="lineout list" hidden>
 							<div>search in</div>
@@ -149,17 +150,6 @@
 								<div id="settings-backup-partial-list" class="list"></div>
 								<button id="settings-backup-partial" class="lineout fit">Save a partial backup</button>
 							</fieldset>
-						</div>
-					</details>
-					<details>
-						<summary class="settings-label">
-							Hidden content
-						</summary>
-						<div class="list">
-							<div class="hint">Characters with these tags are shown under a cover until you reveal them. Comma separated.</div>
-							<div id="settings-hidden-signed" class="hint" hidden>You are signed in: these tags are taken from your profile.</div>
-							<textarea id="settings-hidden-tags" class="lineout" placeholder="gore, horror"></textarea>
-							<button id="settings-hidden-save" class="lineout">Save</button>
 						</div>
 					</details>
 					<details>
@@ -607,8 +597,6 @@
 									<ram-labeled legend="Bio (markdown)" id="profile-bio" class="strip wide" placeholder="" multiline rows="4"></ram-labeled>
 									<button id="profile-bio-preview" class="lineout">Bio preview</button>
 									<div id="profile-bio-preview-container" class="md lineout" hidden></div>
-									<ram-labeled legend="Hidden content tags (comma separated)" id="profile-hidden-tags" class="strip wide" placeholder="gore, horror" multiline rows="1"></ram-labeled>
-									<div class="hint">Characters with these tags are shown under a cover until you reveal them</div>
 									<button id="profile-save" class="lineout">Save profile</button>
 								</div>
 							</ram-tab>
@@ -936,6 +924,15 @@
 				<span id="play-rember-latest-caption" class="hint"></span>
 				<div id="play-rember-latest-text" class="chat-rember-view"></div>
 			</div>
+		</ram-modal>
+		<ram-modal id="blacklist-modal" strong>
+			<div class="row-compact">
+				<button id="blacklist-close" class="lineout fit">close</button>
+				<button id="blacklist-save"  class="lineout fit float-end">save</button>
+			</div>
+			<div class="hint">Characters with these tags are shown under a cover until you reveal them. Tags under them count too: blacklisting violence covers gore.</div>
+			<ram-labeled legend="Blacklisted tags (comma separated)" id="blacklist-tags" class="strip wide" placeholder="gore, horror" multiline rows="1"></ram-labeled>
+			<div id="blacklist-where" class="hint"></div>
 		</ram-modal>
 		<ram-modal id="help-modal">
 			<div id="help-message" class="md md-intro"></div>

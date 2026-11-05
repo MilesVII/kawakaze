@@ -1,11 +1,7 @@
-import { account } from "@root/api";
 import { getRoute, onRoute } from "@root/router";
 import { renderMD } from "@root/utils";
-import { toast } from "@units/toasts";
-import { localHiddenTags, parseTags, setLocalHiddenTags } from "./catalog";
-import { attachTagSuggestions } from "./tag-suggestions";
 
-/* Small Kawakaze pages and settings: terms of use, hidden tags for guests */
+/* Small Kawakaze pages: terms of use */
 
 export function termsUnit() {
 	let loaded = false;
@@ -18,24 +14,4 @@ export function termsUnit() {
 	};
 	onRoute(load);
 	load();
-}
-
-export function hiddenTagsSettingUnit() {
-	const input = document.querySelector<HTMLTextAreaElement>("#settings-hidden-tags")!;
-	const save  = document.querySelector<HTMLButtonElement>("#settings-hidden-save")!;
-	const note  = document.querySelector<HTMLElement>("#settings-hidden-signed")!;
-	attachTagSuggestions(input, "hidden");
-
-	const render = () => {
-		const me = account.get();
-		note.hidden = !me;
-		input.disabled = save.disabled = !!me;
-		input.value = (me?.hiddenTags ?? localHiddenTags()).join(", ");
-	};
-	save.addEventListener("click", () => {
-		setLocalHiddenTags(parseTags(input.value));
-		toast("hidden tags saved");
-	});
-	account.listen(render);
-	render();
 }

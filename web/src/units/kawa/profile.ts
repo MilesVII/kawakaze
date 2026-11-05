@@ -13,9 +13,8 @@ import { mudcrack } from "rampike";
 import { placeholderView } from "@views/common";
 import { makeCommentView } from "@views/comment";
 import { toast } from "@units/toasts";
-import { parseTags, relativeTime, saveToLibrary, scenarioLink, userLink } from "./catalog";
+import { relativeTime, saveToLibrary, scenarioLink, userLink } from "./catalog";
 import { forgetUserPage } from "./user-page";
-import { attachTagSuggestions } from "./tag-suggestions";
 
 /* /profile: sign-in for guests, five tabs for signed-in users */
 
@@ -34,7 +33,6 @@ export function profileUnit() {
 	const notificationsPager = document.querySelector<RampikePagination>("#profile-notifications-pager")!;
 
 	renderProviders();
-	attachTagSuggestions(document.querySelector<HTMLTextAreaElement>("#profile-hidden-tags")!, "hidden");
 
 	signout.addEventListener("click", async () => {
 		await api("POST", "/api/auth/signout");
@@ -130,7 +128,6 @@ function render(me: Me | null) {
 function fillForm(me: Me) {
 	document.querySelector<HTMLInputElement>("#profile-username")!.value = me.username;
 	document.querySelector<HTMLTextAreaElement>("#profile-bio")!.value = me.bio;
-	document.querySelector<HTMLTextAreaElement>("#profile-hidden-tags")!.value = me.hiddenTags.join(", ");
 }
 function fillIcon(me: Me) {
 	const icon = document.querySelector<RampikeImagePicker>("#profile-icon")!;
@@ -149,11 +146,10 @@ function loadTab(tab: string) {
 async function saveProfile() {
 	const username = document.querySelector<HTMLInputElement>("#profile-username")!.value.trim();
 	const bio = document.querySelector<HTMLTextAreaElement>("#profile-bio")!.value;
-	const hiddenTags = parseTags(document.querySelector<HTMLTextAreaElement>("#profile-hidden-tags")!.value);
 	if (!USERNAME_RE.test(username)) return toast("username: 3 to 24 latin letters, digits, _ or -");
 	if (bio.length > LIMITS.bio) return toast(`bio is limited to ${LIMITS.bio} characters`);
 
-	const r = await api<Me>("PATCH", "/api/me", { username, bio, hiddenTags });
+	const r = await api<Me>("PATCH", "/api/me", { username, bio });
 	if (!r.success) return toast(r.error);
 	forgetUserPage();
 	const icon = await saveIcon(r.value);

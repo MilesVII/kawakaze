@@ -21,7 +21,8 @@ import { scenarioPageUnit } from "@units/kawa/scenario-page";
 import { userPageUnit } from "@units/kawa/user-page";
 import { profileUnit } from "@units/kawa/profile";
 import { adminUnit } from "@units/kawa/admin";
-import { hiddenTagsSettingUnit, termsUnit } from "@units/kawa/misc";
+import { termsUnit } from "@units/kawa/misc";
+import { blacklistUnit } from "@units/kawa/blacklist";
 import { account } from "./api";
 
 defineTabs();
@@ -50,7 +51,7 @@ const units: (() => void)[] = [
 	profileUnit,
 	adminUnit,
 	termsUnit,
-	hiddenTagsSettingUnit
+	blacklistUnit
 ];
 
 async function main() {

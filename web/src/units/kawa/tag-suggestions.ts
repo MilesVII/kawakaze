@@ -31,6 +31,11 @@ function segments(text: string): Segment[] {
 	return out;
 }
 
+let pointerHeld = false;
+document.addEventListener("pointerdown", () => pointerHeld = true, true);
+document.addEventListener("pointerup", () => pointerHeld = false, true);
+document.addEventListener("pointercancel", () => pointerHeld = false, true);
+
 export function attachTagSuggestions(input: HTMLTextAreaElement, kind: TagFieldKind) {
 	const row = mudcrack({ className: "row-wrap align-center" });
 	row.hidden = true;
@@ -50,7 +55,18 @@ export function attachTagSuggestions(input: HTMLTextAreaElement, kind: TagFieldK
 		index ??= await loadTagIndex();
 		update();
 	});
-	input.addEventListener("blur", () => hideTimer = window.setTimeout(() => row.hidden = true, 150));
+	const hide = () => {
+		clearTimeout(hideTimer);
+		hideTimer = window.setTimeout(() => {
+			if (document.activeElement !== input) row.hidden = true;
+		}, 150);
+	};
+	input.addEventListener("blur", () => {
+		if (!pointerHeld) return hide();
+		// blurred by a press elsewhere: hiding the row before the release would move what's being clicked
+		// (a centered modal shrinks around it) and the click would miss
+		window.addEventListener("pointerup", hide, { once: true });
+	});
 	input.addEventListener("input", update);
 	input.addEventListener("click", update);
 	input.addEventListener("keyup", e => { if (NAVIGATION_KEYS.has(e.key)) update(); });
@@ -59,6 +75,7 @@ export function attachTagSuggestions(input: HTMLTextAreaElement, kind: TagFieldK
 		if (e.key === "Escape") {
 			row.hidden = true;
 			e.stopPropagation();
+			e.preventDefault(); // in a modal, Escape would close it too
 		} else if (e.key === "Tab" && !e.shiftKey && first) {
 			e.preventDefault();
 			first();

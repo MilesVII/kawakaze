@@ -100,8 +100,8 @@ export async function signOut(c: Context<AppEnv>) {
 
 type Identity = { provider: string, subject: string, login: string };
 
-/** Identity -> user id, creating the user on first sign-in. null when banned */
-async function resolveIdentity(identity: Identity): Promise<string | null> {
+/** Identity -> user id, creating the user on first sign-in (`created`). null when banned */
+async function resolveIdentity(identity: Identity): Promise<{ id: string, created: boolean } | null> {
 	const existing = await db
 		.selectFrom("identities")
 		.innerJoin("users", "users.id", "identities.user_id")
@@ -116,7 +116,7 @@ async function resolveIdentity(identity: Identity): Promise<string | null> {
 			.where("provider", "=", identity.provider)
 			.where("subject", "=", identity.subject)
 			.execute();
-		return existing.banned_at ? null : existing.id;
+		return existing.banned_at ? null : { id: existing.id, created: false };
 	}
 
 	const id = crypto.randomUUID();
@@ -132,7 +132,15 @@ async function resolveIdentity(identity: Identity): Promise<string | null> {
 			.values({ ...identity, user_id: id, created_at: now })
 			.execute();
 	});
-	return id;
+	return { id, created: true };
+}
+
+/** Where to go after signing in. A new account's page learns it was just made (web blacklist.ts takes over the guest blacklist) */
+function afterSignIn(next: string, created: boolean) {
+	if (!created) return next;
+	const url = new URL(next, "http://local");
+	url.searchParams.set("signedup", "1");
+	return url.pathname + url.search + url.hash;
 }
 
 function safeNext(next: string | undefined) {
@@ -155,10 +163,10 @@ authRoutes.get("/dev", async c => {
 	const local = LOCAL_HOSTS.includes(new URL(c.req.url).hostname) && LOCAL_HOSTS.includes(new URL(config.publicUrl).hostname);
 	if (!config.devLogin || !local) return c.notFound();
 	const username = c.req.query("username") || "dev";
-	const userId = await resolveIdentity({ provider: "dev", subject: username.toLowerCase(), login: username });
-	if (!userId) return c.redirect("/profile?error=banned");
-	await createSession(c, userId);
-	return c.redirect(safeNext(c.req.query("next")));
+	const user = await resolveIdentity({ provider: "dev", subject: username.toLowerCase(), login: username });
+	if (!user) return c.redirect("/profile?error=banned");
+	await createSession(c, user.id);
+	return c.redirect(afterSignIn(safeNext(c.req.query("next")), user.created));
 });
 
 authRoutes.get("/:provider", async c => {
@@ -227,10 +235,10 @@ authRoutes.get("/:provider/callback", async c => {
 	}
 	if (!identity) return c.redirect("/profile?error=failed");
 
-	const userId = await resolveIdentity(identity);
-	if (!userId) return c.redirect("/profile?error=banned");
-	await createSession(c, userId);
-	return c.redirect(saved.next);
+	const user = await resolveIdentity(identity);
+	if (!user) return c.redirect("/profile?error=banned");
+	await createSession(c, user.id);
+	return c.redirect(afterSignIn(saved.next, user.created));
 });
 
 async function githubIdentity(code: string): Promise<Identity | null> {
