@@ -13,6 +13,7 @@ export type Database = {
 	media:          MediaTable,
 	media_uploads:  MediaUploadsTable,
 	media_refs:     MediaRefsTable,
+	error_reports:  ErrorReportsTable,
 	sync:           SyncTable
 };
 
@@ -131,6 +132,23 @@ export type MediaRefsTable = {
 	hash: string,
 	scenario_id: string | null,
 	bio_user_id: string | null
+};
+
+/** a client error from kirov.ts; repeats of the same message and stack bump the counter */
+export type ErrorReportsTable = {
+	id: Generated<number>,
+	/** sha256 of message and stack */
+	fingerprint: string,
+	message: string,
+	stack: string,
+	/** the page path it last happened on */
+	url: string,
+	user_agent: string,
+	user_id: string | null,
+	ip_hash: string | null,
+	count: number,
+	first_at: number,
+	last_at: number
 };
 
 export type SyncTable = {

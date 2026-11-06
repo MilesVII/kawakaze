@@ -418,6 +418,11 @@ input[type="number"] {
 	gap: var(--dims-smol) var(--dims-huge);
 	align-items: baseline;
 }
+.admin-error-text {
+	margin: 0;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
 .kawa-banned {
 	opacity: .6;
 	border-style: dashed;

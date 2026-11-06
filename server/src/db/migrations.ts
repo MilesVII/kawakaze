@@ -193,10 +193,34 @@ const mediaUploads: Migration = {
 	}
 };
 
+/**
+error_reports: client errors sent by kirov.ts, for the admin panel. The same error (message and stack) is one row
+with a counter; the latest page, user and browser are kept. Old rows are pruned on insert, see errors.ts.
+*/
+const errorReports: Migration = {
+	async up(db) {
+		await sql.raw(`create table error_reports (
+			id          integer primary key autoincrement,
+			fingerprint text not null unique,
+			message     text not null,
+			stack       text not null default '',
+			url         text not null default '',
+			user_agent  text not null default '',
+			user_id     text references users(id) on delete set null,
+			ip_hash     text,
+			count       integer not null default 1,
+			first_at    integer not null,
+			last_at     integer not null
+		)`).execute(db);
+		await sql.raw(`create index error_reports_last on error_reports(last_at)`).execute(db);
+	}
+};
+
 const migrations: Record<string, Migration> = {
 	"0001_init": init,
 	"0002_media_library": mediaLibrary,
-	"0003_media_uploads": mediaUploads
+	"0003_media_uploads": mediaUploads,
+	"0004_error_reports": errorReports
 };
 
 const provider: MigrationProvider = {

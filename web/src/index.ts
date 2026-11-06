@@ -25,6 +25,7 @@ import { adminUnit } from "@units/kawa/admin";
 import { termsUnit } from "@units/kawa/misc";
 import { blacklistUnit } from "@units/kawa/blacklist";
 import { mediaLibraryUnit } from "@units/kawa/media-library";
+import { init as initKirov } from "@units/kirov";
 import { account } from "./api";
 
 defineTabs();
@@ -59,6 +60,7 @@ const units: (() => void)[] = [
 ];
 
 async function main() {
+	initKirov();
 	units.forEach(u => u());
 	account.refresh();
 

@@ -1,4 +1,4 @@
-import type { AdminComment, AdminUser, DiskReport, Invite, Page, PurgeResult } from "@shared/api";
+import type { AdminComment, AdminErrorReport, AdminUser, DiskReport, Invite, Page, PurgeResult } from "@shared/api";
 import { RampikePagination } from "@rampike/pagination";
 import { account, api } from "@root/api";
 import { getRoute, onRoute } from "@root/router";
@@ -10,9 +10,9 @@ import { toast } from "@units/toasts";
 import { relativeTime, userLink } from "./catalog";
 import { invalidateHome } from "./home";
 
-/* /admin: disk report, invites, users with ban/purge, recent comments */
+/* /admin: disk report, invites, users with ban/purge, client error reports, recent comments */
 
-const pages = { users: 0, comments: 0 };
+const pages = { users: 0, errors: 0, comments: 0 };
 
 export function adminUnit() {
 	const refresh     = document.querySelector<HTMLButtonElement>("#admin-refresh")!;
@@ -21,6 +21,8 @@ export function adminUnit() {
 	const usersQuery  = document.querySelector<HTMLInputElement>("#admin-users-q")!;
 	const usersPager    = document.querySelector<RampikePagination>("#admin-users-pager")!;
 	const commentsPager = document.querySelector<RampikePagination>("#admin-comments-pager")!;
+	const errorsPager   = document.querySelector<RampikePagination>("#admin-errors-pager")!;
+	const errorsClear   = document.querySelector<HTMLButtonElement>("#admin-errors-clear")!;
 
 	refresh.addEventListener("click", loadAll);
 	inviteBtn.addEventListener("click", createInvites);
@@ -41,6 +43,17 @@ export function adminUnit() {
 		pages.comments = commentsPager.page;
 		loadComments();
 	});
+	errorsPager.addEventListener("pick", () => {
+		pages.errors = errorsPager.page;
+		loadErrors();
+	});
+	errorsClear.addEventListener("click", async () => {
+		if (!confirm("Delete all error reports?")) return;
+		const r = await api("DELETE", "/api/admin/errors");
+		if (!r.success) return toast(r.error);
+		pages.errors = 0;
+		loadErrors();
+	});
 
 	const check = async () => {
 		if (getRoute()[0] !== "admin") return;
@@ -58,6 +71,7 @@ function loadAll() {
 	loadDisk();
 	loadInvites();
 	loadUsers();
+	loadErrors();
 	loadComments();
 }
 
@@ -216,6 +230,64 @@ function userView(u: AdminUser) {
 						loadAll();
 					})
 				]
+			})
+		]
+	});
+}
+
+async function loadErrors() {
+	const list  = document.querySelector<HTMLElement>("#admin-errors")!;
+	const total = document.querySelector<HTMLElement>("#admin-errors-total")!;
+	const clear = document.querySelector<HTMLButtonElement>("#admin-errors-clear")!;
+	const pager = document.querySelector<RampikePagination>("#admin-errors-pager")!;
+	const r = await api<Page<AdminErrorReport>>("GET", `/api/admin/errors?page=${pages.errors}`);
+	if (!r.success) return list.replaceChildren(placeholderView(r.error));
+	const n = r.value.totalItems;
+	total.textContent = n === 1 ? "1 distinct error, most recently seen first" : `${n} distinct errors, most recently seen first`;
+	total.hidden = clear.hidden = n === 0;
+	list.replaceChildren(...r.value.items.map(errorReportView));
+	if (n === 0) list.append(placeholderView("No errors reported"));
+	pager.pageCount = r.value.totalPages;
+	pager.page = r.value.page;
+	pager.style.display = r.value.totalPages <= 1 ? "none" : "flex";
+}
+
+function errorReportView(e: AdminErrorReport) {
+	const seen = e.count > 1
+		? `${e.count} times, last ${relativeTime(e.lastAt)}, first ${relativeTime(e.firstAt)}`
+		: relativeTime(e.lastAt);
+	const who = e.user
+		? mudcrack({ tagName: "a", attributes: { href: userLink(e.user.username) }, contents: e.user.username })
+		: e.ipHash ? `anonymous, ip hash ${e.ipHash.slice(0, 12)}` : "anonymous";
+
+	return mudcrack({
+		className: "lineout list",
+		contents: [
+			mudcrack({ tagName: "code", className: "admin-error-text", contents: e.message }),
+			mudcrack({
+				className: "hint",
+				attributes: { title: `last ${new Date(e.lastAt).toLocaleString()}\nfirst ${new Date(e.firstAt).toLocaleString()}` },
+				contents: [seen, " · ", e.url || "unknown page", " · ", who]
+			}),
+			e.userAgent ? mudcrack({ className: "hint", contents: e.userAgent }) : null,
+			e.stack ? mudcrack({
+				tagName: "details",
+				contents: [
+					mudcrack({ tagName: "summary", className: "hint pointer", contents: "stack" }),
+					mudcrack({ tagName: "pre", className: "admin-error-text hint", contents: e.stack })
+				]
+			}) : null,
+			mudcrack({
+				tagName: "button",
+				className: "lineout fit",
+				contents: "delete",
+				events: {
+					click: async () => {
+						const d = await api("DELETE", `/api/admin/errors/${e.id}`);
+						if (!d.success) return toast(d.error);
+						loadErrors();
+					}
+				}
 			})
 		]
 	});

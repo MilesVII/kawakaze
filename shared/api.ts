@@ -254,6 +254,13 @@ export type SyncHandle = {
 	bytes: number
 };
 
+// ---- error reports ----
+
+/*
+POST   /api/errors                    { message: string, stack?: string, url?: string } -> { ok: true }
+                                      anyone can report (kirov.ts does, for uncaught errors); rate limited, trimmed
+*/
+
 // ---- admin ----
 
 /*
@@ -266,6 +273,9 @@ POST   /api/admin/users/:id/ban       { banned: boolean } -> AdminUser
 POST   /api/admin/users/:id/creator   { creator: boolean } -> AdminUser
 POST   /api/admin/users/:id/purge     -> PurgeResult (deletes scenarios, comments, media; does not ban)
 GET    /api/admin/comments?page=      -> Page<AdminComment>
+GET    /api/admin/errors?page=        -> Page<AdminErrorReport>, most recently seen first
+DELETE /api/admin/errors/:id          -> { ok: true }
+DELETE /api/admin/errors              -> { ok: true }, deletes them all
 */
 export type DiskReport = {
 	dbBytes: number,
@@ -301,3 +311,17 @@ export type AdminUser = UserRef & {
 };
 export type PurgeResult = { scenarios: number, comments: number, mediaFiles: number };
 export type AdminComment = CommentWithScenario & { ipHash: string | null };
+/** a client error, counted over repeats; page, user and browser are from the latest one */
+export type AdminErrorReport = {
+	id: number,
+	message: string,
+	stack: string,
+	/** page path */
+	url: string,
+	userAgent: string,
+	user: UserRef | null,
+	ipHash: string | null,
+	count: number,
+	firstAt: number,
+	lastAt: number
+};

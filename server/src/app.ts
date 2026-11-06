@@ -7,6 +7,7 @@ import type { PublicConfig } from "@shared/api";
 import { LIMITS } from "@shared/api";
 import { authRoutes, sessionMiddleware, signOut, type AppEnv } from "./auth";
 import { config, oauthProviders } from "./config";
+import { errorRoutes } from "./errors";
 import { adminRoutes } from "./routes/admin";
 import { commentRoutes } from "./routes/comments";
 import { meRoutes } from "./routes/me";
@@ -67,6 +68,7 @@ export function createApp() {
 	app.route("/api/users", userRoutes);
 	app.route("/api/sync", syncRoutes);
 	app.route("/api/admin", adminRoutes);
+	app.route("/api/errors", errorRoutes);
 	app.route("/api", commentRoutes);
 	app.all("/api/*", c => c.json({ error: "not found" }, 404));
 

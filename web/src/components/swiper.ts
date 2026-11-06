@@ -41,8 +41,7 @@ export class RampikeKon extends HTMLElement {
 				width: "var(--kon-thumb-size)",
 				height: "var(--kon-thumb-size)",
 				transform: "translateX(var(--kon-dx))",
-				// @ts-ignore
-				"touch-action": "pan-y"
+				touchAction: "pan-y"
 			},
 			events: {
 				pointerdown: e => {
@@ -79,7 +78,8 @@ export class RampikeKon extends HTMLElement {
 			this.reset();
 		};
 		this.thumb.addEventListener("pointerup", drop);
-		this.thumb.addEventListener("pointercancel", this.reset);
+		// a cancel is the browser taking the pointer away, not a release
+		this.thumb.addEventListener("pointercancel", () => this.reset());
 
 		this.reset();
 		this.append(this.thumb);

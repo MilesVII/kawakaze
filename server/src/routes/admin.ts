@@ -6,6 +6,7 @@ import { PER_PAGE } from "@shared/api";
 import { requireAdmin, type AppEnv } from "../auth";
 import { config } from "../config";
 import { db } from "../db";
+import { listErrorReports } from "../errors";
 import { purgeContent } from "../purge";
 import { userRef, usersById } from "../users";
 import { ensure, fail, isString, makePage, pageParam, randomToken, readJSON } from "../util";
@@ -205,4 +206,19 @@ adminRoutes.get("/comments", async c => {
 		ipHash: rows[i].ip_hash
 	}));
 	return c.json(makePage(items, page, total));
+});
+
+// ---- error reports ----
+
+adminRoutes.get("/errors", async c => c.json(await listErrorReports(pageParam(c))));
+
+adminRoutes.delete("/errors/:id", async c => {
+	const result = await db.deleteFrom("error_reports").where("id", "=", Number(c.req.param("id"))).executeTakeFirst();
+	ensure(Number(result.numDeletedRows) > 0, 404, "report not found");
+	return c.json({ ok: true });
+});
+
+adminRoutes.delete("/errors", async c => {
+	await db.deleteFrom("error_reports").execute();
+	return c.json({ ok: true });
 });
