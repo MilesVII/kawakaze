@@ -7,6 +7,7 @@ import { formatBytes, nothrowAsync } from "@root/utils";
 import { placeholderView } from "@views/common";
 import { toast } from "@units/toasts";
 import { mudcrack } from "rampike";
+import { RampikeKon } from "@rampike/swiper";
 
 /*
 The media library, from the scenario editor: creators upload pictures to the server and copy them as markdown
@@ -127,6 +128,14 @@ function itemView(item: MediaItem, remove: () => void) {
 	const usesText = uses.length === 0 ? "unused"
 		: uses.length <= 2 ? uses.join(", ")
 		: `${uses.slice(0, 2).join(", ")} and ${uses.length - 2} more`;
+	const deletionKon = new RampikeKon();
+	deletionKon.classList.add("lineout", "wide");
+	deletionKon.action = remove;
+	deletionKon.prepend(mudcrack({
+		className: "kon-back",
+		contents: "delete"
+	}));
+
 	return mudcrack({
 		className: `list${uses.length ? "" : " media-unused"}`,
 		contents: [
@@ -154,12 +163,7 @@ function itemView(item: MediaItem, remove: () => void) {
 					}
 				}
 			}),
-			mudcrack({
-				tagName: "button",
-				className: "lineout",
-				contents: item.shared ? "remove" : "delete",
-				events: { click: remove }
-			})
+			deletionKon
 		]
 	});
 }

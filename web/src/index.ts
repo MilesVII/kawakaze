@@ -6,6 +6,7 @@ import { define as defineSVGImport }   from "@rampike/import";
 import { define as defineFilePicker}   from "@rampike/filepicker";
 import { define as defineLabeled }     from "@rampike/fieldset";
 import { define as defineImagePicker } from "@rampike/imagepicker";
+import { define as defineKonSwiper } from "@rampike/swiper";
 import { navigationUnit } from "@units/navigation";
 import { settingsUnit }   from "@units/settings";
 import { chatUnit }       from "@units/chat";
@@ -34,6 +35,7 @@ defineSVGImport("ram-import");
 defineFilePicker("ram-file-picker");
 defineImagePicker("ram-image-picker");
 defineLabeled("ram-labeled");
+defineKonSwiper();
 
 window.addEventListener("DOMContentLoaded", main);
 

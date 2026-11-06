@@ -429,3 +429,29 @@ summary.settings-label {
 .toast button {
 	min-width: 6ch;
 }
+
+.kon-track {
+	border-radius: calc(2px + var(--dims-smol));
+	padding: 0;
+	display: flex;
+	--kon-back-dx: calc(var(--kon-dx) + var(--kon-thumb-size) * .5);
+	background: linear-gradient(
+		to right,
+		var(--color-red) 0,
+		var(--color-red) var(--kon-back-dx),
+		transparent var(--kon-back-dx)
+	);
+}
+.kon-back {
+	position: absolute;
+	pointer-events: none;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+.kon-thumb {
+	position: sticky; /* hacky way to skip setting the z-index */
+	border-radius: var(--dims-smol);
+	background-color: var(--color-secondary);
+	/* transition: transform .2s ease-out; */
+}
