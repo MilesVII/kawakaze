@@ -453,5 +453,4 @@ summary.settings-label {
 	position: relative; /* hacky way to skip setting the z-index */
 	border-radius: var(--dims-smol);
 	background-color: var(--color-secondary);
-	touch-action: pan-y
 }

@@ -23,9 +23,16 @@ export class RampikeKon extends HTMLElement {
 		this.style.position = "relative";
 		this.classList.add("kon-track");
 		this.setAttribute("tabindex", "0");
+		this.setAttribute("role", "button");
 
 		this.addEventListener("keydown", e => {
-			if (e.code !== "Enter" && e.code !== "Space") return;
+			if (
+				e.code !== "Enter" &&
+				e.code !== "Space" &&
+				e.code !== "NumpadEnter"
+			) return;
+			if (e.repeat) return;
+			e.preventDefault();
 			this.action?.();
 		})
 		this.thumb = mudcrack({
@@ -33,7 +40,9 @@ export class RampikeKon extends HTMLElement {
 			style: {
 				width: "var(--kon-thumb-size)",
 				height: "var(--kon-thumb-size)",
-				transform: "translateX(var(--kon-dx))"
+				transform: "translateX(var(--kon-dx))",
+				// @ts-ignore
+				"touch-action": "pan-y"
 			},
 			events: {
 				pointerdown: e => {
@@ -56,6 +65,9 @@ export class RampikeKon extends HTMLElement {
 					this.state.activated = true;
 					this.dataset.activated = "on";
 				}
+			} else {
+				this.state.activated = false;
+				this.removeAttribute("data-activated");
 			}
 			this.style.setProperty("--kon-dx", `${dx}px`);
 		});
@@ -67,7 +79,7 @@ export class RampikeKon extends HTMLElement {
 			this.reset();
 		};
 		this.thumb.addEventListener("pointerup", drop);
-		this.thumb.addEventListener("pointercancel", drop);
+		this.thumb.addEventListener("pointercancel", this.reset);
 
 		this.reset();
 		this.append(this.thumb);
