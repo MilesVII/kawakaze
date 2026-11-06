@@ -1,10 +1,11 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import sharp, { type OutputInfo } from "sharp";
-import { sql } from "kysely";
-import { LIMITS, type MediaLibrary } from "@shared/api";
+import { sql, type Kysely } from "kysely";
+import { LIMITS, type MediaLibrary, type MediaUse } from "@shared/api";
 import { config } from "./config";
 import { db } from "./db";
+import type { Database } from "./db/schema";
 import { HttpError, fail, sha256 } from "./util";
 
 const SMALLER_SIZE_LIMIT = 2048;
@@ -42,20 +43,23 @@ export async function mediaExists(hash: string) {
 	return Boolean(row);
 }
 
+/** quota use: every picture among the user's uploads, at full size, whoever else has it too */
 export async function userMediaBytes(userId: string) {
 	const row = await db
-		.selectFrom("media")
-		.select(sql<number>`coalesce(sum(bytes), 0)`.as("total"))
-		.where("owner_id", "=", userId)
+		.selectFrom("media_uploads")
+		.innerJoin("media", "media.hash", "media_uploads.hash")
+		.select(sql<number>`coalesce(sum(media.bytes), 0)`.as("total"))
+		.where("media_uploads.user_id", "=", userId)
 		.executeTakeFirstOrThrow();
 	return row.total;
 }
 
 /**
- * Re-encodes an uploaded picture to webp (smaller side <= 2048, no metadata) and stores it by content hash.
- * Deduplicated: a picture already on disk is not stored again and does not count against the quota.
+ * Re-encodes an uploaded picture to webp (smaller side <= 2048, no metadata), stores it by content hash
+ * and adds it to the user's uploads (on top if it's there already). A picture already on disk is not stored again,
+ * but it counts against the uploader's quota like any of their uploads.
  */
-export async function storePicture(file: File, ownerId: string): Promise<string> {
+export async function storePicture(file: File, userId: string): Promise<string> {
 	if (file.size > LIMITS.pictureBytes) fail(413, "picture is too large");
 	const input = new Uint8Array(await file.arrayBuffer());
 
@@ -78,51 +82,130 @@ export async function storePicture(file: File, ownerId: string): Promise<string>
 	}
 
 	const hash = sha256(output);
-	if (await mediaExists(hash)) return hash;
+	const now = Date.now();
+	const mine = await db.selectFrom("media_uploads").select("hash").where("user_id", "=", userId).where("hash", "=", hash).executeTakeFirst();
+	if (!mine) {
+		const used = await userMediaBytes(userId);
+		if (used + output.length > config.quota.mediaBytes) fail(413, "media quota exceeded");
+	}
 
-	const used = await userMediaBytes(ownerId);
-	if (used + output.length > config.quota.mediaBytes) fail(413, "media quota exceeded");
-
-	await fs.writeFile(mediaPath(hash), output);
+	if (!(await mediaExists(hash))) {
+		await fs.writeFile(mediaPath(hash), output);
+		await db
+			.insertInto("media")
+			.values({ hash, owner_id: userId, bytes: output.length, width: info.width, height: info.height, created_at: now })
+			.onConflict(oc => oc.column("hash").doNothing())
+			.execute();
+	}
 	await db
-		.insertInto("media")
-		.values({
-			hash,
-			owner_id: ownerId,
-			bytes: output.length,
-			width: info.width,
-			height: info.height,
-			created_at: Date.now()
-		})
-		.onConflict(oc => oc.column("hash").doNothing())
+		.insertInto("media_uploads")
+		.values({ user_id: userId, hash, added_at: now })
+		.onConflict(oc => oc.columns(["user_id", "hash"]).doUpdateSet({ added_at: now }))
 		.execute();
 	return hash;
 }
 
-/** Stores a picture (see storePicture) and adds it to the user's media library, or moves it to the top if it's there already */
-export async function addToLibrary(file: File, userId: string) {
-	const hash = await storePicture(file, userId);
+/**
+ * Forking copies a card's pictures: they join the forker's uploads (without a quota check, the files exist already),
+ * so the forker can manage them and the original uploader deleting theirs doesn't break the fork.
+ */
+export async function copyMediaTo(trx: Kysely<Database>, userId: string, hashes: string[]) {
+	if (hashes.length === 0) return;
+	const existing = await trx.selectFrom("media").select("hash").where("hash", "in", hashes).execute();
+	if (existing.length === 0) return;
 	const now = Date.now();
-	await db
-		.insertInto("media_library")
-		.values({ user_id: userId, hash, added_at: now })
-		.onConflict(oc => oc.columns(["user_id", "hash"]).doUpdateSet({ added_at: now }))
+	await trx
+		.insertInto("media_uploads")
+		.values(existing.map(m => ({ user_id: userId, hash: m.hash, added_at: now })))
+		.onConflict(oc => oc.columns(["user_id", "hash"]).doNothing())
 		.execute();
 }
 
-/** The library: pictures added to it and every other picture the user uploaded (icons, card pictures), newest first */
+/** Takes pictures off a user's uploads and deletes the ones nobody else has; returns the number of files deleted */
+export async function releaseMedia(userId: string, hashes: string[]) {
+	if (hashes.length === 0) return 0;
+	await db.deleteFrom("media_uploads").where("user_id", "=", userId).where("hash", "in", hashes).execute();
+	return await deleteUnclaimed(hashes);
+}
+
+/** Deletes those of `hashes` nobody has among their uploads: rows first, so nothing new links to them, then files */
+export async function deleteUnclaimed(hashes: string[]) {
+	if (hashes.length === 0) return 0;
+	const gone = await db.transaction().execute(async trx => {
+		const rows = await trx
+			.selectFrom("media")
+			.select("hash")
+			.where("hash", "in", hashes)
+			.where(eb => eb.not(eb.exists(eb.selectFrom("media_uploads").select("hash").whereRef("media_uploads.hash", "=", "media.hash"))))
+			.execute();
+		const list = rows.map(r => r.hash);
+		if (list.length === 0) return [];
+		await trx.deleteFrom("media").where("hash", "in", list).execute();
+		// a profile picture without a file would show as broken
+		await trx.updateTable("users").set({ icon: null }).where("icon", "in", list).execute();
+		return list;
+	});
+	return await deleteMediaFiles(gone);
+}
+
+/** The library: the user's uploads, newest first, each with where it's used */
 export async function mediaLibrary(userId: string): Promise<MediaLibrary> {
 	const rows = await db
-		.selectFrom("media")
-		.leftJoin("media_library", join => join
-			.onRef("media_library.hash", "=", "media.hash")
-			.on("media_library.user_id", "=", userId))
-		.select(["media.hash", "media.width", "media.height", sql<number>`coalesce(media_library.added_at, media.created_at)`.as("added_at")])
-		.where(eb => eb.or([eb("media.owner_id", "=", userId), eb("media_library.user_id", "is not", null)]))
-		.orderBy(sql`added_at`, "desc")
+		.selectFrom("media_uploads")
+		.innerJoin("media", "media.hash", "media_uploads.hash")
+		.select(["media.hash", "media.width", "media.height", "media.bytes", "media_uploads.added_at"])
+		.where("media_uploads.user_id", "=", userId)
+		.orderBy("media_uploads.added_at", "desc")
 		.execute();
+	const hashes = rows.map(r => r.hash);
+	const uses = new Map<string, MediaUse[]>(hashes.map(h => [h, []]));
+	const shared = new Set<string>();
+
+	if (hashes.length) {
+		const others = await db
+			.selectFrom("media_uploads")
+			.select("hash")
+			.distinct()
+			.where("hash", "in", hashes)
+			.where("user_id", "!=", userId)
+			.execute();
+		others.forEach(o => shared.add(o.hash));
+
+		const cards = await db
+			.selectFrom("media_refs")
+			.innerJoin("scenarios", "scenarios.id", "media_refs.scenario_id")
+			.select(["media_refs.hash", "scenarios.id", "scenarios.title", "scenarios.owner_id", "scenarios.delisted_at"])
+			.where("media_refs.hash", "in", hashes)
+			.orderBy("scenarios.title")
+			.execute();
+		for (const c of cards) {
+			const mine = c.owner_id === userId;
+			// someone else's delisted card is nobody's business
+			const visible = mine || c.delisted_at === null;
+			uses.get(c.hash)!.push({ kind: "card", id: visible ? c.id : null, title: visible ? c.title : "", mine, delisted: c.delisted_at !== null });
+		}
+		const bios = await db
+			.selectFrom("media_refs")
+			.innerJoin("users", "users.id", "media_refs.bio_user_id")
+			.select(["media_refs.hash", "users.id", "users.username"])
+			.where("media_refs.hash", "in", hashes)
+			.execute();
+		for (const b of bios) uses.get(b.hash)!.push({ kind: "bio", username: b.username, mine: b.id === userId });
+		const icons = await db.selectFrom("users").select(["id", "username", "icon"]).where("icon", "in", hashes).execute();
+		for (const i of icons) uses.get(i.icon!)!.push({ kind: "icon", username: i.username, mine: i.id === userId });
+	}
+
 	return {
-		items: rows.map(r => ({ url: mediaUrl(r.hash), width: r.width, height: r.height, addedAt: r.added_at })),
+		items: rows.map(r => ({
+			hash: r.hash,
+			url: mediaUrl(r.hash),
+			width: r.width,
+			height: r.height,
+			bytes: r.bytes,
+			addedAt: r.added_at,
+			shared: shared.has(r.hash),
+			uses: uses.get(r.hash)!
+		})),
 		usedBytes: await userMediaBytes(userId),
 		quotaBytes: config.quota.mediaBytes
 	};

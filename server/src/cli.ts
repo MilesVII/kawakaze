@@ -1,5 +1,6 @@
 import { retagScenarios } from "./catalog";
 import { db, initDB } from "./db";
+import { reindexMediaRefs } from "./media-refs";
 import { issueInvites } from "./routes/admin";
 import { findUserByName } from "./users";
 
@@ -10,7 +11,8 @@ const USAGE = [
 	"  cli unadmin <username>      revoke admin rights",
 	"  cli invite [count] [note]   issue creator invite tokens",
 	"  cli retag [--dry]           rewrite published cards' tags with the current tag list (aliases to main names)",
-	"                              and refresh the search index; edit timestamps stay, --dry only lists the changes"
+	"                              and refresh the search index; edit timestamps stay, --dry only lists the changes",
+	"  cli media reindex           rebuild where pictures are used (media_refs) from every card and bio"
 ].join("\n");
 
 async function main(args: string[]) {
@@ -54,10 +56,15 @@ async function main(args: string[]) {
 			console.log(`${checked} cards checked, ${changes.length} ${dry ? "would change" : "retagged"}`);
 			return 0;
 		}
-		default:
-			console.log(USAGE);
-			return command ? 1 : 0;
+		case "media": {
+			if (rest[0] !== "reindex") break;
+			const { scenarios, bios, refs } = await reindexMediaRefs(db);
+			console.log(`${scenarios} cards and ${bios} bios searched, ${refs} picture links found`);
+			return 0;
+		}
 	}
+	console.log(USAGE);
+	return command ? 1 : 0;
 }
 
 process.exitCode = await main(process.argv.slice(2));

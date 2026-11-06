@@ -11,7 +11,8 @@ export type Database = {
 	comment_votes:  VotesTable & { comment_id: number },
 	notifications:  NotificationsTable,
 	media:          MediaTable,
-	media_library:  MediaLibraryTable,
+	media_uploads:  MediaUploadsTable,
+	media_refs:     MediaRefsTable,
 	sync:           SyncTable
 };
 
@@ -111,6 +112,7 @@ export type NotificationsTable = {
 
 export type MediaTable = {
 	hash: string,
+	/** the first uploader, kept for the record; media_uploads has everyone's */
 	owner_id: string | null,
 	bytes: number,
 	width: number,
@@ -118,10 +120,17 @@ export type MediaTable = {
 	created_at: number
 };
 
-export type MediaLibraryTable = {
+/** who uploaded a picture (or got it with a fork); a picture without uploads is deleted */
+export type MediaUploadsTable = {
 	user_id: string,
 	hash: string,
 	added_at: number
+};
+/** a card or a bio mentioning a picture, see media-refs.ts; exactly one of the two is set */
+export type MediaRefsTable = {
+	hash: string,
+	scenario_id: string | null,
+	bio_user_id: string | null
 };
 
 export type SyncTable = {

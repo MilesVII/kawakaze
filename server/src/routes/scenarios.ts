@@ -20,7 +20,8 @@ import {
 } from "../catalog";
 import { db } from "../db";
 import type { ScenarioRow } from "../db/schema";
-import { mediaExists, parseMediaUrl, storePicture } from "../media";
+import { copyMediaTo, mediaExists, parseMediaUrl, storePicture } from "../media";
+import { setScenarioRefs } from "../media-refs";
 import { ID_RE, clampVote, ensure, fail, isString, isStringArray, pageParam, readJSON } from "../util";
 
 export const scenarioRoutes = new Hono<AppEnv>();
@@ -209,6 +210,8 @@ scenarioRoutes.post("/", async c => {
 			await trx.insertInto("scenarios").values(row).execute();
 		}
 		await indexScenario(trx, row);
+		const pictures = await setScenarioRefs(trx, id, data);
+		if (foreign) await copyMediaTo(trx, user.id, pictures);
 	});
 	invalidateHome();
 

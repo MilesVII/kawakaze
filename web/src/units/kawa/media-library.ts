@@ -1,4 +1,4 @@
-import { LIMITS, type MediaItem, type MediaLibrary } from "@shared/api";
+import { LIMITS, type MediaItem, type MediaLibrary, type MediaUse } from "@shared/api";
 import { RampikeFilePicker } from "@rampike/filepicker";
 import { RampikeModal } from "@rampike/modal";
 import { account, api } from "@root/api";
@@ -11,7 +11,9 @@ import { mudcrack } from "rampike";
 /*
 The media library, from the scenario editor: creators upload pictures to the server and copy them as markdown
 into descriptions and messages. Uploads go through the same conversion as card pictures (webp here, re-encoded
-on the server) and count against the same media quota. The list also has the user's other uploads: icons, card pictures.
+on the server) and count against the same media quota. The list also has the user's other uploads: icons, card pictures,
+pictures of cards they forked. Each shows where it's linked on Kawakaze; unused ones are marked so they're easy to clean up.
+Deleting takes a picture off the user's uploads; the file goes when nobody else has it among theirs.
 */
 
 export function mediaLibraryUnit() {
@@ -84,22 +86,61 @@ export function mediaLibraryUnit() {
 		quota.value = Math.min(library.usedBytes, library.quotaBytes);
 		quotaText.textContent = `${formatBytes(library.usedBytes)} of ${formatBytes(library.quotaBytes)} used`;
 		list.replaceChildren(...(library.items.length
-			? library.items.map(itemView)
+			? library.items.map(item => itemView(item, () => remove(item)))
 			: [placeholderView("No pictures yet")]));
+	}
+
+	async function remove(item: MediaItem) {
+		const uses = describeUses(item);
+		const message = item.shared
+			? "Remove this picture from your media library?\n\nSomeone else has it among their uploads too, so it stays online and links to it keep working."
+			: [
+				uses.length ? `It's used in: ${uses.join(", ")}.` : "",
+				"Delete this picture? Links to it stop working everywhere: on Kawakaze and wherever else they were pasted.",
+				"Copies people already saved or still have cached aren't affected."
+			].filter(Boolean).join("\n\n");
+		if (!confirm(message)) return;
+		const r = await api<MediaLibrary>("DELETE", `/api/me/media/${item.hash}`);
+		if (!r.success) return toast(`can't delete the picture: ${r.error}`);
+		render(r.value);
+		toast(item.shared ? "removed from your media library" : "picture deleted");
+		if (item.uses.some(u => u.kind === "icon" && u.mine)) account.refresh();
 	}
 }
 
-function itemView(item: MediaItem) {
+/** the user's own uses first */
+function describeUses(item: MediaItem) {
+	return item.uses.toSorted((a, b) => Number(b.mine) - Number(a.mine)).map(describeUse);
+}
+function describeUse(use: MediaUse) {
+	if (use.kind === "card") {
+		if (!use.id) return "someone's delisted card";
+		return `${use.mine ? "your card" : "someone's card"} “${use.title}”${use.delisted ? " (delisted)" : ""}`;
+	}
+	const what = use.kind === "bio" ? "bio" : "profile picture";
+	return use.mine ? `your ${what}` : `@${use.username}'s ${what}`;
+}
+
+function itemView(item: MediaItem, remove: () => void) {
 	const markdown = `![](${item.url})`;
+	const uses = describeUses(item);
+	const usesText = uses.length === 0 ? "unused"
+		: uses.length <= 2 ? uses.join(", ")
+		: `${uses.slice(0, 2).join(", ")} and ${uses.length - 2} more`;
 	return mudcrack({
-		className: "list",
+		className: `list${uses.length ? "" : " media-unused"}`,
 		contents: [
 			mudcrack({
 				tagName: "a",
 				attributes: { href: item.url, target: "_blank", rel: "noopener", title: "open in a new tab" },
 				contents: [mudcrack({ tagName: "img", className: "lineout", attributes: { src: item.url, loading: "lazy", alt: "" } })]
 			}),
-			mudcrack({ className: "hint center-text", contents: `${item.width}×${item.height}` }),
+			mudcrack({ className: "hint center-text", contents: `${item.width}×${item.height}, ${formatBytes(item.bytes)}` }),
+			mudcrack({
+				className: `hint center-text media-uses${uses.length ? "" : " kawa-accent"}`,
+				attributes: { title: uses.length ? `used in:\n${uses.join("\n")}` : "not linked from any card, bio or profile picture on Kawakaze" },
+				contents: usesText
+			}),
 			mudcrack({
 				tagName: "button",
 				className: "lineout",
@@ -112,6 +153,12 @@ function itemView(item: MediaItem) {
 						toast(copied ? "markdown copied" : `can't copy: ${markdown}`);
 					}
 				}
+			}),
+			mudcrack({
+				tagName: "button",
+				className: "lineout",
+				contents: item.shared ? "remove" : "delete",
+				events: { click: remove }
 			})
 		]
 	});

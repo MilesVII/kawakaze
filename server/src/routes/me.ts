@@ -5,7 +5,8 @@ import { LIMITS, PER_PAGE, USERNAME_RE } from "@shared/api";
 import { requireCreator, requireUser, signOut, type AppEnv } from "../auth";
 import { authorsFor, invalidateHome, reindexAuthor, toMeta } from "../catalog";
 import { db } from "../db";
-import { addToLibrary, mediaLibrary, storePicture } from "../media";
+import { mediaLibrary, releaseMedia, storePicture } from "../media";
+import { setBioRefs } from "../media-refs";
 import { deleteAccount } from "../purge";
 import { findUserByName, toMe, usersById } from "../users";
 import { clampVote, ensure, fail, isString, isStringArray, makePage, pageParam, readJSON } from "../util";
@@ -48,8 +49,12 @@ meRoutes.patch("/", async c => {
 		update.hidden_tags = JSON.stringify(tags);
 	}
 
-	if (Object.keys(update).length > 0)
-		await db.updateTable("users").set(update).where("id", "=", user.id).execute();
+	if (Object.keys(update).length > 0) {
+		await db.transaction().execute(async trx => {
+			await trx.updateTable("users").set(update).where("id", "=", user.id).execute();
+			if (update.bio !== undefined) await setBioRefs(trx, user.id, update.bio);
+		});
+	}
 	if (update.username && update.username !== user.username) await reindexAuthor(user.id);
 
 	return c.json(await toMe(await freshUser(user.id)));
@@ -81,7 +86,17 @@ meRoutes.post("/media", async c => {
 	const user = requireCreator(c);
 	const body = await c.req.parseBody();
 	const file = body.picture instanceof File ? body.picture : fail(400, "picture file is required");
-	await addToLibrary(file, user.id);
+	await storePicture(file, user.id);
+	return c.json(await mediaLibrary(user.id));
+});
+
+meRoutes.delete("/media/:hash", async c => {
+	const user = requireCreator(c);
+	const hash = c.req.param("hash");
+	const mine = await db.selectFrom("media_uploads").select("hash").where("user_id", "=", user.id).where("hash", "=", hash).executeTakeFirst();
+	if (!mine) fail(404, "not in your media library");
+	await releaseMedia(user.id, [hash]);
+	invalidateHome(); // the picture may have been a profile picture
 	return c.json(await mediaLibrary(user.id));
 });
 

@@ -113,7 +113,7 @@ function usersQuery() {
 		.select([
 			sql<number>`(select count(*) from scenarios where owner_id = users.id)`.as("scenario_count"),
 			sql<number>`(select count(*) from comments where user_id = users.id)`.as("comment_count"),
-			sql<number>`(select coalesce(sum(bytes), 0) from media where owner_id = users.id)`.as("media_bytes"),
+			sql<number>`(select coalesce(sum(media.bytes), 0) from media_uploads join media on media.hash = media_uploads.hash where media_uploads.user_id = users.id)`.as("media_bytes"),
 			sql<number>`(select coalesce(sum(bytes), 0) from sync where user_id = users.id)`.as("sync_bytes"),
 			sql<string>`(select coalesce(group_concat(provider), '') from identities where user_id = users.id)`.as("providers")
 		]);

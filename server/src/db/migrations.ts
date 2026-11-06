@@ -1,5 +1,6 @@
 import { Kysely, sql } from "kysely";
 import { Migrator, type Migration, type MigrationProvider } from "kysely/migration";
+import { reindexMediaRefs } from "../media-refs";
 
 const init: Migration = {
 	async up(db) {
@@ -145,9 +146,57 @@ const mediaLibrary: Migration = {
 	}
 };
 
+/**
+media_uploads: who uploaded each picture, many per picture. Quota counts every upload, and a file is deleted once nobody
+has it among their uploads. media_refs: where pictures are used (see media-refs.ts).
+Uploads come from the library, media.owner_id, profile pictures and card pictures; forked cards also get the pictures they use,
+the way forking copies them now.
+*/
+const mediaUploads: Migration = {
+	async up(db) {
+		await sql.raw(`create table media_uploads (
+			user_id  text not null references users(id) on delete cascade,
+			hash     text not null references media(hash) on delete cascade,
+			added_at integer not null,
+			primary key (user_id, hash)
+		)`).execute(db);
+		await sql.raw(`create index media_uploads_hash on media_uploads(hash)`).execute(db);
+		await sql.raw(`create table media_refs (
+			hash        text not null,
+			scenario_id text references scenarios(id) on delete cascade,
+			bio_user_id text references users(id) on delete cascade,
+			check ((scenario_id is null) != (bio_user_id is null))
+		)`).execute(db);
+		await sql.raw(`create index media_refs_hash on media_refs(hash)`).execute(db);
+		await sql.raw(`create index media_refs_scenario on media_refs(scenario_id)`).execute(db);
+		await sql.raw(`create index media_refs_bio on media_refs(bio_user_id)`).execute(db);
+
+		await reindexMediaRefs(db);
+		const backfill = [
+			`insert into media_uploads (user_id, hash, added_at) select user_id, hash, added_at from media_library`,
+			`insert or ignore into media_uploads (user_id, hash, added_at)
+				select owner_id, hash, created_at from media where owner_id is not null`,
+			`insert or ignore into media_uploads (user_id, hash, added_at)
+				select users.id, media.hash, media.created_at from users join media on media.hash = users.icon`,
+			`insert or ignore into media_uploads (user_id, hash, added_at)
+				select scenarios.owner_id, media.hash, media.created_at
+				from scenarios join media on media.hash in (scenarios.card_picture, scenarios.chat_picture)`,
+			`insert or ignore into media_uploads (user_id, hash, added_at)
+				select scenarios.owner_id, media.hash, media.created_at
+				from media_refs
+				join scenarios on scenarios.id = media_refs.scenario_id
+				join media on media.hash = media_refs.hash
+				where scenarios.parent_id is not null`,
+			`drop table media_library`
+		];
+		for (const s of backfill) await sql.raw(s).execute(db);
+	}
+};
+
 const migrations: Record<string, Migration> = {
 	"0001_init": init,
-	"0002_media_library": mediaLibrary
+	"0002_media_library": mediaLibrary,
+	"0003_media_uploads": mediaUploads
 };
 
 const provider: MigrationProvider = {

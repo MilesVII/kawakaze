@@ -401,6 +401,14 @@ input[type="number"] {
 	aspect-ratio: 1;
 	object-fit: cover;
 }
+.media-unused img {
+	border-style: dashed;
+}
+.media-uses {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
 
 /* ---- admin ---- */
 
