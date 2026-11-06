@@ -1,13 +1,13 @@
-import { LIMITS, type MediaItem, type MediaLibrary, type MediaUse } from "@shared/api";
+import { LIMITS, type MediaItem, type MediaLibrary } from "@shared/api";
 import { RampikeFilePicker } from "@rampike/filepicker";
 import { RampikeModal } from "@rampike/modal";
 import { account, api } from "@root/api";
 import { optimizeToWEBP } from "@root/optimizer";
 import { formatBytes, nothrowAsync } from "@root/utils";
 import { placeholderView } from "@views/common";
+import { describeUses, makeMediaItemView } from "@views/media-item";
 import { toast } from "@units/toasts";
 import { mudcrack } from "rampike";
-import { RampikeKon } from "@rampike/swiper";
 
 /*
 The media library, from the scenario editor: creators upload pictures to the server and copy them as markdown
@@ -87,7 +87,10 @@ export function mediaLibraryUnit() {
 		quota.value = Math.min(library.usedBytes, library.quotaBytes);
 		quotaText.textContent = `${formatBytes(library.usedBytes)} of ${formatBytes(library.quotaBytes)} used`;
 		list.replaceChildren(...(library.items.length
-			? library.items.map(item => itemView(item, () => remove(item)))
+			? library.items.map(item => makeMediaItemView(item, {
+				copy: button => copyMarkdown(item, button),
+				remove: () => remove(item)
+			}))
 			: [placeholderView("No pictures yet")]));
 	}
 
@@ -109,63 +112,12 @@ export function mediaLibraryUnit() {
 	}
 }
 
-/** the user's own uses first */
-function describeUses(item: MediaItem) {
-	return item.uses.toSorted((a, b) => Number(b.mine) - Number(a.mine)).map(describeUse);
-}
-function describeUse(use: MediaUse) {
-	if (use.kind === "card") {
-		if (!use.id) return "someone's delisted card";
-		return `${use.mine ? "your card" : "someone's card"} “${use.title}”${use.delisted ? " (delisted)" : ""}`;
-	}
-	const what = use.kind === "bio" ? "bio" : "profile picture";
-	return use.mine ? `your ${what}` : `@${use.username}'s ${what}`;
-}
-
-function itemView(item: MediaItem, remove: () => void) {
+/** copies `![](url)`, with the old way as a fallback */
+async function copyMarkdown(item: MediaItem, button: HTMLElement) {
 	const markdown = `![](${item.url})`;
-	const uses = describeUses(item);
-	const usesText = uses.length === 0 ? "unused"
-		: uses.length <= 2 ? uses.join(", ")
-		: `${uses.slice(0, 2).join(", ")} and ${uses.length - 2} more`;
-	const deletionKon = new RampikeKon();
-	deletionKon.classList.add("lineout", "wide");
-	deletionKon.action = remove;
-	deletionKon.prepend(mudcrack({
-		className: "kon-back",
-		contents: "delete"
-	}));
-
-	return mudcrack({
-		className: `list${uses.length ? "" : " media-unused"}`,
-		contents: [
-			mudcrack({
-				tagName: "a",
-				attributes: { href: item.url, target: "_blank", rel: "noopener", title: "open in a new tab" },
-				contents: [mudcrack({ tagName: "img", className: "lineout", attributes: { src: item.url, loading: "lazy", alt: "" } })]
-			}),
-			mudcrack({ className: "hint center-text", contents: `${item.width}×${item.height}, ${formatBytes(item.bytes)}` }),
-			mudcrack({
-				className: `hint center-text media-uses${uses.length ? "" : " kawa-accent"}`,
-				attributes: { title: uses.length ? `used in:\n${uses.join("\n")}` : "not linked from any card, bio or profile picture on Kawakaze" },
-				contents: usesText
-			}),
-			mudcrack({
-				tagName: "button",
-				className: "lineout",
-				contents: "copy markdown",
-				events: {
-					click: async e => {
-						const button = e.currentTarget as HTMLElement;
-						const copied = (await nothrowAsync(navigator.clipboard.writeText(markdown))).success
-							|| copyBySelection(markdown, button);
-						toast(copied ? "markdown copied" : `can't copy: ${markdown}`);
-					}
-				}
-			}),
-			deletionKon
-		]
-	});
+	const copied = (await nothrowAsync(navigator.clipboard.writeText(markdown))).success
+		|| copyBySelection(markdown, button);
+	toast(copied ? "markdown copied" : `can't copy: ${markdown}`);
 }
 
 /** the old way, for browsers that keep the clipboard API from pages; the field goes next to `near`, inside the modal */

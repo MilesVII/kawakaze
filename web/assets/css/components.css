@@ -450,8 +450,8 @@ summary.settings-label {
 	transform: translate(-50%, -50%);
 }
 .kon-thumb {
-	position: sticky; /* hacky way to skip setting the z-index */
+	position: relative; /* hacky way to skip setting the z-index */
 	border-radius: var(--dims-smol);
 	background-color: var(--color-secondary);
-	/* transition: transform .2s ease-out; */
+	touch-action: pan-y
 }
