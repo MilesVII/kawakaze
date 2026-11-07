@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import type { BootPayload } from "@shared/api";
 import { homePage, siteStats } from "./catalog";
-import { config, oauthProviders } from "./config";
+import { config, publicConfig } from "./config";
 import { db } from "./db";
 import { mediaUrl } from "./media";
 import { publicUser } from "./routes/users";
@@ -70,11 +70,7 @@ async function headFor(pathname: string): Promise<Head> {
 export async function renderShell(pathname: string) {
 	const head = await headFor(pathname);
 	const boot: BootPayload = {
-		config: {
-			publicUrl: config.publicUrl,
-			turnstileSiteKey: config.turnstile.secret ? config.turnstile.siteKey : "",
-			oauth: oauthProviders()
-		}
+		config: publicConfig()
 	};
 	if (pathname === "/") {
 		boot.home = await homePage();

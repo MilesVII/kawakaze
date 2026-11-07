@@ -71,7 +71,9 @@ export type PublicConfig = {
 	publicUrl: string,
 	/** empty when Turnstile is not configured: anonymous comments are then disabled */
 	turnstileSiteKey: string,
-	oauth: ("github" | "google")[]
+	oauth: ("github" | "google")[],
+	/** empty when the Datacat integration is not configured: the library's Datacat browser is then hidden */
+	datacatClientId: string
 };
 
 // ---- scenarios ----

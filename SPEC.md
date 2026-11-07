@@ -158,7 +158,7 @@ Open Graph tags for `/c/:id` and `/u/:name`.
 - In dev (`SERVE_STATIC=1`) node also serves `/assets/*`, `/favicon.png` from `web/` and `/media/*` from
   `DATA_DIR/media`. In production nginx does.
 - Env: `PORT`, `PUBLIC_URL`, `DATA_DIR`, `WEB_DIR`, `SECRET` (ip hashing), `GITHUB_CLIENT_ID/SECRET`,
-  `GOOGLE_CLIENT_ID/SECRET`, `TURNSTILE_SITE_KEY/SECRET`, `QUOTA_MEDIA_MB`, `QUOTA_SYNC_MB`, `SERVE_STATIC`,
+  `GOOGLE_CLIENT_ID/SECRET`, `TURNSTILE_SITE_KEY/SECRET`, `DATACAT_CLIENT_ID`, `QUOTA_MEDIA_MB`, `QUOTA_SYNC_MB`, `SERVE_STATIC`,
   `DEV_LOGIN` (enables `/auth/dev?username=` on localhost only, for local testing without OAuth apps).
 - CLI (`npm run cli -- ...`): `admin <username>`, `invite [count] [note]`, `migrate`.
 

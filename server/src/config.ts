@@ -1,5 +1,6 @@
 import path from "node:path";
 import crypto from "node:crypto";
+import type { PublicConfig } from "@shared/api";
 
 function env(key: string, fallback = "") {
 	return process.env[key]?.trim() || fallback;
@@ -39,6 +40,8 @@ export const config = {
 		siteKey: env("TURNSTILE_SITE_KEY"),
 		secret:  env("TURNSTILE_SECRET")
 	},
+	/** public Client ID of the approved Datacat integration; the library's Datacat browser calls Datacat from the browser with it */
+	datacatClientId: env("DATACAT_CLIENT_ID"),
 	quota: {
 		mediaBytes: envInt("QUOTA_MEDIA_MB", 64) * 1024 * 1024,
 		syncBytes:  envInt("QUOTA_SYNC_MB", 256) * 1024 * 1024
@@ -52,4 +55,14 @@ export function oauthProviders() {
 	if (config.github.id && config.github.secret) list.push("github");
 	if (config.google.id && config.google.secret) list.push("google");
 	return list;
+}
+
+/** what the frontend needs to know about this deployment: boot payload and GET /api/config */
+export function publicConfig(): PublicConfig {
+	return {
+		publicUrl: config.publicUrl,
+		turnstileSiteKey: config.turnstile.secret ? config.turnstile.siteKey : "",
+		oauth: oauthProviders(),
+		datacatClientId: config.datacatClientId
+	};
 }

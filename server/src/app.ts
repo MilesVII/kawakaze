@@ -3,10 +3,9 @@ import { bodyLimit } from "hono/body-limit";
 import { csrf } from "hono/csrf";
 import { HTTPException } from "hono/http-exception";
 import { serveStatic } from "@hono/node-server/serve-static";
-import type { PublicConfig } from "@shared/api";
 import { LIMITS } from "@shared/api";
 import { authRoutes, sessionMiddleware, signOut, type AppEnv } from "./auth";
-import { config, oauthProviders } from "./config";
+import { config, publicConfig } from "./config";
 import { errorRoutes } from "./errors";
 import { adminRoutes } from "./routes/admin";
 import { commentRoutes } from "./routes/comments";
@@ -51,14 +50,7 @@ export function createApp() {
 		if (!c.res.headers.has("Cache-Control")) c.header("Cache-Control", "no-store");
 	});
 
-	app.get("/api/config", c => {
-		const body: PublicConfig = {
-			publicUrl: config.publicUrl,
-			turnstileSiteKey: config.turnstile.secret ? config.turnstile.siteKey : "",
-			oauth: oauthProviders()
-		};
-		return c.json(body);
-	});
+	app.get("/api/config", c => c.json(publicConfig()));
 	app.post("/api/auth/signout", async c => {
 		await signOut(c);
 		return c.json({ ok: true });

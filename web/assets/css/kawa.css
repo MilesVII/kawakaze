@@ -265,6 +265,42 @@ input[type="number"] {
 	border-radius: var(--dims-smol);
 	background-color: var(--color-base-semi);
 }
+/* ---- datacat browser ---- */
+
+.datacat-item {
+	position: relative;
+	display: flex;
+	flex-flow: row nowrap;
+	gap: var(--dims-reg);
+}
+.datacat-item-picture {
+	flex-shrink: 0;
+	width: 25%;
+	max-width: 10em;
+}
+.datacat-item-picture img {
+	width: 100%;
+	aspect-ratio: 3 / 4;
+	object-fit: cover;
+	object-position: top;
+	border-radius: var(--dims-smol);
+}
+.datacat-item > .list {
+	min-width: 0;
+}
+.datacat-item-description {
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	max-height: 6lh;
+	overflow-y: auto;
+	scrollbar-width: thin;
+}
+.datacat-item-tags {
+	flex-direction: row;
+	margin-top: 0;
+	max-height: 6lh;
+	font: var(--font-smol);
+}
 .kawa-library-status a {
 	color: var(--color-accent);
 }
