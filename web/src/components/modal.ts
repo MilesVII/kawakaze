@@ -6,6 +6,8 @@ import { mudcrack } from "rampike";
  */
 export const MODAL_OPEN = "ram-modal-open";
 export const MODAL_CLOSE = "ram-modal-close";
+/** inputs that Enter activates, as it should */
+const BUTTON_INPUTS = new Set(["submit", "button", "reset", "image"]);
 
 declare global {
 	interface DocumentEventMap {
@@ -41,7 +43,13 @@ export class RampikeModal extends HTMLElement {
 				method: "dialog"
 			},
 			events: {
-				submit: e => e.preventDefault()
+				submit: e => e.preventDefault(),
+				// Enter in a text field "clicks" the form's first button, which is usually "close":
+				// fields that want Enter handle it with their own keydown listeners
+				keydown: e => {
+					const t = e.target;
+					if (e.key === "Enter" && t instanceof HTMLInputElement && !BUTTON_INPUTS.has(t.type)) e.preventDefault();
+				}
 			}
 		});
 		this.dialog = mudcrack({
