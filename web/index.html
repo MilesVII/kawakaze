@@ -755,10 +755,32 @@
 							<input type="search" id="datacat-search" class="lineout wide" placeholder="search datacat" />
 							<button id="datacat-search-go" class="lineout fit">search</button>
 						</div>
-						<div id="datacat-status" class="hint" hidden></div>
+						<div class="row-compact align-center">
+							<div id="datacat-status" class="hint" hidden></div>
+							<div class="hint float-end">sort by</div>
+							<select id="datacat-sort" class="lineout"></select>
+							<button id="datacat-blacklist-open" class="lineout fit">blacklist</button>
+						</div>
 						<div id="datacat-results" class="list"></div>
 						<button id="datacat-more" class="lineout" hidden>more</button>
 						<div class="hint">Characters come from <a href="https://datacat.run/" target="_blank" rel="noopener">Datacat</a> and keep their creator's credit. Datacat can only hand out characters it has indexed: <a href="https://datacat.run/retrieve" target="_blank" rel="noopener">add one there</a> first if it's missing.</div>
+					</div>
+				</ram-tab>
+				<ram-tab key="blacklist">
+					<div class="list">
+						<div class="row-compact align-center">
+							<div>Blocked tags</div>
+							<div id="datacat-blocked-count" class="hint"></div>
+							<button id="datacat-blacklist-back" class="lineout fit float-end">back</button>
+						</div>
+						<div class="hint">Searches leave out characters with these tags. Links still open whatever their tags.</div>
+						<div id="datacat-blocked" class="row-compact datacat-tags"></div>
+						<div class="row-compact">
+							<input type="search" id="datacat-tags-filter" class="lineout wide" placeholder="search tags" />
+							<button id="datacat-tags-search" class="lineout fit">search</button>
+						</div>
+						<div id="datacat-tags-status" class="hint"></div>
+						<div id="datacat-tags" class="row-compact datacat-tags"></div>
 					</div>
 				</ram-tab>
 				<ram-tab key="verify">

@@ -1,20 +1,22 @@
-import { idb } from "@root/persist";
-import { revolvers } from "@root/utils";
+import { idb, local } from "@root/persist";
+import { revolvers, setSelectOptions } from "@root/utils";
 import { MODAL_CLOSE, RampikeModal } from "@rampike/modal";
 import type { RampikeTabs } from "@rampike/tabs";
 import { placeholderView } from "@views/common";
 import { makeDatacatItemView } from "@views/datacat-item";
 import { toast } from "@units/toasts";
 import { importDatacatJSON } from "./datacat";
+import { blockedTags, datacatBlacklistUnit, openBlacklist } from "./datacat-blacklist";
 import {
-	type Challenge, type DatacatCharacter, type DatacatRef, type DatacatResult, type Lease,
-	characterPage, datacatEnabled, dropLease, fetchAvatar, fetchCard, getCharacter,
+	type Challenge, type DatacatCharacter, type DatacatRef, type DatacatResult, type DatacatSort, type Lease, type SearchOptions,
+	SORTS, characterPage, datacatEnabled, dropLease, fetchAvatar, fetchCard, getCharacter,
 	markLeaseUsed, parseCharacterLink, pollVerification, searchCharacters, startVerification, usableLease
 } from "./datacat-api";
 
 /*
 The library's Datacat browser: a modal with two tabs.
 "main" finds characters, by a Janitor/Datacat link or by search, and imports them into the library.
+"blacklist" (datacat-blacklist.ts) picks the tags searches leave out.
 "verify" walks through Datacat's human check when an import needs a lease: the check runs on Datacat's page in a new tab,
 this tab polls until it passes, then the import that asked for it carries on.
 */
@@ -51,7 +53,22 @@ export function datacatBrowserUnit() {
 		if (e.key === "Enter") runSearch(search.value);
 	});
 	el("#datacat-more").addEventListener("click", () => {
-		if (nextPage) runSearch(nextPage.query, nextPage.offset);
+		if (nextPage) runSearch(nextPage.query, nextPage.offset, nextPage.options);
+	});
+
+	const sort = el<HTMLSelectElement>("#datacat-sort");
+	setSelectOptions(sort, Object.entries(SORTS), currentSort());
+	sort.addEventListener("change", () => {
+		local.set("datacatSort", sort.value);
+		if (lastQuery !== null) runSearch(lastQuery);
+	});
+
+	updateBlacklistCaption();
+	el("#datacat-blacklist-open").addEventListener("click", openBlacklist);
+	datacatBlacklistUnit(changed => {
+		el<RampikeTabs>("#datacat-tabs").tab = "main";
+		updateBlacklistCaption();
+		if (changed && lastQuery !== null) runSearch(lastQuery);
 	});
 
 	el("#datacat-verify-cancel").addEventListener("click", () => finishVerification(null));
@@ -65,7 +82,21 @@ export function datacatBrowserUnit() {
 // ---- main tab ----
 
 let listSequence = 0;
-let nextPage: { query: string, offset: number } | null = null;
+let nextPage: { query: string, offset: number, options: SearchOptions } | null = null;
+/** what the result list shows: a search's query, or null for a looked-up link */
+let lastQuery: string | null = null;
+
+function currentSort(): DatacatSort {
+	const stored = local.get("datacatSort");
+	return stored && Object.hasOwn(SORTS, stored) ? stored as DatacatSort : "score";
+}
+function searchOptions(): SearchOptions {
+	return { sort: currentSort(), blockedTagIds: blockedTags().map(t => t.id) };
+}
+function updateBlacklistCaption() {
+	const count = blockedTags().length;
+	el("#datacat-blacklist-open").textContent = count > 0 ? `blacklist (${count})` : "blacklist";
+}
 
 function setStatus(contents: (string | Node)[] | null) {
 	const status = el("#datacat-status");
@@ -80,8 +111,10 @@ function showCharacters(characters: DatacatCharacter[], append: boolean) {
 	else list.replaceChildren(...views);
 }
 
-async function runSearch(query: string, offset = 0) {
+/** a new search reads the sort and blacklist; "more" carries the first page's along */
+async function runSearch(query: string, offset = 0, options = searchOptions()) {
 	const run = ++listSequence;
+	lastQuery = query;
 	const more = el<HTMLButtonElement>("#datacat-more");
 	more.disabled = true;
 	if (offset === 0) {
@@ -91,7 +124,7 @@ async function runSearch(query: string, offset = 0) {
 		el("#datacat-results").replaceChildren(placeholderView("Searching…"));
 	}
 
-	const r = await searchCharacters(query, offset);
+	const r = await searchCharacters(query, options, offset);
 	if (run !== listSequence) return;
 	more.disabled = false;
 	if (!r.success) {
@@ -102,10 +135,10 @@ async function runSearch(query: string, offset = 0) {
 
 	showCharacters(r.value.characters, offset > 0);
 	if (offset === 0 && r.value.characters.length === 0)
-		el("#datacat-results").replaceChildren(placeholderView(query.trim() ? "Nothing found" : "Datacat has nothing to show"));
+		el("#datacat-results").replaceChildren(placeholderView(query.trim() || options.blockedTagIds.length > 0 ? "Nothing found" : "Datacat has nothing to show"));
 
 	const { hasMore, nextOffset } = r.value.paging ?? {};
-	nextPage = hasMore && typeof nextOffset === "number" ? { query, offset: nextOffset } : null;
+	nextPage = hasMore && typeof nextOffset === "number" ? { query, offset: nextOffset, options } : null;
 	more.hidden = !nextPage;
 }
 
@@ -118,6 +151,7 @@ async function openLink(raw: string) {
 	}
 
 	const run = ++listSequence;
+	lastQuery = null;
 	nextPage = null;
 	el("#datacat-more").hidden = true;
 	setStatus(null);

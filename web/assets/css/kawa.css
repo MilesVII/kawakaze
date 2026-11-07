@@ -301,6 +301,20 @@ input[type="number"] {
 	max-height: 6lh;
 	font: var(--font-smol);
 }
+.datacat-tags {
+	flex-wrap: wrap;
+}
+.datacat-tag {
+	border: none;
+	font: var(--font-smol);
+}
+.datacat-tag[aria-pressed="true"] {
+	background-color: var(--color-accent);
+	color: var(--color-base);
+}
+.datacat-tag[aria-pressed="true"] .hint {
+	color: inherit;
+}
 .kawa-library-status a {
 	color: var(--color-accent);
 }

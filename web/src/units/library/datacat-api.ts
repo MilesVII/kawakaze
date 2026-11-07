@@ -17,6 +17,7 @@ const BASE = `${DATACAT_ORIGIN}/api/client/v1`;
 const CLIENT_NAME = "Kawakaze";
 export const PAGE_SIZE = 24;
 const SEARCH_CHARS = 120;
+const TAG_SEARCH_CHARS = 80;
 /** a lease this close to expiry isn't worth starting a download with */
 const LEASE_MARGIN_MS = 30_000;
 
@@ -51,6 +52,20 @@ export type DatacatPage = {
 	paging: { hasMore: boolean, nextOffset: number | null }
 };
 export type DatacatRef = { id: string, sourceKind: DatacatSourceKind };
+
+export const SORTS = {
+	score:             "score",
+	fresh:             "freshest",
+	chat_count:        "chats",
+	messages_per_chat: "messages per chat",
+	first_published:   "first published"
+} as const;
+export type DatacatSort = keyof typeof SORTS;
+export type SearchOptions = { sort: DatacatSort, blockedTagIds: number[] };
+
+export type DatacatTag = { id: number, name: string, slug: string, groupId: number | null, count: number };
+/** Datacat excludes at most this many tags per search */
+export const MAX_BLOCKED_TAGS = 50;
 
 export type DatacatFailure = {
 	success: false,
@@ -169,11 +184,13 @@ function normalize(raw: RawCharacter): DatacatCharacter {
 	};
 }
 
-/** an empty query lists the freshest characters */
-export async function searchCharacters(query: string, offset = 0): Promise<DatacatResult<DatacatPage>> {
-	const q = new URLSearchParams({ limit: String(PAGE_SIZE), offset: String(offset) });
+/** an empty query lists the whole catalog in the picked order */
+export async function searchCharacters(query: string, options: SearchOptions, offset = 0): Promise<DatacatResult<DatacatPage>> {
+	const q = new URLSearchParams({ limit: String(PAGE_SIZE), offset: String(offset), sort: options.sort });
 	const search = query.trim().slice(0, SEARCH_CHARS);
 	if (search) q.set("search", search);
+	const blocked = options.blockedTagIds.slice(0, MAX_BLOCKED_TAGS);
+	if (blocked.length > 0) q.set("blockedTagIds", blocked.join(","));
 	const r = await json<{ characters: RawCharacter[], paging: DatacatPage["paging"] }>(`/characters?${q}`);
 	if (!r.success) return r;
 	return { success: true, value: { characters: (r.value.characters ?? []).map(normalize), paging: r.value.paging } };
@@ -184,6 +201,16 @@ export async function getCharacter(ref: DatacatRef): Promise<DatacatResult<Datac
 	const q = new URLSearchParams({ sourceKind: ref.sourceKind });
 	const r = await json<{ character: RawCharacter }>(`/characters/${ref.id}?${q}`);
 	return r.success ? { success: true, value: normalize(r.value.character) } : r;
+}
+
+/** one page of tags, most used first; Datacat hands out about 240 per page whatever the limit, and a search rarely needs more */
+export async function listTags(search = ""): Promise<DatacatResult<DatacatTag[]>> {
+	const q = new URLSearchParams({ limit: "250", sort: "count" });
+	const text = search.trim().slice(0, TAG_SEARCH_CHARS);
+	if (text) q.set("search", text);
+	const r = await json<{ tags: DatacatTag[] }>(`/tags?${q}`);
+	if (!r.success) return r;
+	return { success: true, value: (r.value.tags ?? []).filter(t => typeof t?.id === "number" && t.name) };
 }
 
 // ---- protected transfers ----
