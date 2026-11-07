@@ -1,6 +1,6 @@
 import { idb } from "@root/persist";
 import { revolvers } from "@root/utils";
-import { RampikeModal } from "@rampike/modal";
+import { MODAL_CLOSE, RampikeModal } from "@rampike/modal";
 import type { RampikeTabs } from "@rampike/tabs";
 import { placeholderView } from "@views/common";
 import { makeDatacatItemView } from "@views/datacat-item";
@@ -40,7 +40,7 @@ export function datacatBrowserUnit() {
 	});
 	el("#datacat-close").addEventListener("click", () => modal.close());
 	// closing the modal mid-check cancels the imports waiting on it
-	modal.dialog.addEventListener("close", () => finishVerification(null));
+	modal.addEventListener(MODAL_CLOSE, () => finishVerification(null));
 
 	el("#datacat-link-go").addEventListener("click", () => openLink(link.value));
 	link.addEventListener("keydown", e => {

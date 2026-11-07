@@ -14,7 +14,7 @@ import { mainUnit }       from "@units/main";
 import { scenarioUnit }   from "@units/scenario";
 import { init as initPersist } from "./persist";
 import { libraryUnit } from "@units/library";
-import { toast } from "@units/toasts";
+import { toast, toastsUnit } from "@units/toasts";
 import { docsUnit } from "@units/docs";
 import { cheatsUnit } from "@units/cheats";
 import { homeUnit } from "@units/kawa/home";
@@ -41,6 +41,8 @@ defineKonSwiper();
 window.addEventListener("DOMContentLoaded", main);
 
 const units: (() => void)[] = [
+	// first, so it hears modals other units open on start
+	toastsUnit,
 	navigationUnit,
 	settingsUnit,
 	chatUnit,

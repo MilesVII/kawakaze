@@ -69,7 +69,7 @@ export function providersUnit() {
 			const result = nothrow(() => JSON.parse(raw));
 			const value = result.success ? result.value : {};
 			if (!result.success || typeof value !== "object") {
-				toast("the additional parameters value must be a valid JSON object, provider is not updated", { parent: getToastParent() })
+				toast("the additional parameters value must be a valid JSON object, provider is not updated")
 				return null;
 			}
 			return value;
@@ -88,7 +88,7 @@ export function providersUnit() {
 		const missing = (["name", "url", "model"] as const).some(k => !e[k]);
 		if (e.params === null) return;
 		if (missing) {
-			toast("some of required inputs are missing", { parent: getToastParent() });
+			toast("some of required inputs are missing");
 			return;
 		}
 
@@ -103,7 +103,7 @@ export function providersUnit() {
 		const url = inputs.url.value.trim().replace("/v1/chat/completions", "/v1/models");
 		if (!url) return;
 		const key = inputs.key.value;
-		const closeToast = toast("calling...", { parent: getToastParent() });
+		const closeToast = toast("calling...");
 		const response = await nothrowAsync(fetch(url, {
 			headers: {
 				Authorization: `Bearer ${key}`,
@@ -111,12 +111,12 @@ export function providersUnit() {
 		}));
 		closeToast();
 		if (!response.success) {
-			toast(`can't reach "${url}"\n${response.error}`, { parent: getToastParent() });
+			toast(`can't reach "${url}"\n${response.error}`);
 			return;
 		}
 		if (!response.value.ok) {
 			const text = await response.value.text();
-			toast(`"${url}" returned error\nstatus ${response.value.status}\n${text.slice(0, 64)}`, { parent: getToastParent() });
+			toast(`"${url}" returned error\nstatus ${response.value.status}\n${text.slice(0, 64)}`);
 			return;
 		}
 		const payload = await response.value.json();
@@ -132,7 +132,7 @@ export function providersUnit() {
 					})
 			)
 		);
-		toast(`success; ${payload.data.length} models are available`), { parent: getToastParent() };
+		toast(`success; ${payload.data.length} models are available`);
 	}
 	function edit(id: string, e: Provider) {
 		function stringifyParams() {
@@ -240,8 +240,4 @@ export function readActiveProviders(): ActiveProviders {
 	if (!parsed.success) return defaultProviders;
 
 	return parsed.value;
-}
-
-function getToastParent() {
-	return document.querySelector<HTMLElement>("#settings-providers-toasts") ?? undefined;
 }
