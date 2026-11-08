@@ -754,12 +754,21 @@
 						<div class="row-compact">
 							<input type="search" id="datacat-search" class="lineout wide" placeholder="search datacat" />
 							<button id="datacat-search-go" class="lineout fit">search</button>
+							<button id="datacat-search-tags" class="lineout fit" title="find tags by name and search by them: Datacat's text search doesn't look at tags">tags</button>
 						</div>
 						<div class="row-compact align-center">
 							<div id="datacat-status" class="hint" hidden></div>
 							<div class="hint float-end">sort by</div>
 							<select id="datacat-sort" class="lineout"></select>
 							<button id="datacat-blacklist-open" class="lineout fit">blacklist</button>
+						</div>
+						<div id="datacat-picked" class="row-compact datacat-tags" hidden></div>
+						<div id="datacat-found-panel" class="list" hidden>
+							<div class="row-compact align-center">
+								<div id="datacat-found-status" class="hint"></div>
+								<button id="datacat-found-hide" class="lineout fit float-end">hide</button>
+							</div>
+							<div id="datacat-found" class="row-compact datacat-tags datacat-tags-scroll"></div>
 						</div>
 						<div id="datacat-results" class="list"></div>
 						<button id="datacat-more" class="lineout" hidden>more</button>

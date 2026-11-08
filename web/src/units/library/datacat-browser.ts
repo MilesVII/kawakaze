@@ -7,15 +7,17 @@ import { makeDatacatItemView } from "@views/datacat-item";
 import { toast } from "@units/toasts";
 import { importDatacatJSON } from "./datacat";
 import { blockedTags, datacatBlacklistUnit, openBlacklist } from "./datacat-blacklist";
+import { type PickedTag, makeTagPicker } from "./datacat-tags";
 import {
 	type Challenge, type DatacatCharacter, type DatacatRef, type DatacatResult, type DatacatSort, type Lease, type SearchOptions,
-	SORTS, characterPage, datacatEnabled, dropLease, fetchAvatar, fetchCard, getCharacter,
+	MAX_REQUIRED_TAGS, SORTS, characterPage, datacatEnabled, dropLease, fetchAvatar, fetchCard, getCharacter,
 	markLeaseUsed, parseCharacterLink, pollVerification, searchCharacters, startVerification, usableLease
 } from "./datacat-api";
 
 /*
 The library's Datacat browser: a modal with two tabs.
-"main" finds characters, by a Janitor/Datacat link or by search, and imports them into the library.
+"main" finds characters, by a Janitor/Datacat link, by text or by tags, and imports them into the library.
+Datacat's text search doesn't look at tags, so the "tags" button finds tags by name instead, and picked tags replace the text.
 "blacklist" (datacat-blacklist.ts) picks the tags searches leave out.
 "verify" walks through Datacat's human check when an import needs a lease: the check runs on Datacat's page in a new tab,
 this tab polls until it passes, then the import that asked for it carries on.
@@ -48,10 +50,36 @@ export function datacatBrowserUnit() {
 	link.addEventListener("keydown", e => {
 		if (e.key === "Enter") openLink(link.value);
 	});
-	el("#datacat-search-go").addEventListener("click", () => runSearch(search.value));
-	search.addEventListener("keydown", e => {
-		if (e.key === "Enter") runSearch(search.value);
+	const finder = makeTagPicker({
+		found: el("#datacat-found"),
+		status: el("#datacat-found-status"),
+		picked: el("#datacat-picked"),
+		dropHint: "drop",
+		max: MAX_REQUIRED_TAGS,
+		tooMany: `Datacat takes at most ${MAX_REQUIRED_TAGS} tags per search`,
+		read: () => [...requiredTags],
+		write: tags => {
+			requiredTags = tags;
+			runSearch(lastQuery ?? "");
+		}
 	});
+	// a text search means the text: picked tags would make Datacat ignore it
+	const searchText = () => {
+		if (requiredTags.length > 0) {
+			requiredTags = [];
+			finder.render();
+		}
+		runSearch(search.value);
+	};
+	el("#datacat-search-go").addEventListener("click", searchText);
+	search.addEventListener("keydown", e => {
+		if (e.key === "Enter") searchText();
+	});
+	el("#datacat-search-tags").addEventListener("click", () => {
+		el("#datacat-found-panel").hidden = false;
+		finder.search(search.value);
+	});
+	el("#datacat-found-hide").addEventListener("click", () => el("#datacat-found-panel").hidden = true);
 	el("#datacat-more").addEventListener("click", () => {
 		if (nextPage) runSearch(nextPage.query, nextPage.offset, nextPage.options);
 	});
@@ -85,13 +113,15 @@ let listSequence = 0;
 let nextPage: { query: string, offset: number, options: SearchOptions } | null = null;
 /** what the result list shows: a search's query, or null for a looked-up link */
 let lastQuery: string | null = null;
+/** tags results must have; while there are any, the query is left out */
+let requiredTags: PickedTag[] = [];
 
 function currentSort(): DatacatSort {
 	const stored = local.get("datacatSort");
 	return stored && Object.hasOwn(SORTS, stored) ? stored as DatacatSort : "score";
 }
 function searchOptions(): SearchOptions {
-	return { sort: currentSort(), blockedTagIds: blockedTags().map(t => t.id) };
+	return { sort: currentSort(), tagIds: requiredTags.map(t => t.id), blockedTagIds: blockedTags().map(t => t.id) };
 }
 function updateBlacklistCaption() {
 	const count = blockedTags().length;
@@ -111,7 +141,7 @@ function showCharacters(characters: DatacatCharacter[], append: boolean) {
 	else list.replaceChildren(...views);
 }
 
-/** a new search reads the sort and blacklist; "more" carries the first page's along */
+/** a new search reads the sort, picked tags and blacklist; "more" carries the first page's along */
 async function runSearch(query: string, offset = 0, options = searchOptions()) {
 	const run = ++listSequence;
 	lastQuery = query;
@@ -135,7 +165,7 @@ async function runSearch(query: string, offset = 0, options = searchOptions()) {
 
 	showCharacters(r.value.characters, offset > 0);
 	if (offset === 0 && r.value.characters.length === 0)
-		el("#datacat-results").replaceChildren(placeholderView(query.trim() || options.blockedTagIds.length > 0 ? "Nothing found" : "Datacat has nothing to show"));
+		el("#datacat-results").replaceChildren(placeholderView(query.trim() || options.tagIds.length > 0 || options.blockedTagIds.length > 0 ? "Nothing found" : "Datacat has nothing to show"));
 
 	const { hasMore, nextOffset } = r.value.paging ?? {};
 	nextPage = hasMore && typeof nextOffset === "number" ? { query, offset: nextOffset, options } : null;

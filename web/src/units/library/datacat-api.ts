@@ -61,11 +61,14 @@ export const SORTS = {
 	first_published:   "first published"
 } as const;
 export type DatacatSort = keyof typeof SORTS;
-export type SearchOptions = { sort: DatacatSort, blockedTagIds: number[] };
+/** with required tags, Datacat ignores the text: its text search doesn't look at tags */
+export type SearchOptions = { sort: DatacatSort, tagIds: number[], blockedTagIds: number[] };
 
 export type DatacatTag = { id: number, name: string, slug: string, groupId: number | null, count: number };
 /** Datacat excludes at most this many tags per search */
 export const MAX_BLOCKED_TAGS = 50;
+/** and requires at most this many */
+export const MAX_REQUIRED_TAGS = 24;
 
 export type DatacatFailure = {
 	success: false,
@@ -187,8 +190,10 @@ function normalize(raw: RawCharacter): DatacatCharacter {
 /** an empty query lists the whole catalog in the picked order */
 export async function searchCharacters(query: string, options: SearchOptions, offset = 0): Promise<DatacatResult<DatacatPage>> {
 	const q = new URLSearchParams({ limit: String(PAGE_SIZE), offset: String(offset), sort: options.sort });
+	const required = options.tagIds.slice(0, MAX_REQUIRED_TAGS);
 	const search = query.trim().slice(0, SEARCH_CHARS);
-	if (search) q.set("search", search);
+	if (required.length > 0) q.set("tagIds", required.join(","));
+	else if (search) q.set("search", search);
 	const blocked = options.blockedTagIds.slice(0, MAX_BLOCKED_TAGS);
 	if (blocked.length > 0) q.set("blockedTagIds", blocked.join(","));
 	const r = await json<{ characters: RawCharacter[], paging: DatacatPage["paging"] }>(`/characters?${q}`);

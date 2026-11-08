@@ -304,6 +304,11 @@ input[type="number"] {
 .datacat-tags {
 	flex-wrap: wrap;
 }
+.datacat-tags-scroll {
+	max-height: 10lh;
+	overflow-y: auto;
+	scrollbar-width: thin;
+}
 .datacat-tag {
 	border: none;
 	font: var(--font-smol);
