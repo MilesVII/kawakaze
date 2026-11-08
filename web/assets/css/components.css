@@ -247,7 +247,6 @@ summary.settings-label {
 }
 .scenario-card-description {
 	flex-grow: 1;
-	overflow: auto;
 }
 /* card descriptions come from the wild: keep their painting (giant box-shadows, rotated bits) inside the box */
 .scenario-card-description, #library-start-description, #play-card-preview {
@@ -258,8 +257,6 @@ summary.settings-label {
 	flex-flow: row-reverse wrap;
 	flex-shrink: 0;
 	margin-top: auto;
-	max-height: 4em;
-	overflow-y: auto;
 	gap: var(--dims-smol);
 }
 .scenario-card-tags > span {

@@ -112,3 +112,7 @@
 .reduced-font {
 	font: var(--font-16);
 }
+
+.scrollable {
+	overflow-y: auto;
+}
