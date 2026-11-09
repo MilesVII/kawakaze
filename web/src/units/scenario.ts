@@ -194,8 +194,11 @@ export function scenarioUnit() {
 	submitButton.addEventListener("click", async () => {
 		const payload = await collect(getRoute()[1] ?? crypto.randomUUID());
 		if (!payload) return;
-		await idb.set("scenarios", payload);
-		toast("saved", { timeoutMS: 3200 })
+		const stored = await idb.set("scenarios", payload);
+		if (!stored.success) return toast(`can't save: ${stored.error}`);
+		toast("saved", { timeoutMS: 3200 });
+		// a new card keeps its id from now on, or every save would make another one
+		if (getRoute()[1] !== payload.id) navigate(`/editor/${encodeURIComponent(payload.id)}`, true);
 	});
 	/** saves what the form holds as a new card and switches the editor to it */
 	cloneButton.addEventListener("click", async () => {
