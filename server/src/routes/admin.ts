@@ -38,8 +38,12 @@ adminRoutes.get("/disk", async c => {
 		.selectFrom("media")
 		.select([sql<number>`coalesce(sum(bytes), 0)`.as("bytes"), sql<number>`count(*)`.as("files")])
 		.executeTakeFirstOrThrow();
-	const sync = await db
+	const chatSync = await db
 		.selectFrom("sync")
+		.select([sql<number>`coalesce(sum(bytes), 0)`.as("bytes"), sql<number>`count(*)`.as("items")])
+		.executeTakeFirstOrThrow();
+	const cardSync = await db
+		.selectFrom("card_sync")
 		.select([sql<number>`coalesce(sum(bytes), 0)`.as("bytes"), sql<number>`count(*)`.as("items")])
 		.executeTakeFirstOrThrow();
 	const fsStats = await fs.statfs(config.dataDir);
@@ -49,8 +53,8 @@ adminRoutes.get("/disk", async c => {
 		dbBytes,
 		mediaBytes: media.bytes,
 		mediaFiles: media.files,
-		syncBytes: sync.bytes,
-		syncItems: sync.items,
+		syncBytes: chatSync.bytes + cardSync.bytes,
+		syncItems: chatSync.items + cardSync.items,
 		freeBytes: fsStats.bavail * fsStats.bsize,
 		totalBytes: fsStats.blocks * fsStats.bsize,
 		users: await count("users"),
@@ -115,7 +119,8 @@ function usersQuery() {
 			sql<number>`(select count(*) from scenarios where owner_id = users.id)`.as("scenario_count"),
 			sql<number>`(select count(*) from comments where user_id = users.id)`.as("comment_count"),
 			sql<number>`(select coalesce(sum(media.bytes), 0) from media_uploads join media on media.hash = media_uploads.hash where media_uploads.user_id = users.id)`.as("media_bytes"),
-			sql<number>`(select coalesce(sum(bytes), 0) from sync where user_id = users.id)`.as("sync_bytes"),
+			sql<number>`(select coalesce(sum(bytes), 0) from sync where user_id = users.id)
+				+ (select coalesce(sum(bytes), 0) from card_sync where user_id = users.id)`.as("sync_bytes"),
 			sql<string>`(select coalesce(group_concat(provider), '') from identities where user_id = users.id)`.as("providers")
 		]);
 }

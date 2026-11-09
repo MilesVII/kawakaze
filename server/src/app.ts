@@ -12,6 +12,7 @@ import { commentRoutes } from "./routes/comments";
 import { meRoutes } from "./routes/me";
 import { scenarioRoutes } from "./routes/scenarios";
 import { syncRoutes } from "./routes/sync";
+import { cardSyncRoutes } from "./routes/card-sync";
 import { userRoutes } from "./routes/users";
 import { renderShell } from "./shell";
 import { HttpError } from "./util";
@@ -25,6 +26,7 @@ function bodyLimitFor(method: string, path: string) {
 	if (method === "PUT" && path === "/api/me/icon") return LIMITS.pictureBytes + MULTIPART_SLACK;
 	if (method === "POST" && path === "/api/me/media") return LIMITS.pictureBytes + MULTIPART_SLACK;
 	if (method === "PUT" && path.startsWith("/api/sync/")) return LIMITS.syncBytes;
+	if (method === "PUT" && path.startsWith("/api/card-sync/")) return LIMITS.syncBytes;
 	return DEFAULT_BODY_LIMIT;
 }
 
@@ -59,6 +61,7 @@ export function createApp() {
 	app.route("/api/me", meRoutes);
 	app.route("/api/users", userRoutes);
 	app.route("/api/sync", syncRoutes);
+	app.route("/api/card-sync", cardSyncRoutes);
 	app.route("/api/admin", adminRoutes);
 	app.route("/api/errors", errorRoutes);
 	app.route("/api", commentRoutes);

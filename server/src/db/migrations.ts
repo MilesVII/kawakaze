@@ -216,11 +216,29 @@ const errorReports: Migration = {
 	}
 };
 
+/** card_sync: library cards moved between devices, stored as the gzipped .aegir.scenario.json export (pictures inline) */
+const cardSync: Migration = {
+	async up(db) {
+		await sql.raw(`create table card_sync (
+			user_id        text not null references users(id) on delete cascade,
+			card_id        text not null,
+			payload        blob not null,
+			bytes          integer not null,
+			title          text not null,
+			character_name text not null,
+			last_update    integer not null,
+			uploaded_at    integer not null,
+			primary key (user_id, card_id)
+		)`).execute(db);
+	}
+};
+
 const migrations: Record<string, Migration> = {
 	"0001_init": init,
 	"0002_media_library": mediaLibrary,
 	"0003_media_uploads": mediaUploads,
-	"0004_error_reports": errorReports
+	"0004_error_reports": errorReports,
+	"0005_card_sync": cardSync
 };
 
 const provider: MigrationProvider = {

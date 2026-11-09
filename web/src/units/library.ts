@@ -1,20 +1,21 @@
-import { getBlobLink, idb, isRemoteRef, listen, upload } from "@root/persist";
-import { b64Encoder, download, renderMD, setSelectOptions } from "@root/utils";
-import { navigate } from "@root/router";
+import { getBlobLink, idb, listen } from "@root/persist";
+import { renderMD, setSelectOptions } from "@root/utils";
+import { getRoute, navigate, onRoute } from "@root/router";
 import { account } from "@root/api";
-import { encodeRef } from "@root/media";
 import { mudcrack } from "rampike";
-import type { ScenarioLookup } from "@shared/api";
+import type { CardSyncHandle, ScenarioLookup } from "@shared/api";
 import { lookupScenarios, onTagLabels, peekLookup, saveToLibrary, scenarioLink } from "./kawa/catalog";
 import { placeholderView } from "@views/common";
 import { makeScenarioCardView } from "@views/scenario-card";
+import { makeSyncedCardView } from "@views/synced-card";
 import { RampikeModal } from "@rampike/modal";
 import { start } from "./chat/start";
 import { ScenarioCard } from "@root/types";
 import { RampikeFilePicker } from "@rampike/filepicker";
 import { importSTMessages } from "./library/st";
 import { toast } from "./toasts";
-import { DatacatCard, importDatacatJSON } from "./library/datacat";
+import { downloadScenario, importScenario } from "./library/files";
+import { discardSyncedCard, downloadSyncedCard, listSyncedCards, uploadCard } from "./library/card-sync";
 import { RampikePagination } from "@rampike/pagination";
 import { filterBySearch } from "./library/search";
 import { hashListenerUnit } from "./library/hash";
@@ -87,7 +88,14 @@ export function libraryUnit() {
 	});
 
 	pager.addEventListener("pick", update);
-	account.listenIdentity(() => update());
+	account.listenIdentity(me => {
+		if (!me) synced = [];
+		update();
+		if (me) refreshSynced();
+	});
+	onRoute(() => {
+		if (getRoute()[0] === "library") refreshSynced();
+	});
 	listen(async u => {
 		if (u.storage !== "idb") return;
 		if (u.store !== "scenarios") return;
@@ -95,6 +103,13 @@ export function libraryUnit() {
 		update();
 	});
 	onTagLabels(update);
+	update();
+}
+
+/** cards waiting on the server, shown above the library; fetched on visits, not on every update */
+let synced: CardSyncHandle[] = [];
+async function refreshSynced() {
+	synced = await listSyncedCards();
 	update();
 }
 
@@ -109,6 +124,7 @@ async function update() {
 	const items = await idb.getAll("scenarios");
 	if (!items.success || run !== updateSequence) return;
 
+	updateSynced(items.value);
 	items.value = filterBySearch(items.value);
 
 	pager.pageCount = Math.ceil(items.value.length / CARDS_PER_PAGE);
@@ -177,43 +193,42 @@ function scenarioCardView(item: ScenarioCard) {
 			play:     () => openStartModal(item.id, item.card.description),
 			download: () => downloadScenario(item),
 			delete:   () => deleteScenario(item.id, item.card.title),
-			edit:     () => navigate(`/editor/${encodeURIComponent(item.id)}`)
+			edit:     () => navigate(`/editor/${encodeURIComponent(item.id)}`),
+			sync:     account.get() ? async () => { if (await uploadCard(item)) await refreshSynced(); } : undefined
 		}
 	);
 }
 
-async function downloadScenario(card: ScenarioCard) {
-	const payload = { ...card };
-
-	payload.card = { ...card.card, picture: await encodeRef(card.card.picture) };
-	payload.chat = { ...card.chat, picture: await encodeRef(card.chat.picture) };
-
-	const filename = [payload.card.title, payload.chat.name].filter(t => t).join(" | ");
-	download(JSON.stringify(payload), `${filename}.aegir.scenario.json`);
+function updateSynced(cards: ScenarioCard[]) {
+	const list = document.querySelector<HTMLElement>("#library-synced")!;
+	const local = new Map(cards.map(c => [c.id, c]));
+	list.replaceChildren(...synced.map(h => syncedCardView(h, local.get(h.id))));
+	list.hidden = synced.length === 0;
 }
 
-export async function importScenario(file: Blob) {
-	const raw = await file.text();
-	const parsed = JSON.parse(raw) as ScenarioCard | DatacatCard;
-
-	if ("spec" in parsed && parsed.spec === "chara_card_v2") {
-		const converted = await importDatacatJSON(parsed);
-		idb.set("scenarios", converted);
-	}
-	if ("id" in parsed){
-		async function decode(b64: string | null) {
-			if (!b64) return null;
-			if (isRemoteRef(b64)) return b64;
-			const file = await b64Encoder.decode(b64);
-			const media = await upload(file);
-			return media;
+function syncedCardView(handle: CardSyncHandle, local: ScenarioCard | undefined) {
+	const status = !local
+		? "not on this device"
+		: local.lastUpdate === handle.lastUpdate
+			? "same as the copy on this device"
+			: local.lastUpdate < handle.lastUpdate
+				? "newer than the copy on this device"
+				: "older than the copy on this device";
+	return makeSyncedCardView(
+		handle,
+		status,
+		local ? "update" : "download",
+		{
+			download: async () => {
+				if (local && local.lastUpdate > handle.lastUpdate && !confirm("The copy on this device is newer. Replace it with the synced one?")) return;
+				if (await downloadSyncedCard(handle.id)) await refreshSynced();
+			},
+			discard: async () => {
+				if (!confirm(`Remove the synced copy of "${handle.title}" from the server?`)) return;
+				if (await discardSyncedCard(handle.id)) await refreshSynced();
+			}
 		}
-		parsed.card.picture = await decode(parsed.card.picture);
-		parsed.chat.picture = await decode(parsed.chat.picture);
-		parsed.lastUpdate = Date.now();
-	
-		idb.set("scenarios", parsed);
-	}
+	);
 }
 
 function deleteScenario(id: string, name: string) {

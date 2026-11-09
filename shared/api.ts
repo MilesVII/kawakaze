@@ -256,6 +256,24 @@ export type SyncHandle = {
 	bytes: number
 };
 
+// ---- card sync ----
+
+/*
+Library cards moved between devices, the same way as chats; shares the sync quota with them.
+GET    /api/card-sync       -> CardSyncHandle[]
+PUT    /api/card-sync/:id   ScenarioCard as exported (.aegir.scenario.json: local pictures base64, server ones as URLs) -> CardSyncHandle
+GET    /api/card-sync/:id   -> ScenarioCard as exported
+DELETE /api/card-sync/:id   -> { ok: true }
+*/
+export type CardSyncHandle = {
+	id: string,
+	title: string,
+	characterName: string,
+	lastUpdate: number,
+	uploadedAt: number,
+	bytes: number
+};
+
 // ---- error reports ----
 
 /*

@@ -9,7 +9,9 @@ export type ScenarioCardHandlers = {
 	play: () => void,
 	download: () => void,
 	delete: () => void,
-	edit: () => void
+	edit: () => void,
+	/** card sync; the button shows only with it */
+	sync?: () => void
 };
 
 const template = htmlTemplate(html);
@@ -17,6 +19,7 @@ const REFS = {
 	icon:          HTMLImageElement,
 	title:         HTMLElement,
 	download:      HTMLButtonElement,
+	sync:          HTMLButtonElement,
 	delete:        HTMLButtonElement,
 	edit:          HTMLButtonElement,
 	play:          HTMLButtonElement,
@@ -58,6 +61,11 @@ export function makeScenarioCardView(item: ScenarioCard, picture: PictureSource,
 	r.download.addEventListener("click", handlers.download);
 	r.delete.addEventListener("click", handlers.delete);
 	r.edit.addEventListener("click", handlers.edit);
+	if (handlers.sync) {
+		r.sync.hidden = false;
+		r.sync.title = "upload to move it to another device";
+		r.sync.addEventListener("click", handlers.sync);
+	}
 
 	return root;
 }

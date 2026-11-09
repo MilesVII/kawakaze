@@ -1,7 +1,6 @@
 import { promisify } from "node:util";
 import zlib from "node:zlib";
 import { Hono } from "hono";
-import { sql } from "kysely";
 import type { SyncHandle, SyncPayload } from "@shared/api";
 import { LIMITS } from "@shared/api";
 import { requireUser, type AppEnv } from "../auth";
@@ -9,6 +8,7 @@ import { config } from "../config";
 import { db } from "../db";
 import type { SyncTable } from "../db/schema";
 import { parseMediaUrl } from "../media";
+import { syncBytesUsed } from "../sync-quota";
 import { ID_RE, ensure, fail, isString } from "../util";
 
 const gzip = promisify(zlib.gzip);
@@ -61,12 +61,7 @@ syncRoutes.put("/:id", async c => {
 	if (!Array.isArray(payload.media)) fail(400, "media must be an array");
 
 	const packed = new Uint8Array(await gzip(raw));
-	const { used } = await db
-		.selectFrom("sync")
-		.select(sql<number>`coalesce(sum(bytes), 0)`.as("used"))
-		.where("user_id", "=", user.id)
-		.where("chat_id", "!=", id)
-		.executeTakeFirstOrThrow();
+	const used = await syncBytesUsed(user.id, { table: "sync", id });
 	if (used + packed.length > config.quota.syncBytes) fail(413, "sync storage quota exceeded");
 
 	const picture = isString(chat.scenario?.picture) && parseMediaUrl(chat.scenario.picture)

@@ -14,7 +14,8 @@ export type Database = {
 	media_uploads:  MediaUploadsTable,
 	media_refs:     MediaRefsTable,
 	error_reports:  ErrorReportsTable,
-	sync:           SyncTable
+	sync:           SyncTable,
+	card_sync:      CardSyncTable
 };
 
 export type UsersTable = {
@@ -161,6 +162,18 @@ export type SyncTable = {
 	persona_name: string,
 	picture: string | null,
 	message_count: number,
+	last_update: number,
+	uploaded_at: number
+};
+
+export type CardSyncTable = {
+	user_id: string,
+	card_id: string,
+	/** gzipped .aegir.scenario.json export */
+	payload: Uint8Array,
+	bytes: number,
+	title: string,
+	character_name: string,
 	last_update: number,
 	uploaded_at: number
 };
