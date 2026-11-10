@@ -378,9 +378,10 @@ function initFirstMessages() {
 		const asterized = lines.map(line => {
 			if (line.trim().length === 0) return "";
 			return line.replace(
-				/(^|"\s)([^"]+)(\s"|$)/gm,
+				/(^\s*|["”]\s+)([^"“”\s](?:[^"“”]*[^"“”\s])?)(\s+["“]|\s*$)/gm,
 				(_, g0, g1, g2) => `${g0}*${g1}*${g2}`
 			);
+
 		});
 		messagesState[messageIndex] =
 			messages.value =
