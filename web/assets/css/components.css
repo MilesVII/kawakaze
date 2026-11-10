@@ -237,7 +237,6 @@ summary.settings-label {
 .scenario-card h6 {
 	font: var(--font-bold);
 	flex-shrink: 0;
-	flex-grow: 1;
 	max-height: 5em;
 	max-height: 5lh;
 	word-break: break-word;
