@@ -32,23 +32,23 @@ export const MACROS =
 `# Macros
 ## Names
 {{char}}
-    Character name
+	Character name
 {{user}}
-    User's persona name
+	User's persona name
 {{persona}}
 	User's persona description
 
 ## User's persona pronouns:
 {{sub}} or {{they}}
-    subjective (he/she/they)
+	subjective (he/she/they)
 {{obj}} or {{them}}
-    objective (him/her/them)
+	objective (him/her/them)
 {{poss}} or {{their}}
-    possessive (his/her/their)
+	possessive (his/her/their)
 {{poss_p}} or {{theirs}}
-    possessive pronoun (his/hers/theirs)
+	possessive pronoun (his/hers/theirs)
 {{ref}} or {{themselves}}
-    reflexive (himself/herself/themselves)`;
+	reflexive (himself/herself/themselves)`;
 
 export type MacroContext = {
 	pronouns: Pronouns,
