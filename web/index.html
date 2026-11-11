@@ -283,7 +283,7 @@
 					<div class="topbar-actions">
 						<button id="scenario-submit-button" class="lineout">save scenario</button>
 						<button id="scenario-clone-button" class="lineout fit" title="save a copy of this card and switch to editing it" hidden>clone</button>
-						<ram-kon id="scenario-publish-button" class="lineout w128" hidden>
+						<ram-kon id="scenario-publish-button" class="lineout w256" hidden>
 							<div class="kon-back">publish</div>
 						</ram-kon>
 						<button id="scenario-delist-button" class="lineout" hidden>delist</button>
@@ -432,10 +432,6 @@
 						<summary class="settings-label">Proofread</summary>
 						<div class="list">
 							<div class="hint">Sends the character definition and the opening messages to a provider and asks for typos, grammar and style problems. The default prompt lives in settings; changes made here are for this session only.</div>
-							<div class="chat-provider-control row-compact">
-								<div>Provider:</div>
-								<select id="scenario-proofread-provider" class="lineout"></select>
-							</div>
 							<ram-labeled
 								legend="Proofread prompt"
 								id="scenario-proofread-prompt"
@@ -447,6 +443,10 @@
 							<div class="row-wrap">
 								<button id="scenario-proofread-run" class="lineout fit">proofread</button>
 								<button id="scenario-proofread-reset" class="lineout fit">reset prompt</button>
+								<div class="row-compact align-center">
+									<div>Provider:</div>
+									<select id="scenario-proofread-provider" class="lineout"></select>
+								</div>
 							</div>
 							<div id="scenario-proofread-output" class="lineout md reduced-font" hidden></div>
 						</div>

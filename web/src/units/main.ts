@@ -134,9 +134,6 @@ function handleView(handle: Chat, folderOptions: string[]) {
 }
 
 function deleteChat(id: string, name: string, messageCount: number) {
-	const confirmed = confirm(`Chat with ${name} (${messagesCaption(messageCount)}) will be deleted`);
-	if (!confirmed) return;
-
 	idb.del("chatContents", id);
 	idb.del("chats", id);
 }

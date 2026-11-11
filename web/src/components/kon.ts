@@ -94,7 +94,10 @@ export class RampikeKon extends HTMLElement {
 		this.thumb.addEventListener("pointercancel", () => this.reset());
 
 		this.reset();
-		this.append(this.thumb);
+		if (this.hasAttribute("back-on-top"))
+			this.prepend(this.thumb);
+		else
+			this.append(this.thumb);
 	}
 };
 
