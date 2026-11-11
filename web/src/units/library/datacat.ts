@@ -37,7 +37,7 @@ export type DatacatCard = {
 const definitionTemplate = {
 	characters: [
 		"# Characters",
-		"## {{char}} "
+		"## {{char}}"
 	],
 	userPersona: [
 		"## {{user}}",
@@ -45,7 +45,7 @@ const definitionTemplate = {
 	],
 	instructions: [
 		"# Instructions and scenario",
-		"The user is {{user}}, all other roles are played by you"
+		"The user is {{user}}; all other roles are played by you"
 	],
 };
 

@@ -21,7 +21,7 @@ import { attachTagSuggestions } from "./kawa/tag-suggestions";
 
 const definitionTemplate = [
 	"# Characters",
-	"## {{char}} ",
+	"## {{char}}",
 	"",
 	"## {{user}}",
 	"{{persona}}",
@@ -29,7 +29,7 @@ const definitionTemplate = [
 	"# Scenario",
 	"",
 	"# Instructions",
-	"The user is {{user}}, all other characters are played by you"
+	"The user is {{user}}; all other characters are played by you"
 ].join("\n");
 
 export function scenarioUnit() {

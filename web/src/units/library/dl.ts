@@ -9,7 +9,7 @@ const parser = new DOMParser();
 const definitionTemplate = {
 	characters: [
 		"# Characters",
-		"## {{char}} "
+		"## {{char}}"
 	].join("\n"),
 	userPersona: [
 		"## {{user}}",
@@ -17,7 +17,7 @@ const definitionTemplate = {
 	].join("\n"),
 	instructions: [
 		"# Instructions",
-		"The user is {{user}}, all other roles are played by you"
+		"The user is {{user}}; all other roles are played by you"
 	].join("\n"),
 };
 
