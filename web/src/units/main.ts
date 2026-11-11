@@ -1,6 +1,6 @@
 import { navigate } from "@root/router";
 import { RampikeFilePicker } from "@rampike/filepicker";
-import { nothrow, unique, placeholder } from "@root/utils";
+import { nothrow, unique } from "@root/utils";
 import { account } from "@root/api";
 import { getRoute, onRoute } from "@root/router";
 import { storeMedia } from "@root/media";
@@ -11,7 +11,7 @@ import { getBlobLink, idb, listen } from "@root/persist";
 import { mudcrack } from "rampike";
 import { cheatHandler } from "./cheats";
 import { placeholderView } from "@views/common";
-import { makeChatHandleView, messagesCaption } from "@views/chat-handle";
+import { makeChatHandleView } from "@views/chat-handle";
 import { makeSyncedHandleView } from "@views/synced-handle";
 
 
@@ -121,7 +121,7 @@ function handleView(handle: Chat, folderOptions: string[]) {
 		folderOptions,
 		{
 			play:         () => navigate(`/play/${handle.id}`),
-			delete:       () => deleteChat(handle.id, handle.scenario.name, handle.messageCount),
+			delete:       () => deleteChat(handle.id),
 			setMemo:      () => setMemo(handle.id, handle.memo),
 			assignFolder: folder => assignToFolder(handle.id, folder),
 			newFolder:    () => {
@@ -133,7 +133,7 @@ function handleView(handle: Chat, folderOptions: string[]) {
 	);
 }
 
-function deleteChat(id: string, name: string, messageCount: number) {
+function deleteChat(id: string) {
 	idb.del("chatContents", id);
 	idb.del("chats", id);
 }

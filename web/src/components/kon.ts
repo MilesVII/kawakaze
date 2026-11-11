@@ -17,10 +17,13 @@ export class RampikeKon extends HTMLElement {
 	}
 
 	set disabled(v: boolean) {
-		if (v)
+		if (v) {
 			this.setAttribute("disabled", "true");
-		else
+			this.setAttribute("aria-disabled", "true");
+		} else {
 			this.removeAttribute("disabled");
+			this.removeAttribute("aria-disabled");
+		}
 	}
 	get disabled() {
 		return this.hasAttribute("disabled");

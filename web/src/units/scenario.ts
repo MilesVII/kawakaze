@@ -119,7 +119,14 @@ export function scenarioUnit() {
 		remote = id ? (await lookupScenarios([id])).get(id) ?? null : null;
 		const mine = !!me && !!remote && remote.ownerId === me.id;
 		publishButton.hidden = !me?.isCreator;
-		publishButton.children[0]!.textContent = !remote ? "publish" : mine ? "update" : "publish as fork";
+		const konLabel = publishButton.querySelector(".kon-back");
+		if (konLabel)
+				konLabel.textContent =
+					!remote
+						? "publish"
+						: mine
+							? "update"
+							: "publish as fork";
 		delistButton.hidden = !(mine && remote && !remote.delisted);
 
 		const lines: string[] = [];
