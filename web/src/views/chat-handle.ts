@@ -3,7 +3,7 @@ import { Chat, Folder } from "@root/types";
 import { placeholder, setSelectMenu } from "@root/utils";
 import { htmlTemplate, sprout } from "rampike";
 import { PictureSource, setPicture } from "./common";
-import { RampikeKon } from "@rampike/swiper";
+import { RampikeKon } from "@rampike/kon";
 
 export type ChatHandlePictures = {
 	scenario: PictureSource,

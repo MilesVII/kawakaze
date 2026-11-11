@@ -18,7 +18,7 @@ import { RampikeModal } from "@rampike/modal";
 import { optimizeToWEBP } from "@root/optimizer";
 import { KNOWN_MACROS, MACRO_RE, PERSONA_MACRO } from "./chat/macros";
 import { attachTagSuggestions } from "./kawa/tag-suggestions";
-import { RampikeKon } from "@rampike/swiper";
+import { RampikeKon } from "@rampike/kon";
 
 const definitionTemplate = [
 	"# Characters",

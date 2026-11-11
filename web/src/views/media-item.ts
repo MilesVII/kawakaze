@@ -1,7 +1,7 @@
 import html from "./media-item.html";
 import type { MediaItem, MediaUse } from "@shared/api";
 import { formatBytes } from "@root/utils";
-import { RampikeKon } from "@rampike/swiper";
+import { RampikeKon } from "@rampike/kon";
 import { htmlTemplate, sprout } from "rampike";
 
 export type MediaItemHandlers = {

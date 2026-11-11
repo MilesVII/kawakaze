@@ -6,7 +6,7 @@ import { define as defineSVGImport }   from "@rampike/import";
 import { define as defineFilePicker}   from "@rampike/filepicker";
 import { define as defineLabeled }     from "@rampike/fieldset";
 import { define as defineImagePicker } from "@rampike/imagepicker";
-import { define as defineKonSwiper } from "@rampike/swiper";
+import { define as defineKonSwiper } from "@rampike/kon";
 import { navigationUnit } from "@units/navigation";
 import { settingsUnit }   from "@units/settings";
 import { chatUnit }       from "@units/chat";

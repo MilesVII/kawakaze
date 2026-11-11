@@ -15,7 +15,7 @@ import { makeCommentView } from "@views/comment";
 import { toast } from "@units/toasts";
 import { relativeTime, saveToLibrary, scenarioLink, userLink } from "./catalog";
 import { forgetUserPage } from "./user-page";
-import { RampikeKon } from "@rampike/swiper";
+import { RampikeKon } from "@rampike/kon";
 
 /* /profile: sign-in for guests, five tabs for signed-in users */
 
