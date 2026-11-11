@@ -3,6 +3,7 @@ import { Chat, Folder } from "@root/types";
 import { placeholder, setSelectMenu } from "@root/utils";
 import { htmlTemplate, sprout } from "rampike";
 import { PictureSource, setPicture } from "./common";
+import { RampikeKon } from "@rampike/swiper";
 
 export type ChatHandlePictures = {
 	scenario: PictureSource,
@@ -25,7 +26,7 @@ const REFS = {
 	messages:    HTMLElement,
 	memo:        HTMLButtonElement,
 	play:        HTMLButtonElement,
-	delete:      HTMLButtonElement,
+	delete:      RampikeKon,
 	folder:      HTMLSelectElement
 };
 
@@ -52,7 +53,7 @@ export function makeChatHandleView(
 	r.title.addEventListener("click", handlers.play);
 	r.play.addEventListener("click", handlers.play);
 	r.memo.addEventListener("click", handlers.setMemo);
-	r.delete.addEventListener("click", handlers.delete);
+	r.delete.action = handlers.delete;
 	setSelectMenu(
 		r.folder,
 		handle.folder ?? "-folder-",

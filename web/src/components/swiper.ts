@@ -16,6 +16,16 @@ export class RampikeKon extends HTMLElement {
 		this.removeAttribute("data-activated");
 	}
 
+	set disabled(v: boolean) {
+		if (v)
+			this.setAttribute("disabled", "true");
+		else
+			this.removeAttribute("disabled");
+	}
+	get disabled() {
+		return this.hasAttribute("disabled");
+	}
+
 	constructor() {
 		super();
 		const thumbSize = `${this.getAttribute("thumb") ?? "30"}px`;
@@ -26,6 +36,7 @@ export class RampikeKon extends HTMLElement {
 		this.setAttribute("role", "button");
 
 		this.addEventListener("keydown", e => {
+			if (this.disabled) return;
 			if (
 				e.code !== "Enter" &&
 				e.code !== "Space" &&
@@ -45,6 +56,7 @@ export class RampikeKon extends HTMLElement {
 			},
 			events: {
 				pointerdown: e => {
+					if (this.disabled) return;
 					this.state = {
 						ox: e.clientX,
 						activated: false

@@ -18,6 +18,7 @@ import { RampikeModal } from "@rampike/modal";
 import { optimizeToWEBP } from "@root/optimizer";
 import { KNOWN_MACROS, MACRO_RE, PERSONA_MACRO } from "./chat/macros";
 import { attachTagSuggestions } from "./kawa/tag-suggestions";
+import { RampikeKon } from "@rampike/swiper";
 
 const definitionTemplate = [
 	"# Characters",
@@ -39,7 +40,7 @@ export function scenarioUnit() {
 	const cardSnippet      = document.querySelector<HTMLTextAreaElement>("#scenario-snippet")!;
 	const snippetCounter   = document.querySelector<HTMLElement>        ("#scenario-snippet-counter")!;
 	const authorHint       = document.querySelector<HTMLElement>        ("#scenario-author")!;
-	const publishButton    = document.querySelector<HTMLButtonElement>  ("#scenario-publish-button")!;
+	const publishButton    = document.querySelector<RampikeKon>         ("#scenario-publish-button")!;
 	const delistButton     = document.querySelector<HTMLButtonElement>  ("#scenario-delist-button")!;
 	const publishStatus    = document.querySelector<HTMLElement>        ("#scenario-publish-status")!;
 	const cardDescription  = document.querySelector<HTMLTextAreaElement>("#scenario-description")!;
@@ -118,7 +119,7 @@ export function scenarioUnit() {
 		remote = id ? (await lookupScenarios([id])).get(id) ?? null : null;
 		const mine = !!me && !!remote && remote.ownerId === me.id;
 		publishButton.hidden = !me?.isCreator;
-		publishButton.textContent = !remote ? "publish" : mine ? "update" : "publish as fork";
+		publishButton.children[0]!.textContent = !remote ? "publish" : mine ? "update" : "publish as fork";
 		delistButton.hidden = !(mine && remote && !remote.delisted);
 
 		const lines: string[] = [];
@@ -216,7 +217,7 @@ export function scenarioUnit() {
 		navigate(`/editor/${encodeURIComponent(payload.id)}`);
 	});
 
-	publishButton.addEventListener("click", async () => {
+	publishButton.action = async () => {
 		const snippet = cardSnippet.value.trim();
 		if (!snippet) {
 			toast("a snippet is required for publishing");
@@ -263,7 +264,7 @@ export function scenarioUnit() {
 		});
 		if (getRoute()[1] !== r.value.id) navigate(`/editor/${encodeURIComponent(r.value.id)}`, true);
 		else load();
-	});
+	};
 
 	delistButton.addEventListener("click", async () => {
 		const id = getRoute()[1];

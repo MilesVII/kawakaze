@@ -15,6 +15,7 @@ import { makeCommentView } from "@views/comment";
 import { toast } from "@units/toasts";
 import { relativeTime, saveToLibrary, scenarioLink, userLink } from "./catalog";
 import { forgetUserPage } from "./user-page";
+import { RampikeKon } from "@rampike/swiper";
 
 /* /profile: sign-in for guests, five tabs for signed-in users */
 
@@ -28,7 +29,7 @@ export function profileUnit() {
 	const bioPreview  = document.querySelector<HTMLButtonElement>("#profile-bio-preview")!;
 	const redeem      = document.querySelector<HTMLButtonElement>("#profile-invite-submit")!;
 	const readAll     = document.querySelector<HTMLButtonElement>("#profile-notifications-read")!;
-	const deleteAcc   = document.querySelector<HTMLButtonElement>("#profile-delete-account")!;
+	const deleteAcc   = document.querySelector<RampikeKon>("#profile-delete-account")!;
 	const commentsPager      = document.querySelector<RampikePagination>("#profile-comments-pager")!;
 	const notificationsPager = document.querySelector<RampikePagination>("#profile-notifications-pager")!;
 
@@ -52,7 +53,7 @@ export function profileUnit() {
 		await account.refresh();
 		loadNotifications();
 	});
-	deleteAcc.addEventListener("click", deleteAccount);
+	deleteAcc.action = deleteAccount;
 	commentsPager.addEventListener("pick", () => {
 		pages.comments = commentsPager.page;
 		loadComments();

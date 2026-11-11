@@ -116,3 +116,7 @@
 .scrollable {
 	overflow-y: auto;
 }
+
+.w128 {
+	width: 128px;
+}

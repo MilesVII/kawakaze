@@ -433,12 +433,16 @@ summary.settings-label {
 	padding: 0;
 	display: flex;
 	--kon-back-dx: calc(var(--kon-dx) + var(--kon-thumb-size) * .5);
+	--track-fill: var(--color-accent);
 	background: linear-gradient(
 		to right,
-		var(--color-red) 0,
-		var(--color-red) var(--kon-back-dx),
+		var(--track-fill) 0,
+		var(--track-fill) var(--kon-back-dx),
 		transparent var(--kon-back-dx)
 	);
+}
+.kon-track[red] {
+	--track-fill: var(--color-red);
 }
 .kon-back {
 	position: absolute;

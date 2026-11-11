@@ -283,7 +283,9 @@
 					<div class="topbar-actions">
 						<button id="scenario-submit-button" class="lineout">save scenario</button>
 						<button id="scenario-clone-button" class="lineout fit" title="save a copy of this card and switch to editing it" hidden>clone</button>
-						<button id="scenario-publish-button" class="lineout" hidden>publish</button>
+						<ram-kon id="scenario-publish-button" class="lineout w128" hidden>
+							<div class="kon-back">publish</div>
+						</ram-kon>
 						<button id="scenario-delist-button" class="lineout" hidden>delist</button>
 						<button class="lineout fit" data-to="/library">back</button>
 					</div>
@@ -647,7 +649,9 @@
 									<summary class="hint">Delete account</summary>
 									<div class="list">
 										<div class="hint">Deletes your account, published characters, comments and synced chats. Local data on your devices stays.</div>
-										<button id="profile-delete-account" class="lineout fit">delete my account</button>
+										<ram-kon id="profile-delete-account" class="lineout" red>
+											<div class="kon-back">delete my account</div>
+										</ram-kon>
 									</div>
 								</details>
 							</ram-tab>
