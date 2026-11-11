@@ -11,7 +11,7 @@ import { getBlobLink, idb, listen } from "@root/persist";
 import { mudcrack } from "rampike";
 import { cheatHandler } from "./cheats";
 import { placeholderView } from "@views/common";
-import { makeChatHandleView } from "@views/chat-handle";
+import { makeChatHandleView, messagesCaption } from "@views/chat-handle";
 import { makeSyncedHandleView } from "@views/synced-handle";
 
 
@@ -121,7 +121,7 @@ function handleView(handle: Chat, folderOptions: string[]) {
 		folderOptions,
 		{
 			play:         () => navigate(`/play/${handle.id}`),
-			delete:       () => deleteChat(handle.id),
+			delete:       () => deleteChat(handle.id, handle.scenario.name, handle.messageCount),
 			setMemo:      () => setMemo(handle.id, handle.memo),
 			assignFolder: folder => assignToFolder(handle.id, folder),
 			newFolder:    () => {
@@ -133,7 +133,10 @@ function handleView(handle: Chat, folderOptions: string[]) {
 	);
 }
 
-function deleteChat(id: string) {
+function deleteChat(id: string, name: string, messageCount: number) {
+	const confirmed = confirm(`Chat with ${name} (${messagesCaption(messageCount)}) will be deleted`);
+	if (!confirmed) return;
+
 	idb.del("chatContents", id);
 	idb.del("chats", id);
 }
