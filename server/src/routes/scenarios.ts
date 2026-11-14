@@ -31,10 +31,9 @@ const SORTS: ScenarioSort[] = ["updated", "published", "score"];
 scenarioRoutes.get("/", async c => {
 	const sort = SORTS.includes(c.req.query("sort") as ScenarioSort) ? c.req.query("sort") as ScenarioSort : "updated";
 	const query = (c.req.query("q") ?? "").trim().slice(0, 200);
-	const fieldsParam = c.req.query("fields");
-	const fields = fieldsParam
-		? fieldsParam.split(",").filter(f => SEARCH_FIELDS.includes(f as SearchField)) as SearchField[]
-		: SEARCH_FIELDS;
+	const fields = (c.req.query("fields") ?? "")
+		.split(",")
+		.filter(f => SEARCH_FIELDS.includes(f as SearchField)) as SearchField[];
 	const tag = c.req.query("tag")?.trim() || null;
 	const page = pageParam(c);
 

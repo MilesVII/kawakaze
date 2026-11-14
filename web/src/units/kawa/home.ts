@@ -1,4 +1,5 @@
 import type { Page, ScenarioListItem, ScenarioSort, SearchField, SiteStats } from "@shared/api";
+import { DEFAULT_SEARCH_FIELDS } from "@shared/api";
 import { RampikePagination } from "@rampike/pagination";
 import { api, readBoot, takeBootHome } from "@root/api";
 import { mudcrack } from "rampike";
@@ -12,7 +13,7 @@ Homepage catalog. Query state lives in the URL (?q=&sort=&page=&tag=&fields=) so
 The first page of the default query arrives inlined in the shell.
 */
 
-const DEFAULT_FIELDS: SearchField[] = ["title", "description", "tags", "character", "authors"];
+const DEFAULT_FIELDS = DEFAULT_SEARCH_FIELDS;
 const SORTS: ScenarioSort[] = ["updated", "published", "score"];
 
 type HomeQuery = {

@@ -10,7 +10,7 @@ import type {
 	UserRef,
 	Vote
 } from "@shared/api";
-import { PER_PAGE } from "@shared/api";
+import { DEFAULT_SEARCH_FIELDS, PER_PAGE } from "@shared/api";
 import { config } from "./config";
 import { db, foreignDataVersion } from "./db";
 import type { Database, ScenarioRow } from "./db/schema";
@@ -60,7 +60,7 @@ function dropIfChangedElsewhere() {
 }
 export async function homePage() {
 	dropIfChangedElsewhere();
-	if (!homeCache) homeCache = await listScenarios({ sort: "updated", page: 0, query: "", fields: SEARCH_FIELDS, tag: null });
+	if (!homeCache) homeCache = await listScenarios({ sort: "updated", page: 0, query: "", fields: DEFAULT_SEARCH_FIELDS, tag: null });
 	return homeCache;
 }
 export async function siteStats(): Promise<SiteStats> {
@@ -151,7 +151,7 @@ function ftsExpression(query: string, fields: SearchField[]) {
 		.slice(0, 16)
 		.map(t => `"${t}"*`);
 	if (terms.length === 0) return null;
-	const columns = (fields.length ? fields : SEARCH_FIELDS).map(f => FTS_COLUMN[f]).join(" ");
+	const columns = (fields.length ? fields : DEFAULT_SEARCH_FIELDS).map(f => FTS_COLUMN[f]).join(" ");
 	return `{${columns}} : (${terms.join(" ")})`;
 }
 

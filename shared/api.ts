@@ -80,9 +80,12 @@ export type PublicConfig = {
 
 export type ScenarioSort = "updated" | "published" | "score";
 export type SearchField = "title" | "description" | "tags" | "character" | "authors" | "definition" | "openings";
+/** what a search without `fields` (or with none valid) looks in; the homepage leaves `fields` out when it matches */
+export const DEFAULT_SEARCH_FIELDS: SearchField[] = ["title", "description", "tags", "character", "authors"];
 
 /**
  * GET /api/scenarios?sort=&q=&fields=title,tags,...&page=0&tag=
+ * Without `fields`, the query looks in DEFAULT_SEARCH_FIELDS.
  * No per-user data, so responses are cacheable.
  */
 export type ScenarioListItem = {
