@@ -4,10 +4,11 @@ import { RampikePagination } from "@rampike/pagination";
 import { account, api, config } from "@root/api";
 import { idb } from "@root/persist";
 import { getRoute, navigate, onRoute } from "@root/router";
-import { download, neatNumber, placeholder, renderMD, updateTitle } from "@root/utils";
+import { download, neatNumber, nothrowAsync, placeholder, renderMD, updateTitle } from "@root/utils";
 import { mudcrack } from "rampike";
 import { placeholderView } from "@views/common";
 import { makeCommentView } from "@views/comment";
+import { makeTextSpoilerView } from "@views/text-spoiler";
 import { makeVoteView } from "@views/vote";
 import { openStartModal } from "@units/library";
 import { toast } from "@units/toasts";
@@ -220,20 +221,28 @@ function renderTags(meta: ScenarioMeta) {
 
 function renderCard(card: KawaScenarioCard) {
 	document.querySelector<HTMLElement>("#sp-description")!.innerHTML = renderMD(card.card.description || "*no description*");
-	document.querySelector<HTMLElement>("#sp-character-name")!.textContent = card.chat.name ? `Character name: ${card.chat.name}` : "";
-	document.querySelector<HTMLElement>("#sp-definition")!.textContent = card.chat.definition;
-	document.querySelector<HTMLElement>("#sp-openings")!.replaceChildren(...card.chat.initials.map((text, ix) => mudcrack({
-		tagName: "details",
-		className: "lineout sp-spoiler",
-		contents: [
-			mudcrack({ tagName: "summary", contents: `Opening message ${ix + 1}` }),
-			mudcrack({ className: "sp-plain", contents: text })
-		]
-	})));
+	document.querySelector<HTMLElement>("#sp-texts")!.replaceChildren(
+		makeTextSpoilerView(
+			"Character definition",
+			card.chat.definition,
+			() => copyText(card.chat.definition, "definition"),
+			card.chat.name ? `Character name: ${card.chat.name}` : ""
+		),
+		...card.chat.initials.map((text, ix) => makeTextSpoilerView(
+			`Opening message ${ix + 1}`,
+			text,
+			() => copyText(text, "opening message")
+		))
+	);
 	const books = card.lorebooks ?? [];
 	document.querySelector<HTMLElement>("#sp-lorebooks")!.textContent = books.length > 0
 		? `Lorebooks: ${books.map(b => `${b.name} (${b.entries.length} entries)`).join(", ")}`
 		: "";
+}
+
+async function copyText(text: string, what: string) {
+	const r = await nothrowAsync(navigator.clipboard.writeText(text));
+	toast(r.success ? `${what} copied` : "can't copy: the browser keeps the clipboard from this page", { timeoutMS: 3200 });
 }
 
 function renderCommentForm() {
