@@ -41,9 +41,9 @@ export function makeCommentView(comment: Comment, options: CommentOptions, handl
 			attributes: { href: userLink(comment.author.username) },
 			contents: comment.author.username
 		}));
-		const cosmetics = usernameCosmetics(comment.author);
-		if (cosmetics)
-			r.name.append(cosmetics.badge);
+		// const cosmetics = usernameCosmetics(comment.author);
+		// if (cosmetics)
+		// 	r.name.append(cosmetics.badge);
 	} else {
 		r.name.textContent = "anonymous";
 		r.name.classList.add("hint");
