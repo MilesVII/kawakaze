@@ -1,7 +1,9 @@
 # /etc/systemd/system/kawakaze.service
 [Unit]
 Description=Kawakaze
-After=network.target
+After=network.target kawakaze.socket
+# the socket unit owns 127.0.0.1:8787 (PORT is ignored then), see kawakaze.socket
+Requires=kawakaze.socket
 
 [Service]
 Type=simple

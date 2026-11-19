@@ -17,8 +17,11 @@ Assumes Ubuntu 24.04, a domain pointing at the VPS, and the repo at `/opt/kawaka
 3. Config: `cp .env.example .env`, then set `PUBLIC_URL=https://your.domain`, `SECRET`, OAuth and Turnstile keys.
    Remove `SERVE_STATIC` and `DEV_LOGIN`. OAuth callbacks are `https://your.domain/auth/github/callback` and
    `https://your.domain/auth/google/callback`.
-4. Service: `sudo cp deploy/kawakaze.service /etc/systemd/system/ && sudo systemctl enable --now kawakaze`.
-   Logs: `journalctl -u kawakaze -f`.
+4. Service: `sudo cp deploy/kawakaze.socket deploy/kawakaze.service /etc/systemd/system/`, then
+   `sudo systemctl daemon-reload && sudo systemctl enable --now kawakaze.socket kawakaze`.
+   Logs: `journalctl -u kawakaze -f`. The socket unit holds port 8787 and hands it to the app, so the port stays
+   open while the app restarts and requests made during an update wait instead of failing with 502. To change the
+   port, edit `ListenStream` in the socket unit and `proxy_pass` in the nginx config.
 5. nginx: copy `deploy/nginx.conf` to `/etc/nginx/sites-available/kawakaze`, replace the domain, link it into
    `sites-enabled`, check with `sudo nginx -t && sudo systemctl reload nginx`, then run
    `sudo certbot --nginx -d your.domain`: it adds the HTTPS block, the certificate and the redirect to the config
@@ -34,6 +37,13 @@ cd /opt/kawakaze && sh deploy/update.sh
 ```
 That pulls, rebuilds and restarts the service, which is required: the app reads `index.html` once at startup.
 Migrations run on startup. If `deploy/nginx.conf` changed, copy it over again before the reload.
+
+Installs from before the socket unit need a one-time switch, since the running app holds port 8787 itself:
+```
+sudo cp deploy/kawakaze.socket deploy/kawakaze.service /etc/systemd/system/ && sudo systemctl daemon-reload
+sudo systemctl stop kawakaze && sudo systemctl enable --now kawakaze.socket && sudo systemctl start kawakaze
+```
+`journalctl -u kawakaze` should then say `listening on the systemd socket`.
 
 ## Backups
 

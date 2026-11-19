@@ -1,0 +1,13 @@
+# /etc/systemd/system/kawakaze.socket
+# Holds 127.0.0.1:8787 for kawakaze.service and passes it to the app. The socket stays open across service restarts,
+# so requests made during an update wait a moment instead of failing with 502.
+[Unit]
+Description=Kawakaze socket
+
+[Socket]
+ListenStream=127.0.0.1:8787
+# keep the default Accept=no: one app process takes every connection
+Backlog=1024
+
+[Install]
+WantedBy=sockets.target
