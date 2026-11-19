@@ -6,6 +6,12 @@
 			"runtimeExecutable": "npm",
 			"runtimeArgs": ["run", "dev"],
 			"port": 8787
+		},
+		{
+			"name": "aegir",
+			"runtimeExecutable": "npx",
+			"runtimeArgs": ["serve", "references/agir", "-l", "3417"],
+			"port": 3417
 		}
 	]
 }
