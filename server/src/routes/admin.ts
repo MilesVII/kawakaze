@@ -2,13 +2,14 @@ import fs from "node:fs/promises";
 import { Hono } from "hono";
 import { sql } from "kysely";
 import type { AdminComment, AdminUser, DiskReport, Invite } from "@shared/api";
-import { PER_PAGE } from "@shared/api";
+import { LIMITS, PER_PAGE } from "@shared/api";
 import { requireAdmin, type AppEnv } from "../auth";
+import { invalidateHome } from "../catalog";
 import { config } from "../config";
 import { db } from "../db";
 import { listErrorReports } from "../errors";
 import { purgeContent } from "../purge";
-import { userRef, usersById } from "../users";
+import { isCosmetics, userRef, usersById } from "../users";
 import { ensure, fail, isString, makePage, pageParam, randomToken, readJSON } from "../util";
 import { commentsQuery, toComments } from "./comments";
 
@@ -182,6 +183,24 @@ adminRoutes.post("/users/:id/creator", async c => {
 	const id = c.req.param("id");
 	const creator = (await readJSON(c))?.creator === true;
 	await db.updateTable("users").set({ is_creator: creator ? 1 : 0 }).where("id", "=", id).execute();
+	return c.json(await adminUser(id));
+});
+
+adminRoutes.put("/users/:id/cosmetics", async c => {
+	const id = c.req.param("id");
+	const cosmetics = (await readJSON(c))?.cosmetics;
+	let stored: string | null = null;
+	if (cosmetics !== null) {
+		if (!isCosmetics(cosmetics)) fail(400, "cosmetics must be a JSON object or null");
+		stored = JSON.stringify(cosmetics);
+		if (new TextEncoder().encode(stored).length > LIMITS.cosmeticsBytes) fail(400, `cosmetics must be under ${LIMITS.cosmeticsBytes} bytes`);
+		// an empty object means nothing to show
+		if (Object.keys(cosmetics).length === 0) stored = null;
+	}
+	await adminUser(id);
+	await db.updateTable("users").set({ cosmetics: stored }).where("id", "=", id).execute();
+	// the homepage listing carries authors' cosmetics
+	invalidateHome();
 	return c.json(await adminUser(id));
 });
 

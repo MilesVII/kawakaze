@@ -30,6 +30,8 @@ export type UsersTable = {
 	is_admin: Generated<number>,
 	banned_at: number | null,
 	terms_accepted_at: number | null,
+	/** JSON Cosmetics object, see shared/api.ts */
+	cosmetics: string | null,
 	created_at: number,
 	last_seen_at: number | null
 };

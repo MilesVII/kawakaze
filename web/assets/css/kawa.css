@@ -478,6 +478,11 @@ input[type="number"] {
 	white-space: pre-wrap;
 	overflow-wrap: anywhere;
 }
+.kawa-admin-cosmetics {
+	min-height: 8em;
+	font-family: monospace;
+	tab-size: 2;
+}
 .kawa-banned {
 	opacity: .6;
 	border-style: dashed;

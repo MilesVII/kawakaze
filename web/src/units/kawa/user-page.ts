@@ -4,6 +4,7 @@ import { getRoute, navigate, onRoute } from "@root/router";
 import { placeholder, renderMD, updateTitle } from "@root/utils";
 import { makeKawaCardView } from "@views/kawa-card";
 import { onHiddenTagsChange } from "./catalog";
+import { usernameCosmetics } from "@views/user-cosmetics";
 
 /* Public user page: /u/:username */
 
@@ -52,7 +53,10 @@ async function load() {
 function render({ user, scenarios }: PublicUser) {
 	updateTitle(user.username);
 	document.querySelector<HTMLImageElement>("#up-icon")!.src = placeholder(user.icon);
-	document.querySelector<HTMLElement>("#up-name")!.textContent = user.username;
+	const name = document.querySelector<HTMLElement>("#up-name")!;
+	name.textContent = user.username;
+	const cosmetics = usernameCosmetics(user);
+	if (cosmetics) name.append(cosmetics.badge);
 	document.querySelector<HTMLElement>("#up-meta")!.textContent = [
 		user.isCreator ? "creator" : null,
 		`joined ${new Date(user.createdAt).toLocaleDateString()}`

@@ -1,4 +1,5 @@
-import type { AdminComment, AdminErrorReport, AdminUser, DiskReport, Invite, Page, PurgeResult } from "@shared/api";
+import type { AdminComment, AdminErrorReport, AdminUser, Cosmetics, DiskReport, Invite, Page, PurgeResult } from "@shared/api";
+import { LIMITS } from "@shared/api";
 import { RampikePagination } from "@rampike/pagination";
 import { account, api } from "@root/api";
 import { getRoute, onRoute } from "@root/router";
@@ -174,8 +175,10 @@ function userView(u: AdminUser) {
 	const flags = [
 		u.isAdmin ? "admin" : null,
 		u.isCreator ? "creator" : null,
-		u.banned ? "BANNED" : null
+		u.banned ? "BANNED" : null,
+		u.cosmetics ? "cosmetics" : null
 	].filter(f => f).join(", ");
+	const cosmetics = cosmeticsEditor(u);
 	const action = (caption: string, run: () => Promise<unknown>) => mudcrack({
 		tagName: "button",
 		className: "lineout fit",
@@ -220,6 +223,9 @@ function userView(u: AdminUser) {
 						if (!r.success) return toast(r.error);
 						loadUsers();
 					}),
+					action("cosmetics", async () => {
+						cosmetics.hidden = !cosmetics.hidden;
+					}),
 					action("purge content", async () => {
 						const typed = prompt(`Deletes all scenarios, comments and media of ${u.username}. Type the username to confirm`);
 						if (typed?.trim() !== u.username) return;
@@ -230,9 +236,55 @@ function userView(u: AdminUser) {
 						loadAll();
 					})
 				]
+			}),
+			cosmetics
+		]
+	});
+}
+
+function cosmeticsEditor(u: AdminUser) {
+	const initial = u.cosmetics ? JSON.stringify(u.cosmetics, null, "	") : "";
+	const text = mudcrack({
+		tagName: "textarea",
+		className: "lineout kawa-admin-cosmetics",
+		attributes: { placeholder: `JSON object, up to ${LIMITS.cosmeticsBytes} bytes; empty to clear`, spellcheck: "false" }
+	}) as HTMLTextAreaElement;
+	text.value = initial;
+
+	async function save() {
+		const raw = text.value.trim();
+		let cosmetics: Cosmetics | null = null;
+		if (raw) {
+			try {
+				cosmetics = JSON.parse(raw);
+			} catch (e) {
+				return toast(`not valid JSON: ${(e as Error).message}`);
+			}
+			if (typeof cosmetics !== "object" || cosmetics === null || Array.isArray(cosmetics))
+				return toast("cosmetics must be a JSON object");
+		}
+		const r = await api<AdminUser>("PUT", `/api/admin/users/${u.id}/cosmetics`, { cosmetics });
+		if (!r.success) return toast(r.error);
+		toast(r.value.cosmetics ? `cosmetics of ${u.username} saved` : `cosmetics of ${u.username} cleared`);
+		invalidateHome();
+		loadUsers();
+	}
+
+	const editor = mudcrack({
+		className: "list",
+		contents: [
+			text,
+			mudcrack({
+				className: "row-compact",
+				contents: [
+					mudcrack({ tagName: "button", className: "lineout fit", contents: "save", events: { click: save } }),
+					mudcrack({ tagName: "button", className: "lineout fit", contents: "reset", events: { click: () => { text.value = initial; } } })
+				]
 			})
 		]
 	});
+	editor.hidden = true;
+	return editor;
 }
 
 async function loadErrors() {

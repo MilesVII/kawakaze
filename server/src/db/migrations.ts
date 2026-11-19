@@ -233,12 +233,20 @@ const cardSync: Migration = {
 	}
 };
 
+/** users.cosmetics: an admin-set JSON object for fancy usernames and badges */
+const userCosmetics: Migration = {
+	async up(db) {
+		await sql.raw(`alter table users add column cosmetics text`).execute(db);
+	}
+};
+
 const migrations: Record<string, Migration> = {
 	"0001_init": init,
 	"0002_media_library": mediaLibrary,
 	"0003_media_uploads": mediaUploads,
 	"0004_error_reports": errorReports,
-	"0005_card_sync": cardSync
+	"0005_card_sync": cardSync,
+	"0006_user_cosmetics": userCosmetics
 };
 
 const provider: MigrationProvider = {

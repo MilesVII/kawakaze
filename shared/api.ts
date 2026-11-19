@@ -18,7 +18,9 @@ export const LIMITS = {
 	/** single uploaded picture, before re-encoding */
 	pictureBytes: 12 * 1024 * 1024,
 	/** single sync payload, as received */
-	syncBytes: 64 * 1024 * 1024
+	syncBytes: 64 * 1024 * 1024,
+	/** a user's cosmetics, serialized */
+	cosmeticsBytes: 4 * 1024
 } as const;
 export const USERNAME_RE = /^[a-zA-Z0-9_-]{3,24}$/;
 /** tags are stored lowercase, without '#', with single spaces; duplicates dropped */
@@ -50,7 +52,18 @@ export type Page<T> = {
 	totalItems: number,
 	totalPages: number
 };
-export type UserRef = { id: string, username: string, icon: string | null };
+export type UserRef = {
+	id: string,
+	username: string,
+	icon: string | null,
+	/** admin-set, see Cosmetics */
+	cosmetics: Cosmetics | null
+};
+/**
+ * Free-form decorations for how a username is shown (styles, badges), set by admins.
+ * The server only checks that it's a JSON object within LIMITS.cosmeticsBytes; the web app decides what the keys mean.
+ */
+export type Cosmetics = { [key: string]: unknown };
 export type Vote = -1 | 0 | 1;
 
 /** Injected into index.html as <script id="kawa-boot" type="application/json"> */
@@ -295,6 +308,7 @@ GET    /api/admin/users?q=&page=      -> Page<AdminUser>, heaviest disk users fi
 POST   /api/admin/users/:id/ban       { banned: boolean } -> AdminUser
 POST   /api/admin/users/:id/creator   { creator: boolean } -> AdminUser
 POST   /api/admin/users/:id/purge     -> PurgeResult (deletes scenarios, comments, media; does not ban)
+PUT    /api/admin/users/:id/cosmetics { cosmetics: Cosmetics | null } -> AdminUser; null clears them
 GET    /api/admin/comments?page=      -> Page<AdminComment>
 GET    /api/admin/errors?page=        -> Page<AdminErrorReport>, most recently seen first
 DELETE /api/admin/errors/:id          -> { ok: true }

@@ -1,13 +1,23 @@
 import { sql } from "kysely";
-import type { Me, UserRef } from "@shared/api";
+import type { Cosmetics, Me, UserRef } from "@shared/api";
 import { USERNAME_RE } from "@shared/api";
 import { db } from "./db";
 import type { User } from "./db/schema";
 import { mediaUrl } from "./media";
 import { parseJSON } from "./util";
 
-export function userRef(u: Pick<User, "id" | "username" | "icon">): UserRef {
-	return { id: u.id, username: u.username, icon: mediaUrl(u.icon) };
+export function userRef(u: Pick<User, "id" | "username" | "icon" | "cosmetics">): UserRef {
+	return { id: u.id, username: u.username, icon: mediaUrl(u.icon), cosmetics: parseCosmetics(u.cosmetics) };
+}
+
+function parseCosmetics(raw: string | null): Cosmetics | null {
+	if (!raw) return null;
+	const parsed = parseJSON<unknown>(raw, null);
+	return isCosmetics(parsed) ? parsed : null;
+}
+
+export function isCosmetics(v: unknown): v is Cosmetics {
+	return typeof v === "object" && v !== null && !Array.isArray(v);
 }
 
 export function profileUrl(username: string) {
@@ -40,7 +50,7 @@ export async function usersById(ids: Iterable<string>) {
 	if (unique.length === 0) return map;
 	const rows = await db
 		.selectFrom("users")
-		.select(["id", "username", "icon"])
+		.select(["id", "username", "icon", "cosmetics"])
 		.where("id", "in", unique)
 		.execute();
 	for (const r of rows) map.set(r.id, userRef(r));
