@@ -110,6 +110,35 @@ export const account = {
 	}
 };
 
+/**
+ * A list of the signed-in user's things on the server (synced chats, synced cards) that tab visits ask for again
+ * and again: one request at a time, and a list read in the last `freshForMs` is reused.
+ * get() resolves null when the server can't be reached, [] when signed out.
+ */
+export function cachedList<T>(path: string, freshForMs = 30_000) {
+	let listed: { at: number, userId: string, items: T[] } | null = null;
+	let pending: Promise<T[] | null> | null = null;
+	return {
+		get(): Promise<T[] | null> {
+			const me = account.get();
+			if (!me) return Promise.resolve([]);
+			if (listed && listed.userId === me.id && Date.now() - listed.at < freshForMs)
+				return Promise.resolve(listed.items);
+			pending ??= api<T[]>("GET", path).then(r => {
+				pending = null;
+				if (!r.success) return null;
+				listed = { at: Date.now(), userId: me.id, items: r.value };
+				return r.value;
+			});
+			return pending;
+		},
+		/** after an upload, download or removal, so the next get() asks the server */
+		forget() {
+			listed = null;
+		}
+	};
+}
+
 /** absolute URL of a server path, for links that leave the app (exports, OG) */
 export function publicLink(path: string) {
 	return new URL(path, config().publicUrl || window.location.origin).toString();

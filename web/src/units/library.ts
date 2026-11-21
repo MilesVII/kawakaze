@@ -108,9 +108,13 @@ export function libraryUnit() {
 
 /** cards waiting on the server, shown above the library; fetched on visits, not on every update */
 let synced: CardSyncHandle[] = [];
+/** redraws only the synced section, and only when the list changed: the cards below stay as they are */
 async function refreshSynced() {
-	synced = await listSyncedCards();
-	update();
+	const next = await listSyncedCards();
+	if (!next || JSON.stringify(next) === JSON.stringify(synced)) return;
+	synced = next;
+	const cards = await idb.getAll("scenarios");
+	if (cards.success) updateSynced(cards.value);
 }
 
 let updateSequence = 0;

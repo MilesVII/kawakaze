@@ -33,9 +33,13 @@ export function mainUnit() {
 
 		update(currentFolder);
 	});
+	// fires on every /api/me poll too; refreshSynced only redraws when the synced list changed
 	account.listen(me => {
-		if (!me) synced = [];
-		if (getRoute()[0] === "chats" || !me) refreshSynced();
+		if (!me && synced.length > 0) {
+			synced = [];
+			update(currentFolder);
+		}
+		if (me && getRoute()[0] === "chats") refreshSynced();
 	});
 	onRoute(() => {
 		if (getRoute()[0] === "chats") refreshSynced();
@@ -45,8 +49,11 @@ export function mainUnit() {
 
 let currentFolder: Folder = null;
 let synced: SyncHandle[] = [];
+/** synced chats sit among local ones, so a changed list redraws the chat list; an unchanged one leaves it be */
 async function refreshSynced() {
-	synced = await listSynced();
+	const next = await listSynced();
+	if (!next || JSON.stringify(next) === JSON.stringify(synced)) return;
+	synced = next;
 	update(currentFolder);
 }
 

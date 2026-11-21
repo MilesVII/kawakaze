@@ -1,5 +1,5 @@
 import type { CardSyncHandle } from "@shared/api";
-import { account, api } from "@root/api";
+import { account, api, cachedList } from "@root/api";
 import { ScenarioCard } from "@root/types";
 import { toast } from "../toasts";
 import { exportScenario, restoreScenario } from "./files";
@@ -11,6 +11,7 @@ so the copies never drift apart.
 */
 
 const path = (id: string) => `/api/card-sync/${encodeURIComponent(id)}`;
+const syncedList = cachedList<CardSyncHandle>("/api/card-sync");
 
 export async function uploadCard(card: ScenarioCard) {
 	if (!account.get()) {
@@ -21,6 +22,7 @@ export async function uploadCard(card: ScenarioCard) {
 	// server pictures stay URLs, like in chat sync: they resolve the same on every device and don't count twice
 	const r = await api<CardSyncHandle>("PUT", path(card.id), await exportScenario(card, false));
 	close();
+	syncedList.forget();
 	if (!r.success) {
 		toast(`upload failed: ${r.error}`);
 		return false;
@@ -29,13 +31,13 @@ export async function uploadCard(card: ScenarioCard) {
 	return true;
 }
 
-export async function listSyncedCards(): Promise<CardSyncHandle[]> {
-	if (!account.get()) return [];
-	const r = await api<CardSyncHandle[]>("GET", "/api/card-sync");
-	return r.success ? r.value : [];
+/** the user's synced cards, see cachedList; null when the server can't be reached */
+export function listSyncedCards() {
+	return syncedList.get();
 }
 
 export async function downloadSyncedCard(id: string) {
+	syncedList.forget();
 	const r = await api<ScenarioCard>("GET", path(id));
 	if (!r.success) {
 		toast(`download failed: ${r.error}`);
@@ -53,6 +55,7 @@ export async function downloadSyncedCard(id: string) {
 
 export async function discardSyncedCard(id: string) {
 	const r = await api("DELETE", path(id));
+	syncedList.forget();
 	if (!r.success) toast(`can't remove: ${r.error}`);
 	return r.success;
 }

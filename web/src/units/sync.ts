@@ -1,5 +1,5 @@
 import type { SyncHandle, SyncPayload } from "@shared/api";
-import { account, api } from "@root/api";
+import { account, api, cachedList } from "@root/api";
 import { encodeMedia, storeMedia } from "@root/media";
 import { idb } from "@root/persist";
 import { toast } from "./toasts";
@@ -8,6 +8,8 @@ import { toast } from "./toasts";
 Manual chat migration between devices. Upload puts a copy on the server; download imports it and removes the
 server copy, so the two never drift apart.
 */
+
+const syncedList = cachedList<SyncHandle>("/api/sync");
 
 export async function uploadChat(chatId: string) {
 	if (!account.get()) {
@@ -30,6 +32,7 @@ export async function uploadChat(chatId: string) {
 	};
 	const r = await api<SyncHandle>("PUT", `/api/sync/${encodeURIComponent(chatId)}`, payload);
 	close();
+	syncedList.forget();
 	if (!r.success) {
 		toast(`upload failed: ${r.error}`);
 		return false;
@@ -38,10 +41,9 @@ export async function uploadChat(chatId: string) {
 	return true;
 }
 
-export async function listSynced(): Promise<SyncHandle[]> {
-	if (!account.get()) return [];
-	const r = await api<SyncHandle[]>("GET", "/api/sync");
-	return r.success ? r.value : [];
+/** the user's synced chats, see cachedList; null when the server can't be reached */
+export function listSynced() {
+	return syncedList.get();
 }
 
 export async function downloadSynced(id: string) {
@@ -50,6 +52,7 @@ export async function downloadSynced(id: string) {
 		toast(`download failed: ${r.error}`);
 		return false;
 	}
+	syncedList.forget();
 	const { chat, contents, media } = r.value;
 	await storeMedia(media ?? []);
 	await idb.set("chatContents", contents);
@@ -63,6 +66,7 @@ export async function downloadSynced(id: string) {
 
 export async function discardSynced(id: string) {
 	const r = await api("DELETE", `/api/sync/${encodeURIComponent(id)}`);
+	syncedList.forget();
 	if (!r.success) toast(`can't remove: ${r.error}`);
 	return r.success;
 }
