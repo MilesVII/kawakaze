@@ -1,4 +1,4 @@
-import { mudcrack } from "rampike";
+import { fromTemplateFirst, mudcrack } from "rampike";
 
 const TAG_NAME = "ram-kon";
 
@@ -66,7 +66,10 @@ export class RampikeKon extends HTMLElement {
 					};
 					this.thumb.setPointerCapture(e.pointerId);
 				}
-			}
+			},
+			contents: [
+				fromTemplateFirst(document.querySelector("#template-kon-arrow")!)
+			]
 		});
 		this.thumb.addEventListener("pointermove", e => {
 			if (!this.state) return;
