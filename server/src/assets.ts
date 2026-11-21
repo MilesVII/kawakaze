@@ -41,9 +41,10 @@ function fileHash(file: string) {
 function listAssets(dir: string, prefix: string): string[] {
 	const out: string[] = [];
 	for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+		// gfx/src lists where the pictures come from
+		if (entry.name === "src") continue;
 		if (entry.isDirectory()) {
-			// gfx/src holds sources of the pictures
-			if (entry.name !== "src") out.push(...listAssets(path.join(dir, entry.name), `${prefix}/${entry.name}`));
+			out.push(...listAssets(path.join(dir, entry.name), `${prefix}/${entry.name}`));
 		} else if (!entry.name.endsWith(".map")) {
 			out.push(`${prefix}/${entry.name}`);
 		}

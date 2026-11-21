@@ -29,7 +29,8 @@ export type LocalKey =
 	"datacatInstallation" |
 	"datacatLease" |
 	"datacatSort" |
-	"datacatBlocked";
+	"datacatBlocked" |
+	"backupReminder";
 
 type StorageUpdate = ({
 	storage: "idb",
