@@ -69,6 +69,8 @@ export type Vote = -1 | 0 | 1;
 /** Injected into index.html as <script id="kawa-boot" type="application/json"> */
 export type BootPayload = {
 	config: PublicConfig,
+	/** frontend build the shell links to; the service worker reports its own on update, see web/sw.js */
+	version: string,
 	/** first page of the default homepage query, only on `/` */
 	home?: Page<ScenarioListItem>,
 	stats?: SiteStats

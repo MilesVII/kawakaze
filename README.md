@@ -16,7 +16,9 @@ On top of everything Ägir does locally:
 - A Datacat browser in the library: search [Datacat](https://datacat.run) or open a Janitor or Datacat link, and import characters straight into the library
 - An admin panel: invites, users, comments, disk usage and client error reports
 
-Chats, personas and provider keys stay on the device unless the user syncs a chat.
+Chats, personas and provider keys stay on the device unless the user syncs a chat. A service worker
+([web/sw.js](web/sw.js)) keeps the app working offline once it has been opened, so the library, chats and backups
+stay reachable without a connection, and offers a reload when a new version is deployed.
 
 ## Development
 

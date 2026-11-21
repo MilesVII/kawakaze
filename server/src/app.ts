@@ -14,6 +14,7 @@ import { scenarioRoutes } from "./routes/scenarios";
 import { syncRoutes } from "./routes/sync";
 import { cardSyncRoutes } from "./routes/card-sync";
 import { userRoutes } from "./routes/users";
+import { serviceWorker } from "./assets";
 import { renderShell } from "./shell";
 import { HttpError } from "./util";
 
@@ -80,6 +81,12 @@ export function createApp() {
 	}
 	app.get("/assets/*", c => c.text("not found", 404));
 	app.get("/media/*", c => c.text("not found", 404));
+
+	// served by the app rather than nginx: it carries the asset manifest, and must stay at the root to control every page
+	app.get("/sw.js", c => c.body(serviceWorker(), 200, {
+		"Content-Type": "text/javascript; charset=utf-8",
+		"Cache-Control": "no-cache"
+	}));
 
 	app.get("*", async c => {
 		c.header("Cache-Control", "no-cache");

@@ -46,7 +46,8 @@ export function readBoot(): BootPayload {
 		boot = null;
 	}
 	boot ??= {
-		config: { publicUrl: window.location.origin, turnstileSiteKey: "", oauth: [], datacatClientId: "" }
+		config: { publicUrl: window.location.origin, turnstileSiteKey: "", oauth: [], datacatClientId: "" },
+		version: ""
 	};
 	return boot;
 }

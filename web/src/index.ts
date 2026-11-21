@@ -25,6 +25,7 @@ import { adminUnit } from "@units/kawa/admin";
 import { termsUnit } from "@units/kawa/misc";
 import { blacklistUnit } from "@units/kawa/blacklist";
 import { mediaLibraryUnit } from "@units/kawa/media-library";
+import { serviceWorkerUnit } from "@units/kawa/service-worker";
 import { init as initKirov } from "@units/kirov";
 import { account } from "./api";
 
@@ -58,7 +59,8 @@ const units: (() => void)[] = [
 	adminUnit,
 	termsUnit,
 	blacklistUnit,
-	mediaLibraryUnit
+	mediaLibraryUnit,
+	serviceWorkerUnit
 ];
 
 async function main() {

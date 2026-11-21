@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { BootPayload } from "@shared/api";
+import { assetManifest, versionAssetLinks } from "./assets";
 import { homePage, siteStats } from "./catalog";
 import { config, publicConfig } from "./config";
 import { db } from "./db";
@@ -8,8 +9,9 @@ import { mediaUrl } from "./media";
 import { publicUser } from "./routes/users";
 
 /*
-SPA shell: web/index.html with `<!--kawa-head-->` replaced by OG tags and the boot payload.
-The file is read once in production and on every request in dev, so frontend rebuilds show up immediately.
+SPA shell: web/index.html with `<!--kawa-head-->` replaced by OG tags and the boot payload, and CSS and JS links
+versioned by content (see assets.ts). The file is read once in production and on every request in dev, so frontend
+rebuilds show up immediately.
 */
 
 const SITE = "Kawakaze";
@@ -19,7 +21,7 @@ const MARKER = "<!--kawa-head-->";
 let cached: string | null = null;
 function template() {
 	if (cached && !config.serveStatic) return cached;
-	cached = fs.readFileSync(path.join(config.webDir, "index.html"), "utf8");
+	cached = versionAssetLinks(fs.readFileSync(path.join(config.webDir, "index.html"), "utf8"));
 	return cached;
 }
 
@@ -70,7 +72,8 @@ async function headFor(pathname: string): Promise<Head> {
 export async function renderShell(pathname: string) {
 	const head = await headFor(pathname);
 	const boot: BootPayload = {
-		config: publicConfig()
+		config: publicConfig(),
+		version: assetManifest().version
 	};
 	if (pathname === "/") {
 		boot.home = await homePage();
