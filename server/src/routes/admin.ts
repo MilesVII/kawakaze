@@ -11,6 +11,7 @@ import { listErrorReports } from "../errors";
 import { purgeContent } from "../purge";
 import { isCosmetics, userRef, usersById } from "../users";
 import { ensure, fail, isString, makePage, pageParam, randomToken, readJSON } from "../util";
+import { visitorsOn, visitsCSV } from "../visits";
 import { commentsQuery, toComments } from "./comments";
 
 export const adminRoutes = new Hono<AppEnv>();
@@ -61,7 +62,9 @@ adminRoutes.get("/disk", async c => {
 		users: await count("users"),
 		creators: await count("users", true),
 		scenarios: await count("scenarios"),
-		comments: await count("comments")
+		comments: await count("comments"),
+		visitorsToday: await visitorsOn(Date.now()),
+		visitorsYesterday: await visitorsOn(Date.now() - 24 * 60 * 60 * 1000)
 	};
 	return c.json(report);
 });
@@ -209,6 +212,13 @@ adminRoutes.post("/users/:id/purge", async c => {
 	await adminUser(id);
 	return c.json(await purgeContent(id));
 });
+
+// ---- visits ----
+
+adminRoutes.get("/visits.csv", async c => c.body(await visitsCSV(), 200, {
+	"Content-Type": "text/csv; charset=utf-8",
+	"Content-Disposition": `attachment; filename="kawakaze-visits.csv"`
+}));
 
 // ---- comments ----
 

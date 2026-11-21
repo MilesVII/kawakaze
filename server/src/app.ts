@@ -16,6 +16,7 @@ import { cardSyncRoutes } from "./routes/card-sync";
 import { userRoutes } from "./routes/users";
 import { serviceWorker } from "./assets";
 import { renderShell } from "./shell";
+import { countVisit } from "./visits";
 import { HttpError } from "./util";
 
 const MULTIPART_SLACK = 64 * 1024;
@@ -89,6 +90,7 @@ export function createApp() {
 	}));
 
 	app.get("*", async c => {
+		if (c.req.method === "GET") countVisit(c);
 		c.header("Cache-Control", "no-cache");
 		return c.html(await renderShell(c.req.path));
 	});

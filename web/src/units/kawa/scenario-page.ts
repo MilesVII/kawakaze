@@ -12,7 +12,7 @@ import { makeTextSpoilerView } from "@views/text-spoiler";
 import { makeVoteView } from "@views/vote";
 import { openStartModal } from "@units/library";
 import { toast } from "@units/toasts";
-import { onTagLabels, relativeTime, saveToLibrary, scenarioLink, tagLabel, userLink } from "./catalog";
+import { delistScenario, onTagLabels, relativeTime, saveToLibrary, scenarioLink, tagLabel, userLink } from "./catalog";
 import { invalidateHome } from "./home";
 import { renderTurnstile, TurnstileHandle } from "./turnstile";
 
@@ -29,7 +29,8 @@ export function scenarioPageUnit() {
 	const save       = document.querySelector<HTMLButtonElement>("#sp-save")!;
 	const exportBtn  = document.querySelector<HTMLButtonElement>("#sp-export")!;
 	const edit       = document.querySelector<HTMLButtonElement>("#sp-edit")!;
-	const body       = document.querySelector<HTMLTextAreaElement>("#sp-comment-body")!;
+	const adminDelist = document.querySelector<HTMLButtonElement>("#sp-admin-delist")!;
+	const body      = document.querySelector<HTMLTextAreaElement>("#sp-comment-body")!;
 	const counter    = document.querySelector<HTMLElement>("#sp-comment-counter")!;
 	const submit     = document.querySelector<HTMLButtonElement>("#sp-comment-submit")!;
 	const pager      = document.querySelector<RampikePagination>("#sp-comments-pager")!;
@@ -63,6 +64,21 @@ export function scenarioPageUnit() {
 		if (!loaded) return;
 		const card = await ensureLocal(loaded.meta);
 		if (card) navigate(`/editor/${encodeURIComponent(card.id)}`);
+	});
+	adminDelist.addEventListener("click", async () => {
+		if (!loaded) return;
+		const current = loaded;
+		const question = current.meta.delisted
+			? "Change the note its owner sees in the editor (empty for none):"
+			: "Delist this character? It leaves the catalog until its owner updates it.\nA note for the owner, shown in their editor (optional):";
+		const note = prompt(question, current.meta.delistNote ?? "");
+		if (note === null) return;
+		if (note.trim().length > LIMITS.delistNote) return toast(`the note is limited to ${LIMITS.delistNote} characters`);
+		const r = await delistScenario(current.meta.id, note.trim() || null);
+		if (!r.success) return toast(r.error);
+		invalidateHome();
+		toast(current.meta.delisted ? "note updated" : "delisted");
+		await refresh(current);
 	});
 
 	body.addEventListener("input", () => {
@@ -200,7 +216,13 @@ function renderHeader({ meta }: Loaded) {
 		}
 	));
 	renderTags(meta);
-	document.querySelector<HTMLElement>("#sp-delisted")!.hidden = !meta.delisted;
+	const delisted = document.querySelector<HTMLElement>("#sp-delisted")!;
+	delisted.hidden = !meta.delisted;
+	delisted.textContent = "This character is delisted and only visible to its owner and admins"
+		+ (meta.delistNote ? `. Note from the admins: ${meta.delistNote}` : "");
+	const adminDelist = document.querySelector<HTMLButtonElement>("#sp-admin-delist")!;
+	adminDelist.hidden = !me?.isAdmin;
+	adminDelist.textContent = meta.delisted ? "edit delist note" : "delist";
 	document.querySelector<HTMLElement>("#sp-edit")!.hidden = !(me && me.id === meta.ownerId);
 
 	const fork = document.querySelector<HTMLElement>("#sp-fork")!;

@@ -47,16 +47,18 @@ scenarioRoutes.post("/lookup", async c => {
 	const body = await readJSON(c);
 	const ids = isStringArray(body?.ids) ? body.ids.slice(0, 1000) : fail(400, "ids required");
 	if (ids.length === 0) return c.json({ items: [] });
+	const user = c.get("user");
 	const rows = await db
 		.selectFrom("scenarios")
-		.select(["id", "updated_at", "owner_id", "delisted_at"])
+		.select(["id", "updated_at", "owner_id", "delisted_at", "delist_note"])
 		.where("id", "in", ids)
 		.execute();
 	const items: ScenarioLookup[] = rows.map(r => ({
 		id: r.id,
 		updatedAt: r.updated_at,
 		ownerId: r.owner_id,
-		delisted: r.delisted_at !== null
+		delisted: r.delisted_at !== null,
+		delistNote: r.delisted_at && user && (user.id === r.owner_id || user.is_admin) ? r.delist_note : null
 	}));
 	return c.json({ items });
 });
@@ -65,20 +67,24 @@ async function getRow(id: string) {
 	return await db.selectFrom("scenarios").selectAll().where("id", "=", id).executeTakeFirst();
 }
 
+/** delisted cards stay visible to their owner and to admins */
+function canSee(row: ScenarioRow, user: AppEnv["Variables"]["user"]) {
+	return !row.delisted_at || Boolean(user && (user.id === row.owner_id || user.is_admin));
+}
+
 scenarioRoutes.get("/:id", cors({ origin: "*" }), async c => {
 	const row = ensure(await getRow(c.req.param("id")), 404, "scenario not found");
-	if (row.delisted_at) fail(410, "scenario is delisted");
+	if (!canSee(row, c.get("user"))) fail(410, "scenario is delisted");
 	const users = await authorsFor([{ authors: JSON.stringify([...rowAuthors(row), row.owner_id]) }]);
 	const inline = ["1", "true"].includes(c.req.query("inline") ?? "");
-	c.header("Cache-Control", "public, max-age=60");
+	c.header("Cache-Control", row.delisted_at ? "private, no-store" : "public, max-age=60");
 	return c.json(await toCard(row, users, inline));
 });
 
 scenarioRoutes.get("/:id/meta", async c => {
 	const row = ensure(await getRow(c.req.param("id")), 404, "scenario not found");
 	const user = c.get("user");
-	const canSee = !row.delisted_at || (user && (user.id === row.owner_id || user.is_admin));
-	if (!canSee) fail(410, "scenario is delisted");
+	if (!canSee(row, user)) fail(410, "scenario is delisted");
 	const users = await authorsFor([row]);
 	const vote = user
 		? await db
@@ -108,6 +114,9 @@ function validateCard(raw: unknown): KawaScenarioCard {
 	const tags = isStringArray(card.card.tags) ? tagIndex.canonicalize(card.card.tags) : [];
 	if (tags.length > LIMITS.tags) fail(400, `at most ${LIMITS.tags} tags`);
 	if (tags.some(t => t.length > LIMITS.tagLength)) fail(400, "tag is too long");
+	const known = tags.filter(t => tagIndex.canonical(t) !== null).length;
+	if (known < LIMITS.minKnownTags)
+		fail(400, `at least ${LIMITS.minKnownTags} tags from the tag list are required to publish (this card has ${known})`);
 
 	if (!isString(card.chat.name)) fail(400, "character name must be a string");
 	if (!isString(card.chat.definition) || !card.chat.definition.trim()) fail(400, "character definition is required");
@@ -198,7 +207,8 @@ scenarioRoutes.post("/", async c => {
 		comment_count: forked || !existing ? 0 : existing.comment_count,
 		published_at: forked || !existing ? now : existing.published_at,
 		updated_at: now,
-		delisted_at: null
+		delisted_at: null,
+		delist_note: null
 	};
 
 	await db.transaction().execute(async trx => {
@@ -223,8 +233,16 @@ scenarioRoutes.post("/:id/delist", async c => {
 	const user = requireUser(c);
 	const row = ensure(await getRow(c.req.param("id")), 404, "scenario not found");
 	if (row.owner_id !== user.id && !user.is_admin) fail(403, "not your scenario");
+	// older clients send no body
+	const raw = (await c.req.json().catch(() => null))?.note;
+	const note = user.is_admin && isString(raw) && raw.trim() ? raw.trim().slice(0, LIMITS.delistNote) : null;
 	await db.transaction().execute(async trx => {
-		await trx.updateTable("scenarios").set({ delisted_at: Date.now() }).where("id", "=", row.id).execute();
+		await trx
+			.updateTable("scenarios")
+			// delisting again (an admin changing the note) keeps the original date
+			.set({ delisted_at: row.delisted_at ?? Date.now(), delist_note: note })
+			.where("id", "=", row.id)
+			.execute();
 		await unindexScenario(trx, row.id);
 	});
 	invalidateHome();

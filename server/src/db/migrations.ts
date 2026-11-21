@@ -240,13 +240,37 @@ const userCosmetics: Migration = {
 	}
 };
 
+/** unique daily visitors, see visits.ts */
+const visits: Migration = {
+	async up(db) {
+		await sql.raw(`create table visitors (
+			day     text not null,
+			visitor text not null,
+			primary key (day, visitor)
+		) without rowid`).execute(db);
+		await sql.raw(`create table visit_days (
+			day      text primary key,
+			visitors integer not null
+		)`).execute(db);
+	}
+};
+
+/** scenarios.delist_note: why an admin delisted a card, shown to its owner in the editor */
+const delistNote: Migration = {
+	async up(db) {
+		await sql.raw(`alter table scenarios add column delist_note text`).execute(db);
+	}
+};
+
 const migrations: Record<string, Migration> = {
 	"0001_init": init,
 	"0002_media_library": mediaLibrary,
 	"0003_media_uploads": mediaUploads,
 	"0004_error_reports": errorReports,
 	"0005_card_sync": cardSync,
-	"0006_user_cosmetics": userCosmetics
+	"0006_user_cosmetics": userCosmetics,
+	"0007_visits": visits,
+	"0008_delist_note": delistNote
 };
 
 const provider: MigrationProvider = {

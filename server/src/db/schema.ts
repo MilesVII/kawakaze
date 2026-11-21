@@ -15,7 +15,9 @@ export type Database = {
 	media_refs:     MediaRefsTable,
 	error_reports:  ErrorReportsTable,
 	sync:           SyncTable,
-	card_sync:      CardSyncTable
+	card_sync:      CardSyncTable,
+	visitors:       VisitorsTable,
+	visit_days:     VisitDaysTable
 };
 
 export type UsersTable = {
@@ -84,7 +86,9 @@ export type ScenariosTable = {
 	comment_count: Generated<number>,
 	published_at: number,
 	updated_at: number,
-	delisted_at: number | null
+	delisted_at: number | null,
+	/** an admin's note to the owner on why it was delisted; cleared when it's listed again */
+	delist_note: string | null
 };
 export type ScenarioRow = Selectable<ScenariosTable>;
 
@@ -178,4 +182,16 @@ export type CardSyncTable = {
 	character_name: string,
 	last_update: number,
 	uploaded_at: number
+};
+
+/** today's visitors, to count each once; older days are pruned, see visits.ts */
+export type VisitorsTable = {
+	/** UTC, YYYY-MM-DD */
+	day: string,
+	/** hash of the day and IP */
+	visitor: string
+};
+export type VisitDaysTable = {
+	day: string,
+	visitors: number
 };

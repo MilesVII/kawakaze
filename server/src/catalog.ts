@@ -110,6 +110,7 @@ export function toMeta(row: ScenarioRow, users: Map<string, UserRef>, myVote: Vo
 		ownerId: row.owner_id,
 		parentId: row.parent_id,
 		delisted: row.delisted_at !== null,
+		delistNote: row.delisted_at ? row.delist_note : null,
 		myVote
 	};
 }

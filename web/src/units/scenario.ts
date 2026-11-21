@@ -4,7 +4,7 @@ import { getRoute, makeResizable, nothrowAsync, renderMD, textareaReconsider } f
 import { navigate, onRoute } from "@root/router";
 import { account } from "@root/api";
 import { LIMITS, KawaScenarioCard, ScenarioLookup } from "@shared/api";
-import { delistScenario, lookupScenarios, parseTags, publishScenario } from "./kawa/catalog";
+import { delistScenario, loadTagIndex, lookupScenarios, parseTags, publishScenario } from "./kawa/catalog";
 import { invalidateHome } from "./kawa/home";
 import { Lorebook, ScenarioCard } from "@root/types";
 import { RampikeFilePicker } from "@rampike/filepicker";
@@ -114,9 +114,10 @@ export function scenarioUnit() {
 	load();
 
 	async function updatePublishControls() {
-		const me = account.get();
 		const id = getRoute()[1];
 		remote = id ? (await lookupScenarios([id])).get(id) ?? null : null;
+		// read after the lookup: a run started before /api/me answered may finish after the one it triggered
+		const me = account.get();
 		const mine = !!me && !!remote && remote.ownerId === me.id;
 		publishButton.hidden = !me?.isCreator;
 		const konLabel = publishButton.querySelector(".kon-back");
@@ -131,7 +132,9 @@ export function scenarioUnit() {
 
 		const lines: string[] = [];
 		if (remote && mine) lines.push(remote.delisted
-			? "Published, but delisted. Updating it lists it again."
+			? remote.delistNote
+				? `Published, but delisted by the admins. Updating it lists it again. Their note: “${remote.delistNote}”`
+				: "Published, but delisted. Updating it lists it again."
 			: `Published, last update ${new Date(remote.updatedAt).toLocaleString()}`);
 		if (remote && !mine) lines.push("This card is someone else's. Publishing it creates your fork, crediting the original authors.");
 		if (!remote && original?.["kawa-source"]) lines.push("This is a copy of another card. Publishing it credits that card's authors.");
@@ -234,6 +237,15 @@ export function scenarioUnit() {
 		}
 		if (snippet.length > LIMITS.snippet) {
 			toast(`the snippet is limited to ${LIMITS.snippet} characters`);
+			return;
+		}
+		// the server checks this too; without the vocabulary (offline) it's left to the server
+		const index = await loadTagIndex();
+		const known = index?.canonicalize(parseTags(cardTags.value)).filter(t => index.canonical(t) !== null).length;
+		if (known !== undefined && known < LIMITS.minKnownTags) {
+			toast(`Publishing needs at least ${LIMITS.minKnownTags} tags from the tag list (this card has ${known}). Pick them from the suggestions under the tags field.`);
+			cardTags.focus({ preventScroll: true });
+			cardTags.scrollIntoView({ behavior: "smooth", block: "center" });
 			return;
 		}
 		if (remote && remote.ownerId !== account.get()?.id && !confirm("Publish your own fork of this card?")) return;

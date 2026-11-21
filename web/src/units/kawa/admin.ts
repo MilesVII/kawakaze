@@ -11,7 +11,7 @@ import { toast } from "@units/toasts";
 import { relativeTime, userLink } from "./catalog";
 import { invalidateHome } from "./home";
 
-/* /admin: disk report, invites, users with ban/purge, client error reports, recent comments */
+/* /admin: disk report and visitors, invites, users with ban/purge, client error reports, recent comments */
 
 const pages = { users: 0, errors: 0, comments: 0 };
 
@@ -91,10 +91,19 @@ async function loadDisk() {
 		["scenarios", String(d.scenarios)],
 		["comments", String(d.comments)]
 	];
-	box.replaceChildren(...rows.flatMap(([k, v]) => [
-		mudcrack({ className: "hint", contents: k }),
-		mudcrack({ contents: v })
-	]));
+	box.replaceChildren(
+		...rows.flatMap(([k, v]) => [
+			mudcrack({ className: "hint", contents: k }),
+			mudcrack({ contents: v })
+		]),
+		mudcrack({ className: "hint", contents: "visitors" }),
+		mudcrack({
+			contents: [
+				`${d.visitorsToday} today, ${d.visitorsYesterday} yesterday (UTC) · `,
+				mudcrack({ tagName: "a", attributes: { href: "/api/admin/visits.csv", download: "" }, contents: "every day as CSV" })
+			]
+		})
+	);
 }
 
 async function loadInvites() {

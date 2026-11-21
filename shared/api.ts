@@ -11,6 +11,8 @@ export const LIMITS = {
 	bio:       4000,
 	comment:   4000,
 	tags:      32,
+	/** tags from the vocabulary a card needs to be published */
+	minKnownTags: 3,
 	tagLength: 48,
 	hiddenTags: 64,
 	/** serialized card JSON without pictures */
@@ -20,7 +22,9 @@ export const LIMITS = {
 	/** single sync payload, as received */
 	syncBytes: 64 * 1024 * 1024,
 	/** a user's cosmetics, serialized */
-	cosmeticsBytes: 4 * 1024
+	cosmeticsBytes: 4 * 1024,
+	/** an admin's note on a delisted card */
+	delistNote: 1000
 } as const;
 export const USERNAME_RE = /^[a-zA-Z0-9_-]{3,24}$/;
 /** tags are stored lowercase, without '#', with single spaces; duplicates dropped */
@@ -123,15 +127,20 @@ export type ScenarioMeta = ScenarioListItem & {
 	ownerId: string,
 	parentId: string | null,
 	delisted: boolean,
+	/** why an admin delisted it; only delisted cards have one, and only their owner and admins see those */
+	delistNote: string | null,
 	myVote: Vote
 };
 
 /*
-GET  /api/scenarios/:id           -> KawaScenarioCard (public, CORS *, 410 if delisted). ?inline=1 embeds pictures as base64
+GET  /api/scenarios/:id           -> KawaScenarioCard (public, CORS *, 410 if delisted unless it's the owner or an admin asking).
+                                  ?inline=1 embeds pictures as base64
 POST /api/scenarios               multipart: card=<KawaScenarioCard JSON>, cardPicture?=<file>, chatPicture?=<file>
                                   A picture part replaces that ref; otherwise the ref must be null or a server media URL.
+                                  Needs LIMITS.minKnownTags tags from the vocabulary. Lists a delisted card again.
                                   -> PublishResult
-POST /api/scenarios/:id/delist    -> { ok: true } (owner or admin)
+POST /api/scenarios/:id/delist    { note?: string | null } -> { ok: true } (owner or admin)
+                                  An admin's note is shown to the owner in the editor; delisting again updates it.
 POST /api/scenarios/:id/vote      { value: Vote } -> { score: number, myVote: Vote }
 POST /api/scenarios/lookup        { ids: string[] } -> { items: ScenarioLookup[] } (unknown ids are omitted)
 */
@@ -144,7 +153,9 @@ export type ScenarioLookup = {
 	id: string,
 	updatedAt: number,
 	ownerId: string,
-	delisted: boolean
+	delisted: boolean,
+	/** for the owner and admins only, null for everyone else */
+	delistNote: string | null
 };
 
 // ---- comments ----
@@ -315,6 +326,7 @@ GET    /api/admin/comments?page=      -> Page<AdminComment>
 GET    /api/admin/errors?page=        -> Page<AdminErrorReport>, most recently seen first
 DELETE /api/admin/errors/:id          -> { ok: true }
 DELETE /api/admin/errors              -> { ok: true }, deletes them all
+GET    /api/admin/visits.csv          -> text/csv "day,visitors", unique visitors per UTC day (see server/src/visits.ts)
 */
 export type DiskReport = {
 	dbBytes: number,
@@ -327,7 +339,9 @@ export type DiskReport = {
 	users: number,
 	creators: number,
 	scenarios: number,
-	comments: number
+	comments: number,
+	visitorsToday: number,
+	visitorsYesterday: number
 };
 export type Invite = {
 	token: string,

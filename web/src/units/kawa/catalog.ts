@@ -100,9 +100,10 @@ export async function publishScenario(card: ScenarioCard): Promise<Result<Publis
 	return { success: true, value: { ...r.value, saved: { success: true, value: true } } };
 }
 
-export async function delistScenario(id: string) {
+/** a note is for admins delisting someone's card: the owner sees it in the editor */
+export async function delistScenario(id: string, note: string | null = null) {
 	forgetLookup(id);
-	return await api<{ ok: true }>("POST", `/api/scenarios/${encodeURIComponent(id)}/delist`);
+	return await api<{ ok: true }>("POST", `/api/scenarios/${encodeURIComponent(id)}/delist`, { note });
 }
 
 // ---- tag vocabulary ----
