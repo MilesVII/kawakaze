@@ -1,5 +1,7 @@
-import { mudcrack } from "rampike";
-import { ICONS, svgIcon } from "@root/icons";
+import { fromTemplateFirst, htmlTemplate, mudcrack } from "rampike";
+import arrowHTML from "@views/icon-swipe.html";
+
+const arrow = htmlTemplate(arrowHTML);
 
 const TAG_NAME = "ram-kon";
 
@@ -69,7 +71,7 @@ export class RampikeKon extends HTMLElement {
 				}
 			},
 			contents: [
-				svgIcon(ICONS.swipe)
+				fromTemplateFirst(arrow)
 			]
 		});
 		this.thumb.addEventListener("pointermove", e => {
