@@ -25,6 +25,7 @@ import { termsUnit } from "@units/kawa/misc";
 import { blacklistUnit } from "@units/kawa/blacklist";
 import { mediaLibraryUnit } from "@units/kawa/media-library";
 import { serviceWorkerUnit } from "@units/kawa/service-worker";
+import { connectionUnit } from "@units/kawa/connection";
 import { init as initKirov } from "@units/kirov";
 import { account } from "./api";
 
@@ -42,6 +43,8 @@ window.addEventListener("DOMContentLoaded", main);
 const units: (() => void)[] = [
 	// first, so it hears modals other units open on start
 	toastsUnit,
+	// before anything sends a request
+	connectionUnit,
 	navigationUnit,
 	settingsUnit,
 	chatUnit,

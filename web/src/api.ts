@@ -4,6 +4,7 @@ import type { Result } from "./types";
 /*
 Thin fetch wrapper for the Kawakaze backend, plus the signed-in account state.
 - api(): JSON or FormData in, Result out; never throws
+- reachability: whether requests get through to the server, for the offline toast (units/kawa/connection.ts)
 - account: current user, refreshed on demand and every minute while signed in
 */
 
@@ -22,8 +23,11 @@ export async function api<T>(method: Method, path: string, body?: unknown): Prom
 	try {
 		response = await fetch(path, init);
 	} catch {
+		noteReachable(false);
 		return { success: false, error: "server can't be reached" };
 	}
+	// nginx answers these while the app is down
+	noteReachable(response.status < 502 || response.status > 504);
 
 	let payload: any = null;
 	try {
@@ -34,6 +38,23 @@ export async function api<T>(method: Method, path: string, body?: unknown): Prom
 	if (!response.ok)
 		return { success: false, error: payload?.error ?? `server error ${response.status}` };
 	return { success: true, value: payload as T };
+}
+
+let reachable: boolean | null = null;
+const reachabilityListeners: ((reachable: boolean) => void)[] = [];
+// requests the browser aborts while the page is being left fail like a lost connection
+let leaving = false;
+window.addEventListener("pagehide", () => { leaving = true; });
+window.addEventListener("pageshow", () => { leaving = false; });
+
+/** records whether the server answered; listeners hear only changes */
+export function noteReachable(value: boolean) {
+	if (leaving || value === reachable) return;
+	reachable = value;
+	reachabilityListeners.forEach(l => l(value));
+}
+export function onReachability(listener: (reachable: boolean) => void) {
+	reachabilityListeners.push(listener);
 }
 
 let boot: BootPayload | null = null;
