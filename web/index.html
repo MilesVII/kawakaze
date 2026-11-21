@@ -18,7 +18,6 @@
 		<!-- tag labels for the cards, fetched by catalog.ts; crossorigin makes the preload match fetch() -->
 		<link rel="preload" href="/assets/tag-labels.json" as="fetch" crossorigin="anonymous" />
 
-		<link rel="prefetch" href="/assets/gfx/send.svg" />
 		<link rel="prefetch" href="/assets/gfx/placeholder.png" />
 	</head>
 
@@ -478,9 +477,7 @@
 							<ram-tabs id="chat-controls" tab="main">
 								<ram-tab key="main">
 									<textarea id="chat-textarea" class="lineout" autocomplete="off"></textarea>
-									<div id="chat-send-button">
-										<ram-import path="/assets/gfx/send.svg" class="chat-send"></ram-import>
-									</div>
+									<div id="chat-send-button"></div>
 								</ram-tab>
 								<ram-tab key="pending">
 									<button id="chat-stop-button" class="lineout float-center">abort</button>
@@ -1065,8 +1062,5 @@
 				fill="var(--color-subtext)"
 			/>
 		</svg>
-	</template>
-	<template id="template-kon-arrow">
-		<ram-import path="/assets/gfx/swipe.svg"></ram-import>
 	</template>
 </html>

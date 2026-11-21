@@ -1,3 +1,4 @@
+import { ICONS, svgIcon } from "@root/icons";
 import { download, getRoute, makeResizable, renderMD, setSelectMenu, setSelectOptions, textareaReconsider, updateTitle } from "@root/utils";
 import { RampikeTabs } from "@rampike/tabs";
 import { RampikeModal } from "@rampike/modal";
@@ -51,6 +52,7 @@ export function chatUnit() {
 		inputModes.tab = kind ? "pending" : "main";
 	});
 
+	sendButton.append(svgIcon(ICONS.send, "chat-send"));
 	initSendButton(sendButton, send, note);
 	stopButton.addEventListener("click", cancelJob);
 	remberCounter.addEventListener("click", rember.open);

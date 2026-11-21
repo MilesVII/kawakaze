@@ -6,8 +6,8 @@
 	"engines": { "node": ">=24" },
 	"scripts": {
 		"build:tags":   "esbuild scripts/tags-check.ts --bundle --platform=node --format=esm --log-level=warning --outfile=dist/tags-check.js && node dist/tags-check.js",
-		"build:web":    "esbuild web/src/index.ts --bundle --minify --sourcemap --loader:.html=text --outfile=web/assets/index.js",
-		"watch:web":    "esbuild web/src/index.ts --bundle --sourcemap --loader:.html=text --watch --outfile=web/assets/index.js",
+		"build:web":    "esbuild web/src/index.ts --bundle --minify --sourcemap --loader:.html=text --loader:.svg=text --outfile=web/assets/index.js",
+		"watch:web":    "esbuild web/src/index.ts --bundle --sourcemap --loader:.html=text --loader:.svg=text --watch --outfile=web/assets/index.js",
 		"build:server": "esbuild server/src/main.ts server/src/cli.ts --bundle --platform=node --format=esm --target=node24 --packages=external --sourcemap --outdir=dist",
 		"watch:server": "esbuild server/src/main.ts server/src/cli.ts --bundle --platform=node --format=esm --target=node24 --packages=external --sourcemap --outdir=dist --watch",
 		"build":        "npm run build:tags && npm run build:web && npm run build:server",
