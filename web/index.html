@@ -186,46 +186,59 @@
 						<summary class="settings-label">
 							Other options
 						</summary>
-						<div class="list">
-							<div class="hint">Max count of messages to send to API. 0 to send all (not recommended due to potential context overflow)</div>
-							<ram-labeled
-								legend="Chat tail cutoff length"
-								id="settings-options-tail"
-								class="strip wide"
-								placeholder="70"
-							></ram-labeled>
-							<div class="hint">The tail is a cost-saving measure, but most providers (including everything on OpenRouter) cache repeated prompt prefixes, so a short tail rarely saves much. Its main purpose is to keep small-context models from overflowing.</div>
-							<label class="row-compact align-center">
-								<input type="checkbox" id="settings-options-rember-stretch" checked/>
-								<div>Let ⧖ rEmber summary extend the tail</div>
-							</label>
-							<div class="hint">When enabled, the tail is stretched back to the message the latest summary is attached to. When disabled, the summary is only sent while that message is still inside the tail, possibly losing it.</div>
-							<label class="row-compact align-center">
-								<input type="checkbox" id="settings-options-ooc-user"/>
-								<div>Send OOC notes as user turns</div>
-							</label>
-							<div class="hint">OOC notes (hold the send button to append one) are sent as system messages by default. Some local chat templates only accept a system message at the very start; enable this to send notes as user turns prefixed with "OOC:" instead.</div>
-							<label class="row-compact align-center">
-								<input type="checkbox" id="settings-options-backup-reminder"/>
-								<div>Remind me to save a backup</div>
-							</label>
-							<div class="hint">Everything is stored in this browser, and clearing site data deletes it. When enabled, a reminder to save a full backup shows up once a week.</div>
-							<ram-labeled
-								legend="Content width override"
-								id="settings-options-cwo"
-								class="strip wide"
-								placeholder="0"
-							></ram-labeled>
-							<div class="hint">Default system prompt of the scenario editor's proofread section.</div>
-							<ram-labeled
-								legend="Proofread prompt"
-								id="settings-options-proofread"
-								class="strip wide reduced-font"
-								placeholder=""
-								multiline
-								rows="1"
-							></ram-labeled>
-							<button id="settings-options-proofread-reset" class="lineout fit float-end">reset to default</button>
+						<div class="col">
+							<div class="list">
+								<ram-labeled
+									legend="Chat tail cutoff length"
+									id="settings-options-tail"
+									class="strip wide"
+									placeholder="70"
+								></ram-labeled>
+								<div class="hint">Max count of messages to send to API. 0 to send all (not recommended due to potential context overflow)</div>
+								<div class="hint">The tail is a cost-saving measure, but most providers (including everything on OpenRouter) cache repeated prompt prefixes, so a short tail rarely saves much. Its main purpose is to keep small-context models from overflowing.</div>
+							</div>
+							<div class="list">
+								<label class="row-compact align-center">
+									<input type="checkbox" id="settings-options-rember-stretch" checked/>
+									<div>Let ⧖ rEmber summary extend the tail</div>
+								</label>
+								<div class="hint">When enabled, the tail is stretched back to the message the latest summary is attached to. When disabled, the summary is only sent while that message is still inside the tail, possibly losing it.</div>
+							</div>
+							<div class="list">
+								<label class="row-compact align-center">
+									<input type="checkbox" id="settings-options-ooc-user"/>
+									<div>Send OOC notes as user turns</div>
+								</label>
+								<div class="hint">OOC notes (hold the send button to append one) are sent as system messages by default. Some local chat templates only accept a system message at the very start; enable this to send notes as user turns prefixed with "OOC:" instead.</div>
+							</div>
+							<div class="list">
+								<label class="row-compact align-center">
+									<input type="checkbox" id="settings-options-backup-reminder"/>
+									<div>Remind me to save a backup</div>
+								</label>
+								<div class="hint">Everything is stored in this browser, and clearing site data deletes it. When enabled, a reminder to save a full backup shows up once a week.</div>
+							</div>
+							<div class="list">
+								<ram-labeled
+									legend="Content width override"
+									id="settings-options-cwo"
+									class="strip wide"
+									placeholder="0"
+								></ram-labeled>
+								<div class="hint">Forced chat content width in percents, 0 to disable</div>
+							</div>
+							<div class="list">
+								<div class="hint">Default system prompt of the scenario editor's proofread section.</div>
+								<ram-labeled
+									legend="Proofread prompt"
+									id="settings-options-proofread"
+									class="strip wide reduced-font"
+									placeholder=""
+									multiline
+									rows="1"
+								></ram-labeled>
+								<button id="settings-options-proofread-reset" class="lineout fit float-end">reset to default</button>
+							</div>
 							<button id="settings-misc-save" class="lineout">Save</button>
 						</div>
 					</details>
