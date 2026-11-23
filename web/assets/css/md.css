@@ -41,7 +41,7 @@
 }
 
 .md abbr[title] {
-	cursor: pointer;
+	cursor: help;
 }
 
 .md-intro pre > code {
