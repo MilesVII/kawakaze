@@ -8,6 +8,7 @@ import { lookupScenarios, onTagLabels, peekLookup, saveToLibrary, scenarioLink }
 import { placeholderView } from "@views/common";
 import { makeScenarioCardView } from "@views/scenario-card";
 import { makeSyncedCardView } from "@views/synced-card";
+import { makeStartedChatView } from "@views/started-chat";
 import { RampikeModal } from "@rampike/modal";
 import { start } from "./chat/start";
 import { ScenarioCard } from "@root/types";
@@ -261,6 +262,8 @@ export async function openStartModal(scenario: string, descriptionMD: string) {
 		personas.value[0]?.id
 	);
 
+	await highlightStartedChats(scenario, modal);
+
 	openerRelay = {
 		scenarioId: scenario
 	};
@@ -269,4 +272,29 @@ export async function openStartModal(scenario: string, descriptionMD: string) {
 	description.innerHTML = renderMD(descriptionMD);
 
 	modal.open();
+}
+
+/** chats already started from this scenario, most recent first, to continue instead of starting another */
+async function highlightStartedChats(scenario: string, modal: RampikeModal) {
+	const chatList = modal.querySelector<HTMLElement>("#library-start-chats")!;
+	chatList.hidden = true;
+
+	const chats = await idb.getAll("chats");
+	if (!chats.success) return;
+
+	// getAll goes by lastUpdate, oldest first
+	const startedChats = chats.value.filter(c => c.scenario.id === scenario).reverse();
+	if (startedChats.length === 0) return;
+
+	chatList.replaceChildren(...startedChats.map(c =>
+		makeStartedChatView(
+			c,
+			c.userPersona.picture ? getBlobLink(c.userPersona.picture) : null,
+			() => {
+				modal.close();
+				navigate(`/play/${c.id}`);
+			}
+		)
+	));
+	chatList.hidden = false;
 }
