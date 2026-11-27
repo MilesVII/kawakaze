@@ -69,6 +69,8 @@
 	--color-accent: #1c66da;
 	--color-text: #EDEDED;
 	--color-red: #e23030;
+	--color-diff-add: #3fb950;
+	--color-diff-remove: #f85149;
 
 	--font-smol: normal 400 14px/18px "Ubuntu Sans";
 	--font-16:   normal 400 16px/20px "Ubuntu Sans";
